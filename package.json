@@ -1,0 +1,25 @@
+{
+  "name": "emrchart",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server",
+    "build": "webpack"
+  },
+  "author": "gyumin",
+  "devDependencies": {
+    "babel-core": "^6.24.0",
+    "babel-loader": "^6.4.1",
+    "babel-preset-es2015": "^6.24.0",
+    "css-loader": "^0.28.0",
+    "jquery": "^1.12.4",
+    "style-loader": "^0.16.1",
+    "webpack": "^2.3.3",
+    "webpack-browser-plugin": "^1.0.20",
+    "webpack-dev-server": "^2.4.2"
+  },
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "rangy": "^1.3.0"
+  }
+}
