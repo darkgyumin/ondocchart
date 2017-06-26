@@ -23,11 +23,17 @@ export default class Dom {
             for(let key in hiddenAttr) {
                 if(key == 'PANEL_NAMEVALUE') {
                     hiddenAttr.PANEL_NAMEVALUE.forEach(function(data) {
-                        Dom.createElement(element, 'div', 'Panel', {}, null, data);
+                        //Panel Container 생성
+                        let container = Dom.createElement(element, 'div', 'PanelContainer', {}, null, null);
+                        //Panel 생성
+                        Dom.createElement(container, 'div', 'Panel', {}, null, data);
                     });
                 } else if(key == 'ITEM_NAMEVALUE') {
                     hiddenAttr.ITEM_NAMEVALUE.forEach(function(data) {
-                        Dom.createElement(element, 'div', 'Item', {}, null, data);
+                        //Item Container 생성
+                        let container = Dom.createElement(element, 'div', 'ItemContainer', {}, null, null);
+                        //Item 생성
+                        Dom.createElement(container, 'div', 'Item', {}, null, data);
                     });
                 } else {
                     Dom.createHiddenAttr(element, key, hiddenAttr[key]);
