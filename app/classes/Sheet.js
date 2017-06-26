@@ -1,6 +1,8 @@
 export default class Sheet {
     constructor() {}
     
+    //parameter sheet
+    //return object
     //서식파일을 객체화
     static load(sheet) {
         //sheet 서식 데이터
@@ -36,8 +38,6 @@ export default class Sheet {
                 tempPANEL_NAMEVALUE_index++;
             }
         });
-
-        console.log(rtnObj);
         
         return rtnObj;
     }
