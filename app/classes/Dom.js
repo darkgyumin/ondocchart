@@ -1,12 +1,12 @@
 export default class Dom {
     constructor() {}
 
-    static createSheet(jsonSheet) {
+    static sheetToDom(jsonSheet) {
         //페이지 생성(PageTitle, Page)
-        Dom.createPage(document.querySelector('.View'), jsonSheet.PAGE_NAMEVALUE);
+        Dom.createElementPage(document.querySelector('.View'), jsonSheet.PAGE_NAMEVALUE);
     }
 
-    static createPage(parentElem, json) {
+    static createElementPage(parentElem, json) {
         //param 부모엘리먼트, 생성할엘리먼트종류, 클래스명, 스타일, 내용, 속성
         Dom.createElement(parentElem, 'div', 'PageTitle', {}, json.Date + ' ' + json.Time + ' ' + json.Title, null);
         Dom.createElement(parentElem, 'div', 'Page', {}, null, json);
@@ -52,5 +52,38 @@ export default class Dom {
         parentElem.appendChild(element);
 
         return element;
+    }
+
+    //element를 서식화
+    static domToSheet() {
+        let arrPara = [];
+        
+        //PAGE_NAMEVALUE
+        arrPara.push("PAGE_NAMEVALUE|^@3@^|"+Dom.createSheetAttr(document.querySelectorAll('.Page > input')));
+
+        let PanelContainer = document.querySelectorAll('.Page > .PanelContainer');
+
+        PanelContainer.forEach(function(panelContainer) {
+            //PANEL_NAMEVALUE
+            arrPara.push("PANEL_NAMEVALUE|^@3@^|"+Dom.createSheetAttr(panelContainer.querySelectorAll('.Panel > input')));
+
+            let ItemContainer = panelContainer.querySelectorAll('.Panel > .ItemContainer');
+            
+            //ITEM_NAMEVALUE
+            ItemContainer.forEach(function(itemContainer) {
+                arrPara.push("ITEM_NAMEVALUE|^@3@^|"+Dom.createSheetAttr(itemContainer.querySelectorAll('.Item > input')));
+            });
+        });
+
+        return arrPara.join('|^@4@^|');
+    }
+
+    static createSheetAttr(attr) {        
+        let arrAttr = [];
+        attr.forEach(function(data) {
+            arrAttr.push(data.getAttribute('name')+'|^@1@^|'+data.getAttribute('value'));
+        });
+
+        return arrAttr.join('|^@2@^|');
     }
 }

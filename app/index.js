@@ -6,7 +6,10 @@ import sheet2 from './sheet/sheet2';
 import sheet3 from './sheet/sheet3';
 
 //서식을 불러와 객체화한다.
-let jsonSheet = Sheet.load(sheet3);
+let jsonSheet = Sheet.load(sheet1);
 
 //서식을 화면에 나타낸다.
-Dom.createSheet(jsonSheet);
+Dom.sheetToDom(jsonSheet);
+
+//화면을 서식화한다.
+console.log(Dom.domToSheet());
