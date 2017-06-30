@@ -46,25 +46,28 @@ export default class Style {
         let text = element.querySelector('input[name=Text]').getAttribute('value');
         let textAlign = element.querySelector('input[name=TextAlign]').getAttribute('value');
         textAlign = PropertyTextAlign[textAlign].toLowerCase();
+        let textLineSpacing = element.querySelector('input[name=TextLineSpacing]').getAttribute('value');
 
         let align = textAlign.replace(/top|middle|bottom/, '');
         let valign = textAlign.replace(/left|center|right/, '');
 
         element.style['text-align'] = align;
-        element.style['vertical-align'] = valign;
-
-        /*
-        if(value) {
-            let arrTextFont = value.split(' ');
+        element.style['vertical-align'] = valign;        
+       
+        if(textFont) {
+            let arrTextFont = textFont.split(' ');
             if(arrTextFont.length == 2) {
                 let fontFamily = arrTextFont[1];
                 let fontSize = arrTextFont[0];
+
+                if(text) {
+                    
+                }
 
             } else if(arrTextFont.length == 3) {
 
             }
         }
-        */
 
         //TextFont(폰트크기 폰트체, 폰트특징 폰트크기 폰트체)
     }
