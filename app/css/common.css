@@ -1,0 +1,10 @@
+
+.View .PageTitle {
+    padding: 2px; 
+    line-height: 20px;
+}
+
+.View .Page {
+    background-color: #fff; 
+    border: thin solid #004f8c;
+}

@@ -1,3 +1,5 @@
+import Style from './Style';
+
 export default class Dom {
     constructor() {}
 
@@ -37,8 +39,12 @@ export default class Dom {
                     });
                 } else {
                     Dom.createHiddenAttr(element, key, hiddenAttr[key]);
+                    Style.attrToStyle(element, key, hiddenAttr[key]);
+                    
+                    //바로적용 불가능한 연관된 스타일을 적용한다.
+                    if(key == 'Text') Style.fontStyle(element);
                 }
-            }
+            }            
         }
 
         return element;
@@ -49,11 +55,12 @@ export default class Dom {
         element.setAttribute('type', 'hidden');
         element.setAttribute('name', name);
         element.setAttribute('value', value);
+
         parentElem.appendChild(element);
 
         return element;
     }
-
+    
     //element를 서식화
     static domToSheet() {
         let arrPara = [];
