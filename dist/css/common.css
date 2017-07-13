@@ -1,25 +1,21 @@
-* {
-    margin: 0;
-    padding: 0;
-    font-family: Dotum;
-    font-size: 12px;
+#scrollMenu {
+    position: fixed;
+    top: 10px;
+    right: 10px;
 }
 
-#contentWrap {
-    width: 100%;
-    height: 100%;
-    margin: 0;
+#scrollMenu ul li {
+    margin: 0.2rem 0;
+    list-style: none;
 }
 
-#contentWrap .Board {
-    width: 726px;
-    min-height: 500px;
-    margin: 0 auto;
+#scrollMenu button {
+    background: #eee;
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 0.7rem;
+    border: 1px solid #000;
+    border-radius: 100%;
 }
 
-#contentWrap .View {
-    background-color: #eee;
-    border: thin solid #004F8C;
-    padding: 1px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-}
+button:focus {outline: none;}

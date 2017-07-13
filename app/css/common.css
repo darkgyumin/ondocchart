@@ -1,5 +1,33 @@
+* {
+    font-family: Dotum;
+    margin: 0;
+    padding: 0;
+}
+
+#contentWrap {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+}
+
+#contentWrap .Board {
+    width: 726px;
+    min-height: 500px;
+    margin: 0 auto;
+}
+
+#contentWrap .View {
+    background-color: #eee;
+    border: thin solid #004F8C;
+    padding: 1px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+
+
 
 .View .PageTitle {
+    font-size: 12px;    
     padding: 2px; 
     line-height: 20px;
 }
@@ -8,3 +36,14 @@
     background-color: #fff; 
     border: thin solid #004f8c;
 }
+
+.View .Page .PanelContainer .Panel {
+    position: relative;
+}
+
+.View .Page .PanelContainer .Panel .ItemContainer .Item {
+    position: absolute;
+    display: inline-block;
+    overflow: hidden;
+}
+

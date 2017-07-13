@@ -1,11 +1,13 @@
 import Style from './Style';
+import Pen from './Pen';
 
 export default class Dom {
     constructor() {}
 
     static sheetToDom(jsonSheet) {
         //페이지 생성(PageTitle, Page)
-        Dom.createElementPage(document.querySelector('.View'), jsonSheet.PAGE_NAMEVALUE);
+        let viewElement = Dom.createElement(document.querySelector('.Board'), 'div', 'View', {}, null, null);
+        Dom.createElementPage(viewElement, jsonSheet.PAGE_NAMEVALUE);
     }
 
     static createElementPage(parentElem, json) {
@@ -26,14 +28,24 @@ export default class Dom {
                 if(key == 'PANEL_NAMEVALUE') {
                     hiddenAttr.PANEL_NAMEVALUE.forEach(function(data) {
                         //Panel Container 생성
-                        let container = Dom.createElement(element, 'div', 'PanelContainer', {}, null, null);
+                        let container = null;
+                        if(element.querySelector('.PanelContainer') == null) {
+                            container = Dom.createElement(element, 'div', 'PanelContainer', {}, null, null);
+                        } else {
+                            container = element.querySelector('.PanelContainer');
+                        }
                         //Panel 생성
                         Dom.createElement(container, 'div', 'Panel', {}, null, data);
                     });
                 } else if(key == 'ITEM_NAMEVALUE') {
                     hiddenAttr.ITEM_NAMEVALUE.forEach(function(data) {
                         //Item Container 생성
-                        let container = Dom.createElement(element, 'div', 'ItemContainer', {}, null, null);
+                        let container = null;
+                        if(element.querySelector('.ItemContainer') == null) {
+                            container = Dom.createElement(element, 'div', 'ItemContainer', {}, null, null);
+                        } else {
+                            container = element.querySelector('.ItemContainer');
+                        }
                         //Item 생성
                         Dom.createElement(container, 'div', 'Item', {}, null, data);
                     });
@@ -41,8 +53,11 @@ export default class Dom {
                     Dom.createHiddenAttr(element, key, hiddenAttr[key]);
                     Style.attrToStyle(element, key, hiddenAttr[key]);
                     
+                    //Panel의 Pens속성을 Canvas에 그린다.
+                    if(key == 'Pens') {Pen.createPen(element, hiddenAttr[key]);}
+                    
                     //바로적용 불가능한 연관된 스타일을 적용한다.
-                    if(key == 'Text') Style.fontStyle(element);
+                    if(key == 'Text') {Style.relatedFontStyle(element);}
                 }
             }            
         }

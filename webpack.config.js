@@ -26,7 +26,7 @@ module.exports = {
     },
     devServer: {
         hot: true,
-        port: 3000, //개발서버 포트 지정
+        port: 9000, //개발서버 포트 지정
         contentBase: path.resolve(__dirname, 'dist'), //기본 context
         publicPath: '/'
     },
@@ -34,7 +34,7 @@ module.exports = {
         new webpack.HotModuleReplacementPlugin(),
         new WebpackBrowserPlugin({
             browser: 'Explorer',
-            port: '3000',
+            port: '9000',
             url: 'http://127.0.0.1'
         }),
         new webpack.optimize.UglifyJsPlugin({

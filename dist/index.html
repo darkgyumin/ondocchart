@@ -3,23 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
-    <title>EmrChart</title>
     <link rel="stylesheet" href="./css/common.css">
+    <title>EmrChart</title>
 </head>
 <body>
+
 <form id="searchForm">
     <input type="hidden" id="hospital" name="hospital" value="https://210.220.255.17:8080/" />
-    <input type="hidden" id="path" name="path" value="/28600/2016/28600_37_내부 문서" />
+    <input type="hidden" id="ptno" name="ptno" value="28600" />
+	<input type="hidden" id="id" name="id" value="1" />
+    <input type="hidden" id="arr_bes_id" name="arr_bes_id" value="60,68" />
+    <input type="hidden" id="bes_id" name="bes_id" value="" />
+	<input type="hidden" id="name" name="name" value="" />
+	<input type="hidden" id="inout" name="inout" value="1" />
 </form>
 
 <div id="contentWrap">
-    <div class="Board">
-        <div class="View">
-            
-        </div>
+    <div class="Board" style="width: 726px;">
+        
     </div>
 </div>
 
+<div id="scrollMenu">
+    <ul>
+        <li><button>고정</button></li>
+        <li><button>편집</button></li>
+        <li><button>펜</button></li>
+        <li><button>형광펜</button></li>
+    </ul>
+</div>
 <script src="bundle.js"></script>
 
 </body>
