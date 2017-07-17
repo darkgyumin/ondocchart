@@ -77,13 +77,13 @@ export default class Dom {
     }
     
     //element를 서식화
-    static domToSheet() {
+    static domToSheet(view) {
         let arrPara = [];
         
         //PAGE_NAMEVALUE
-        arrPara.push("PAGE_NAMEVALUE|^@3@^|"+Dom.createSheetAttr(document.querySelectorAll('.Page > input')));
+        arrPara.push("PAGE_NAMEVALUE|^@3@^|"+Dom.createSheetAttr(view.querySelectorAll('.Page > input')));
 
-        let PanelContainer = document.querySelectorAll('.Page > .PanelContainer');
+        let PanelContainer = view.querySelectorAll('.Page > .PanelContainer');
 
         PanelContainer.forEach(function(panelContainer) {
             //PANEL_NAMEVALUE
@@ -100,7 +100,7 @@ export default class Dom {
         return arrPara.join('|^@4@^|');
     }
 
-    static createSheetAttr(attr) {        
+    static createSheetAttr(attr) {
         let arrAttr = [];
         attr.forEach(function(data) {
             arrAttr.push(data.getAttribute('name')+'|^@1@^|'+data.getAttribute('value'));

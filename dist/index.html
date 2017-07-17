@@ -8,15 +8,23 @@
 </head>
 <body>
 
+<div id="log">
+
+</div>
+
 <form id="searchForm">
     <input type="hidden" id="hospital" name="hospital" value="https://210.220.255.17:8080/" />
     <input type="hidden" id="ptno" name="ptno" value="28600" />
 	<input type="hidden" id="id" name="id" value="1" />
-    <input type="hidden" id="arr_bes_id" name="arr_bes_id" value="68" />
+    <input type="hidden" id="arr_bes_id" name="arr_bes_id" value="60, 68" />
     <input type="hidden" id="bes_id" name="bes_id" value="" />
     <input type="hidden" id="bef_no" name="bef_no" value="" />
-	<input type="hidden" id="name" name="name" value="" />
+	<input type="hidden" id="name" name="name" value="김다솜" />
 	<input type="hidden" id="inout" name="inout" value="1" />
+</form>
+
+<form id="postForm">
+    <input type="hidden" id="sheet" name="sheet" value="" />
 </form>
 
 <div id="contentWrap">
@@ -27,12 +35,14 @@
 
 <div id="scrollMenu">
     <ul>
-        <li><button>고정</button></li>
+        <li><button id="btnFixed">고정</button></li>
         <li><button>편집</button></li>
         <li><button>펜</button></li>
         <li><button>형광펜</button></li>
+        <li><button id="btnSave">저장</button></li>
     </ul>
 </div>
+
 <script src="bundle.js"></script>
 
 </body>
