@@ -65,6 +65,9 @@ export default class Style {
         else if(style == '2' && !backImageString) element.classList.add('checkbox');
         else if(backImageString) element.classList.add('image');
 
+        //Item에 key값을 줘서 값 대치시
+        element.classList.add('item_'+key);
+
         //item border 세팅        
         if(isBorderLeft == 'true') element.style['border-left'] = borderWidth + 'px';
         else if(isBorderLeft == 'false') element.style['border-left'] = '0px';
@@ -80,7 +83,7 @@ export default class Style {
 
         if(borderWidth == '1') {
             element.style['width'] = (parseInt(width) - 1) + 'px';    
-            element.style['height'] = (parseInt(height) - 1) + 'px';    
+            element.style['height'] = (parseInt(height) - 1) + 'px';
         }
        
         //font-family, font-size, line-height, font-style(weight)
@@ -131,19 +134,24 @@ export default class Style {
         let textContent = null;
         if(style == '1') {
             //특수문자 출력
-            if(text && edit == 'false') 
-                text = Style.convertHtmlTag(text);
-                        
+            if(text && edit == 'false') text = Style.convertHtmlTag(text);
+            
+            textContent = document.createElement('div');
+            textContent.classList.add('textContent');
+            
+            element.insertBefore(textContent, element.firstChild);
+            
+            //linep-height값이 없고 vertical-align이 middle이면 line-height값을 적용.
+            if(element.style['line-height'] == '') {
+                if(element.style['vertical-align'] == 'middle') element.style['line-height'] = element.style['height'];
+            }
+
             //text 입력
-            if(text) {                
-                textContent = document.createElement('div');
-                textContent.classList.add('textContent');
-                
-                element.insertBefore(textContent, element.firstChild);
-                
+            if(text) {    
                 //|^@^|을 <br />로 변경
                 while (text.indexOf("|^@^|") > -1) {text = text.replace("|^@^|", "<br />");}
                 //html <, > 출력시 출력이 안되서 태그처리 Edit 상태가 false일때만 Edit 가능할 경우는 태그 변경하면 안됨.
+                
                 textContent.innerHTML = text;
             }
         }

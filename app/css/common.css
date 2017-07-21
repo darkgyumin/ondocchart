@@ -51,8 +51,3 @@
 #scrollMenu button {
     cursor: pointer;
 }
-
-html.notouch, body.notouch {
-    overflow: hidden;
-    height: 100%;
-}

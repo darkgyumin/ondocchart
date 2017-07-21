@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "5401356dc4414bbe77c7"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "231720b8d02590ebf519"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -1128,7 +1128,7 @@ exports = module.exports = __webpack_require__(34)(undefined);
 
 
 // module
-exports.push([module.i, "* {\r\n    font-family: Dotum;\r\n    margin: 0;\r\n    padding: 0;\r\n}\r\n\r\n#contentWrap {\r\n    width: 100%;\r\n    height: 100%;\r\n    margin: 0;\r\n}\r\n\r\n#contentWrap .Board {\r\n    width: 726px;\r\n    min-height: 500px;\r\n    margin: 0 auto;\r\n}\r\n\r\n#contentWrap .View {\r\n    background-color: #eee;\r\n    border: thin solid #004F8C;\r\n    padding: 1px;\r\n    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\r\n}\r\n\r\n.View .PageTitle {\r\n    font-size: 12px;    \r\n    padding: 2px; \r\n    line-height: 20px;\r\n}\r\n\r\n.View .Page {\r\n    background-color: #fff; \r\n    border: thin solid #004f8c;\r\n}\r\n\r\n.View .Page .PanelContainer .Panel {\r\n    position: relative;\r\n}\r\n\r\n.View .Page .PanelContainer .Panel .ItemContainer .Item {\r\n    position: absolute;\r\n    display: inline-block;\r\n    overflow: hidden;\r\n}\r\n\r\n.textContent {\r\n    letter-spacing: -0.2px;\r\n}\r\n\r\n#scrollMenu button {\r\n    cursor: pointer;\r\n}\r\n\r\nhtml, body {\r\n    overflow: hidden;\r\n    height: 100%;\r\n}", ""]);
+exports.push([module.i, "* {\r\n    font-family: Dotum;\r\n    margin: 0;\r\n    padding: 0;\r\n}\r\n\r\n#contentWrap {\r\n    width: 100%;\r\n    height: 100%;\r\n    margin: 0;\r\n}\r\n\r\n#contentWrap .Board {\r\n    width: 726px;\r\n    min-height: 500px;\r\n    margin: 0 auto;\r\n}\r\n\r\n#contentWrap .View {\r\n    background-color: #eee;\r\n    border: thin solid #004F8C;\r\n    padding: 1px;\r\n    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\r\n}\r\n\r\n.View .PageTitle {\r\n    font-size: 12px;    \r\n    padding: 2px; \r\n    line-height: 20px;\r\n}\r\n\r\n.View .Page {\r\n    background-color: #fff; \r\n    border: thin solid #004f8c;\r\n}\r\n\r\n.View .Page .PanelContainer .Panel {\r\n    position: relative;\r\n}\r\n\r\n.View .Page .PanelContainer .Panel .ItemContainer .Item {\r\n    position: absolute;\r\n    display: inline-block;\r\n    overflow: hidden;\r\n}\r\n\r\n.textContent {\r\n    letter-spacing: -0.2px;\r\n}\r\n\r\n#scrollMenu button {\r\n    cursor: pointer;\r\n}", ""]);
 
 // exports
 
@@ -2035,6 +2035,8 @@ var flagLoadDataPage = [];
 var flagLoadDataPanel = [];
 var flagChkLoadDataPagePanel = [];
 
+var loadingbar = document.getElementById('loadingbar');
+
 //fnDataLoad함수 실행에 의해 데이터 로딩이 완료될 때
 var fnPageLoadDataCheck = function fnPageLoadDataCheck() {
     function exec() {
@@ -2124,6 +2126,9 @@ var fnPanelLoadDataCheck = function fnPanelLoadDataCheck() {
                 __WEBPACK_IMPORTED_MODULE_1__classes_Dom__["a" /* default */].sheetToDom(data);
             });
 
+            //Data 로딩 끝
+            loadingbar.style.display = 'none';
+
             ///Dom.sheetToDom(Sheet.load(sheet4))
         } else {
             setTimeout(exec, 100);
@@ -2178,15 +2183,9 @@ var fnPanelDataLoad = function fnPanelDataLoad() {
     exec();
 })();
 
-//화면을 서식화한다.
-//console.log(Dom.domToSheet());
+//Event를 등록한다.
 window.onload = function () {
     __WEBPACK_IMPORTED_MODULE_2__classes_Event__["a" /* default */].scrollMenu(document.getElementById('scrollMenu'));
-
-    document.querySelector('body').addEventListener('touchmove', function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-    });
 };
 
 /***/ }),
@@ -3086,6 +3085,33 @@ function scrollMenuAction(type) {
                 });
             });
 
+            break;
+        case 'btnFixed':
+            //고정
+            if (document.querySelector('html').classList.contains('notouch')) {
+                //고정 취소
+                var marginTop = -1 * parseInt(document.querySelector('#contentWrap').style['margin-top']);
+                var marginLeft = -1 * parseInt(document.querySelector('#contentWrap').style['margin-left']);
+
+                document.querySelector('#contentWrap').style['margin-top'] = 0;
+                document.querySelector('#contentWrap').style['margin-left'] = 0;
+
+                setTimeout(function () {}, 1000);
+
+                document.querySelector('html').classList.remove('notouch');
+                document.querySelector('body').classList.remove('notouch');
+
+                document.querySelector('body').scrollTop = marginTop;
+                document.querySelector('body').scrollLeft = marginLeft;
+            } else {
+                //고정 하기
+
+                document.querySelector('#contentWrap').style['margin-top'] = -1 * Number(document.querySelector('body').scrollTop) + 'px';
+                document.querySelector('#contentWrap').style['margin-left'] = -1 * Number(document.querySelector('body').scrollLeft) + 'px';
+
+                document.querySelector('html').classList.add('notouch');
+                document.querySelector('body').classList.add('notouch');
+            }
             break;
         default:
             break;
