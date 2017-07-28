@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "f9638a5a697ebd93166c"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "cafdacd158a0faed4d13"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -1128,7 +1128,7 @@ exports = module.exports = __webpack_require__(35)(undefined);
 
 
 // module
-exports.push([module.i, "* {\r\n    font-family: Dotum;\r\n    margin: 0;\r\n    padding: 0;\r\n}\r\n\r\n#contentWrap {\r\n    width: 100%;\r\n    height: 100%;\r\n    margin: 0;\r\n}\r\n\r\n#contentWrap .Board {\r\n    width: 726px;\r\n    min-height: 500px;\r\n    margin: 0 auto;\r\n}\r\n\r\n#contentWrap .View {\r\n    background-color: #eee;\r\n    border: thin solid #004F8C;\r\n    padding: 1px;\r\n    margin-bottom: 10px;\r\n    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\r\n}\r\n\r\n.View .PageTitle {\r\n    font-size: 12px;    \r\n    padding: 2px; \r\n    line-height: 20px;\r\n}\r\n\r\n.View .Page {\r\n    background-color: #fff; \r\n    border: thin solid #004f8c;\r\n}\r\n\r\n.View .Page .PanelContainer .Panel {\r\n    position: relative;\r\n}\r\n\r\n.View .Page .PanelContainer .Panel .ItemContainer .Item {\r\n    position: absolute;\r\n    display: inline-block;\r\n    overflow: hidden;\r\n}\r\n\r\n.textContent {\r\n    letter-spacing: -0.4px;\r\n}\r\n\r\n#scrollMenu button {\r\n    cursor: pointer;\r\n}", ""]);
+exports.push([module.i, "/* canvas {display: none;} */\r\n\r\n", ""]);
 
 // exports
 
@@ -2139,6 +2139,8 @@ var fnPanelLoadDataCheck = function fnPanelLoadDataCheck() {
 
             //Data 로딩 및 Dom 생성 끝
             loadingbar.style.display = 'none';
+
+            __WEBPACK_IMPORTED_MODULE_2__classes_Event__["a" /* default */].view(document.querySelectorAll('.View'));
 
             //디비에서 치환할 값 가져와 변환하기
             var arrPanel = document.querySelectorAll('.Panel');
@@ -3192,6 +3194,37 @@ var Event = function () {
     }, {
         key: 'view',
         value: function view(elem) {
+            var context = null;
+            var penData = [];
+            var lineWidth = document.getElementById('lineWidth').getAttribute('value');
+            var strokeStyle = document.getElementById('strokeStyle').getAttribute('value');
+            var pens = null;
+
+            //panel에 canvas 생성 및 이동
+            document.querySelectorAll('.View .Panel').forEach(function (panel) {
+                var canvas = panel.querySelector('canvas');
+                if (canvas == null) {
+                    //canvas가 없으면 canvas 생성해줌
+                    var width = panel.querySelector('input[name=Width]').getAttribute('value');
+                    var height = panel.querySelector('input[name=Height]').getAttribute('value');
+
+                    var _canvas = document.createElement('canvas');
+                    _canvas.setAttribute('width', width + 'px');
+                    _canvas.setAttribute('height', height + 'px');
+                    panel.appendChild(_canvas);
+
+                    var Pens = document.createElement('input');
+                    Pens.setAttribute('type', 'hidden');
+                    Pens.setAttribute('name', 'Pens');
+                    Pens.setAttribute('value', '');
+                    panel.appendChild(Pens);
+                } else {
+                    //canvas가 ItemContainer뒤로 가도록 이동시킴
+                    panel.appendChild(canvas);
+                }
+            });
+            //panel에 canvas 생성 및 이동
+
             elem.forEach(function (view) {
                 //textContent에서 글씨 수정 후 input Text에 적용
                 view.addEventListener('focusout', function (e) {
@@ -3214,10 +3247,187 @@ var Event = function () {
                         text = text.replace("</div>", "|^@^|");
                     }
 
-                    console.log(textContent.parentElement.querySelector(':scope > input[name=Text]').value);
-
                     textContent.parentElement.querySelector(':scope > input[name=Text]').value = text;
+                    textContent.parentElement.style['z-index'] = '0';
                 });
+
+                view.addEventListener('mousedown', function (e) {
+                    var mode = document.getElementById('mode').getAttribute('value');
+                    var client = document.getElementById('client').getAttribute('value');
+
+                    document.getElementById('log').innerHTML += 'mousedown<br />';
+
+                    var selectedItem = null;
+                    var pointX = e.offsetX || e.layerX;
+                    var pointY = e.offsetY || e.layerY;
+                    var point = { 'x': pointX, 'y': pointY };
+
+                    if (mode == 'edit') {
+                        if (e.target.tagName != 'CANVAS') return;
+
+                        var ItemContainer = e.target.parentElement.querySelector('.ItemContainer');
+                        ItemContainer.querySelectorAll('.Item').forEach(function (item) {
+                            var lowX = parseInt(item.style['left'], 10);
+                            var lowY = parseInt(item.style['top'], 10);
+                            var maxX = parseInt(item.style['width'], 10) + lowX;
+                            var maxY = parseInt(item.style['height'], 10) + lowY;
+
+                            if (lowX < point.x && maxX > point.x && lowY < point.y && maxY > point.y) {
+                                selectedItem = item;
+                            }
+                        });
+
+                        var style = selectedItem.querySelector('input[name=Style]').value;
+                        var edit = selectedItem.querySelector('input[name=Edit]').value;
+                        //체크박스 선택
+                        if (edit == 'true' && style == '2') {
+                            if (!selectedItem.querySelector('.textContent input').checked) {
+
+                                selectedItem.querySelector('.textContent input').checked = true;
+                                selectedItem.querySelector('input[name=Checked]').setAttribute('value', 'true');
+                            } else {
+                                selectedItem.querySelector('.textContent input').checked = false;
+                                selectedItem.querySelector('input[name=Checked]').setAttribute('value', 'false');
+                            }
+                        }
+                        //text 선택
+                        if (edit == 'true' && style == '1') {
+                            selectedItem.style['z-index'] = '1';
+                        }
+                    } else if (mode == 'pen' && client == 'pc') {
+                        var canvas = e.target;
+                        //input Pens에 있는 현재 값을 가져옴
+                        pens = canvas.parentElement.querySelector('input[name=Pens]');
+                        context = canvas.getContext('2d');
+
+                        context.strokeStyle = strokeStyle;
+                        context.lineCap = 'butt';
+
+                        context.beginPath();
+                        context.lineWidth = lineWidth;
+                        context.moveTo(point.x, point.y);
+                        penData.push(point.x + ',' + point.y + ',' + lineWidth);
+                    }
+                });
+
+                view.addEventListener('mousemove', function (e) {
+                    if (context == null) return;
+                    var mode = document.getElementById('mode').getAttribute('value');
+
+                    document.getElementById('log').innerHTML += 'mousemove<br />';
+
+                    var pointX = e.offsetX || e.layerX;
+                    var pointY = e.offsetY || e.layerY;
+                    var point = { 'x': pointX, 'y': pointY };
+
+                    if (mode == 'edit') {} else if (mode == 'pen' && client == 'pc') {
+                        context.lineTo(point.x, point.y);
+                        context.stroke();
+                        penData.push(point.x + ',' + point.y + ',' + lineWidth);
+                    }
+                });
+
+                view.addEventListener('mouseup', function (e) {
+                    var mode = document.getElementById('mode').getAttribute('value');
+
+                    document.getElementById('log').innerHTML += 'mouseup<br />';
+
+                    var pointX = e.offsetX || e.layerX;
+                    var pointY = e.offsetY || e.layerY;
+                    var point = { 'x': pointX, 'y': pointY };
+
+                    if (mode == 'edit') {
+                        var selectedItem = null;
+
+                        //text 선택 후 focus이동
+                        selectedItem = e.target;
+                        if (selectedItem.classList.contains('Item')) {
+                            selectedItem = selectedItem.querySelector('.textContent');
+                        }
+                        selectedItem.focus();
+                    } else if (mode == 'pen' && client == 'pc') {
+                        if (context == null) return;
+
+                        context.closePath();
+                        context = null;
+                        pensDataUpdate(pens, penData);
+                        penData = [];
+                    }
+                });
+
+                view.addEventListener('mouseout', function (e) {
+                    if (client == 'pc') {
+                        document.getElementById('log').innerHTML += 'mouseout<br />';
+                        if (context == null) return;
+                        context.closePath();
+                        pensDataUpdate(pens, penData);
+                        context = null;
+                    }
+                });
+
+                view.querySelectorAll('canvas').forEach(function (panel) {
+                    panel.addEventListener('touchstart', function (e) {
+                        document.getElementById('log').innerHTML += 'touchstart<br />';
+                        document.getElementById('log').innerHTML += e.touches[0].offsetX + ', ';
+                        document.getElementById('log').innerHTML += e.touches[0].offsetX + '///';
+                    });
+                });
+                /*
+                view.addEventListener('touchstart', (e) => {
+                    document.getElementById('log').innerHTML += 'touchstart<br />'+e.changedTouches.length+'///';
+                    let mode = document.getElementById('mode').getAttribute('value');
+                      var i;
+                    for (i=0; i < e.changedTouches.length; i++) {
+                        document.getElementById('log').innerHTML += ' x='+e.changedTouches[i].pageX;
+                        document.getElementById('log').innerHTML += ' y='+e.changedTouches[i].pageY;
+                    }
+                      
+                      let pointX = e.offsetX || e.layerX;
+                    let pointY = e.offsetY || e.layerY;
+                    let point = {'x':pointX, 'y': pointY};
+                      if(mode == 'pen') {
+                        let canvas = e.target;
+                        //input Pens에 있는 현재 값을 가져옴
+                        pens = canvas.parentElement.querySelector('input[name=Pens]');
+                        context = canvas.getContext('2d');
+                          context.strokeStyle = strokeStyle;
+                        context.lineCap = 'butt';
+                          context.beginPath();
+                        context.lineWidth = lineWidth;
+                        context.moveTo(point.x, point.y);
+                        penData.push(point.x+','+point.y+','+lineWidth);
+                    }
+                });
+                  view.addEventListener('touchmove', (e) => {
+                    document.getElementById('log').innerHTML += 'touchmove<br />';
+                    let mode = document.getElementById('mode').getAttribute('value');
+                      var i;
+                    for (i=0; i < e.changedTouches.length; i++) {
+                        document.getElementById('log').innerHTML += ' x='+e.changedTouches[i].pageX;
+                        document.getElementById('log').innerHTML += ' y='+e.changedTouches[i].pageY;
+                    }
+                      if(mode == 'pen') {
+                        let pointX = e.offsetX || e.layerX;
+                        let pointY = e.offsetY || e.layerY;
+                        let point = {'x':pointX, 'y': pointY};
+                          context.lineTo(point.x, point.y);
+                        context.stroke();
+                        penData.push(point.x+','+point.y+','+lineWidth);
+                    }
+                });
+                view.addEventListener('touchend', (e) => {
+                    document.getElementById('log').innerHTML += 'touchend<br />';
+                });
+                view.addEventListener('touchstart', (e) => {
+                    document.getElementById('log').innerHTML += 'touchstart<br />';
+                });
+                view.addEventListener('touchcancel', (e) => {
+                    document.getElementById('log').innerHTML += 'touchcancel<br />';
+                });
+                view.addEventListener('touchleave', (e) => {
+                    document.getElementById('log').innerHTML += 'touchleave<br />';
+                });
+                */
             });
         }
     }]);
@@ -3227,6 +3437,19 @@ var Event = function () {
 
 /* harmony default export */ __webpack_exports__["a"] = (Event);
 
+
+var pensDataUpdate = function pensDataUpdate(pens, penData) {
+    var pensValue = pens.getAttribute('value');
+    var lineWidth = document.getElementById('lineWidth').getAttribute('value');
+    var strokeStyle = document.getElementById('strokeStyle').getAttribute('value');
+
+    if (pensValue != '') pensValue += '|^@@^|';
+    pensValue += strokeStyle + '|^@^|' + penData.join(':');
+
+    pens.setAttribute('value', pensValue);
+
+    console.log(lineWidth, strokeStyle, pensValue, penData);
+};
 
 var flagDataSaveCheck = [];
 var fnDataSaveCheck = function fnDataSaveCheck() {
@@ -3255,7 +3478,6 @@ var scrollMenuAction = function scrollMenuAction(type) {
     switch (type) {
         case 'btnSave':
             //저장
-
             var strType = document.querySelector('#searchForm input[name=type]').value;
             var url = '';
             if (strType == 'new') url = 'https://on-doc.kr:47627/hospital/signpenChartEmrSave.php';else if (strType == 'old') url = 'https://on-doc.kr:47627/hospital/signpenChartOldEmrSave.php';
@@ -3326,12 +3548,27 @@ var scrollMenuAction = function scrollMenuAction(type) {
                 elem.classList.remove('active');
             });
             document.querySelector('#scrollMenu #btnEdit').classList.add('active');
+            document.getElementById('mode').setAttribute('value', 'edit');
+            document.onselectstart = function () {
+                return true;
+            };
             break;
         case 'btnPen':
             document.querySelectorAll('#scrollMenu .edit').forEach(function (elem) {
                 elem.classList.remove('active');
             });
             document.querySelector('#scrollMenu #btnPen').classList.add('active');
+            document.getElementById('mode').setAttribute('value', 'pen');
+            document.onselectstart = function () {
+                return false;
+            };
+            break;
+        case 'btnEraser':
+            document.querySelectorAll('#scrollMenu .edit').forEach(function (elem) {
+                elem.classList.remove('active');
+            });
+            document.querySelector('#scrollMenu #btnEraser').classList.add('active');
+            document.getElementById('mode').setAttribute('value', 'eraser');
             break;
         case 'btnHighlighter':
             document.querySelectorAll('#scrollMenu .edit').forEach(function (elem) {
@@ -3380,7 +3617,9 @@ var Pen = function () {
                 var penData = pen[1];
 
                 context.beginPath();
-                Pen.drawLine(context, penData);
+                try {
+                    Pen.drawLine(context, penData);
+                } catch (e) {}
                 context.strokeStyle = strokeStyle;
                 context.lineCap = 'butt';
                 context.stroke();
@@ -3603,7 +3842,7 @@ var Style = function () {
                             if (text.indexOf('|^@^|') > -1) {
                                 //줄바꿈이 있는 경우
                                 if (valign == 'middle') {
-                                    element.style['line-height'] = height + 'px';
+                                    //element.style['line-height'] = height + 'px';
                                 }
                             } else {
                                 //줄바꿈이 없는 경우
@@ -3623,7 +3862,7 @@ var Style = function () {
                             if (text.indexOf('|^@^|') > -1) {
                                 //줄바꿈이 있는 경우
                                 if (valign == 'middle') {
-                                    element.style['line-height'] = height + 'px';
+                                    //element.style['line-height'] = height + 'px';
                                 }
                             } else {
                                 //줄바꿈이 없는 경우
@@ -3650,14 +3889,21 @@ var Style = function () {
                 if (edit == 'true') {
                     //textContent 편집 가능하도록
                     textContent.setAttribute('contenteditable', true);
-                    textContent.style['height'] = '100%';
+                    ///////////////////////////////////////////////////
+                    ////////////////////////////////////////////////////
+                    //vertical정렬에 대한 고민중... TODO
+                    //textContent.style['height'] = '100%';
                 }
 
                 element.insertBefore(textContent, element.firstChild);
 
-                //linep-height값이 없고 vertical-align이 middle이면 line-height값을 적용.
+                //line-height값이 없고 vertical-align이 middle이면 line-height값을 적용.
                 if (element.style['line-height'] == '') {
-                    if (element.style['vertical-align'] == 'middle') element.style['line-height'] = element.style['height'];
+                    if (element.style['vertical-align'] == 'middle') {
+                        if (parseInt(element.style['height'], 10) <= 30) {
+                            element.style['line-height'] = element.style['height'];
+                        }
+                    }
                 }
 
                 //text 입력
@@ -3676,6 +3922,8 @@ var Style = function () {
             if (style == '2') {
                 textContent = document.createElement('div');
                 textContent.classList.add('textContent');
+
+                element.style['line-height'] = element.style['height'];
 
                 if (checked == 'true') {
                     textContent.innerHTML = '<input type="checkbox" id="key_' + key + '" checked="checked"><label for="key_' + key + '">' + text + '</label>';

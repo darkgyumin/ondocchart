@@ -21,7 +21,9 @@ export default class Pen {
             let penData = pen[1];
 
             context.beginPath();
-            Pen.drawLine(context, penData);
+            try {
+                Pen.drawLine(context, penData);
+            } catch(e) {}
             context.strokeStyle = strokeStyle;
             context.lineCap = 'butt';
             context.stroke();

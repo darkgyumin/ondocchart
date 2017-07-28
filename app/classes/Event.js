@@ -12,6 +12,13 @@ export default class Event {
     }
 
     static view(elem) {
+        let context = null;
+        let penData = [];
+        let lineWidth = document.getElementById('lineWidth').getAttribute('value');
+        let strokeStyle = document.getElementById('strokeStyle').getAttribute('value');
+        let pens = null;
+
+        //panel에 canvas 생성 및 이동
         document.querySelectorAll('.View .Panel').forEach(function(panel) {
             let canvas = panel.querySelector('canvas');
             if(canvas == null) {
@@ -23,11 +30,18 @@ export default class Event {
                 canvas.setAttribute('width', width + 'px');
                 canvas.setAttribute('height', height + 'px');
                 panel.appendChild(canvas);
+
+                let Pens = document.createElement('input');
+                Pens.setAttribute('type', 'hidden');
+                Pens.setAttribute('name', 'Pens');
+                Pens.setAttribute('value', '');
+                panel.appendChild(Pens);
             } else {
                 //canvas가 ItemContainer뒤로 가도록 이동시킴
                 panel.appendChild(canvas);
             }
         });
+        //panel에 canvas 생성 및 이동
 
         elem.forEach(function(view) {
             //textContent에서 글씨 수정 후 input Text에 적용
@@ -46,57 +60,209 @@ export default class Event {
             });
 
             view.addEventListener('mousedown', (e) => {
+                let mode = document.getElementById('mode').getAttribute('value');
+                let client = document.getElementById('client').getAttribute('value');
+
+                document.getElementById('log').innerHTML += 'mousedown<br />';
+                
                 let selectedItem = null;
                 let pointX = e.offsetX || e.layerX;
                 let pointY = e.offsetY || e.layerY;
                 let point = {'x':pointX, 'y': pointY};
                 
-                if(e.target.tagName != 'CANVAS') return;
+                if(mode == 'edit') {    
+                    if(e.target.tagName != 'CANVAS') return;
 
-                let ItemContainer = e.target.parentElement.querySelector('.ItemContainer');
-                ItemContainer.querySelectorAll('.Item').forEach(function(item) {
-                    let lowX = parseInt(item.style['left'], 10);
-                    let lowY = parseInt(item.style['top'], 10);
-                    let maxX = parseInt(item.style['width'], 10) + lowX;
-                    let maxY = parseInt(item.style['height'], 10) + lowY;
+                    let ItemContainer = e.target.parentElement.querySelector('.ItemContainer');
+                    ItemContainer.querySelectorAll('.Item').forEach(function(item) {
+                        let lowX = parseInt(item.style['left'], 10);
+                        let lowY = parseInt(item.style['top'], 10);
+                        let maxX = parseInt(item.style['width'], 10) + lowX;
+                        let maxY = parseInt(item.style['height'], 10) + lowY;
 
-                    if((lowX < point.x && maxX > point.x) && (lowY < point.y && maxY > point.y)) {
-                        selectedItem = item;
+                        if((lowX < point.x && maxX > point.x) && (lowY < point.y && maxY > point.y)) {
+                            selectedItem = item;
+                        }
+                    });
+
+                    let style = selectedItem.querySelector('input[name=Style]').value;
+                    let edit = selectedItem.querySelector('input[name=Edit]').value;
+                    //체크박스 선택
+                    if(edit == 'true' && style == '2') {
+                    if(!selectedItem.querySelector('.textContent input').checked) {
+
+                        selectedItem.querySelector('.textContent input').checked = true;
+                        selectedItem.querySelector('input[name=Checked]').setAttribute('value', 'true');    
+                    } else {
+                        selectedItem.querySelector('.textContent input').checked = false;
+                        selectedItem.querySelector('input[name=Checked]').setAttribute('value', 'false');
                     }
-                });
+                    }
+                    //text 선택
+                    if(edit == 'true' && style == '1') {
+                        selectedItem.style['z-index'] = '1';
+                    }
+                } else if(mode =='pen' && client == 'pc') {
+                    let canvas = e.target;
+                    //input Pens에 있는 현재 값을 가져옴
+                    pens = canvas.parentElement.querySelector('input[name=Pens]');
+                    context = canvas.getContext('2d');
 
-                let style = selectedItem.querySelector('input[name=Style]').value;
-                let edit = selectedItem.querySelector('input[name=Edit]').value;
-                //체크박스 선택
-                if(edit == 'true' && style == '2') {
-                  if(!selectedItem.querySelector('.textContent input').checked) {
+                    context.strokeStyle = strokeStyle;
+                    context.lineCap = 'butt';
 
-                    selectedItem.querySelector('.textContent input').checked = true;
-                    selectedItem.querySelector('input[name=Checked]').setAttribute('value', 'true');    
-                  } else {
-                    selectedItem.querySelector('.textContent input').checked = false;
-                    selectedItem.querySelector('input[name=Checked]').setAttribute('value', 'false');
-                  }
+                    context.beginPath();
+                    context.lineWidth = lineWidth;
+                    context.moveTo(point.x, point.y);
+                    penData.push(point.x+','+point.y+','+lineWidth);
                 }
-                //text 선택
-                if(edit == 'true' && style == '1') {
-                    selectedItem.style['z-index'] = '1';
+            });
+
+            view.addEventListener('mousemove', (e) => {
+                if(context == null) return;
+                let mode = document.getElementById('mode').getAttribute('value');
+
+                document.getElementById('log').innerHTML += 'mousemove<br />';
+
+                let pointX = e.offsetX || e.layerX;
+                let pointY = e.offsetY || e.layerY;
+                let point = {'x':pointX, 'y': pointY};
+
+                if(mode == 'edit') {
+                } else if(mode =='pen' && client == 'pc') {
+                    context.lineTo(point.x, point.y);
+                    context.stroke();
+                    penData.push(point.x+','+point.y+','+lineWidth);
                 }
             });
 
             view.addEventListener('mouseup', (e) => {
-                let selectedItem = null;
+                let mode = document.getElementById('mode').getAttribute('value');
 
-                //text 선택 후 focus이동
-                selectedItem = e.target;
-                if(selectedItem.classList.contains('Item')) {
-                    selectedItem = selectedItem.querySelector('.textContent');
+                document.getElementById('log').innerHTML += 'mouseup<br />';
+
+                let pointX = e.offsetX || e.layerX;
+                let pointY = e.offsetY || e.layerY;
+                let point = {'x':pointX, 'y': pointY};
+
+                if(mode == 'edit') {
+                    let selectedItem = null;
+
+                    //text 선택 후 focus이동
+                    selectedItem = e.target;
+                    if(selectedItem.classList.contains('Item')) {
+                        selectedItem = selectedItem.querySelector('.textContent');
+                    }
+                    selectedItem.focus();
+                } else if(mode =='pen' && client == 'pc') {
+                    if(context == null) return;
+
+                    context.closePath();
+                    context = null;
+                    pensDataUpdate(pens, penData);
+                    penData = [];
                 }
-                selectedItem.focus();
             });
+
+            view.addEventListener('mouseout', (e) => {
+                if(client == 'pc') {
+                    document.getElementById('log').innerHTML += 'mouseout<br />';
+                    if(context == null) return;
+                    context.closePath();
+                    pensDataUpdate(pens, penData);
+                    context = null;
+                }
+            });
+            
+            view.querySelectorAll('canvas').forEach(function(panel) {
+                panel.addEventListener('touchstart', (e) => {
+                    document.getElementById('log').innerHTML += 'touchstart<br />';
+                    document.getElementById('log').innerHTML += e.touches[0].offsetX+', ';
+                    document.getElementById('log').innerHTML += e.touches[0].offsetX+'///';
+                });
+            });
+            /*
+            view.addEventListener('touchstart', (e) => {
+                document.getElementById('log').innerHTML += 'touchstart<br />'+e.changedTouches.length+'///';
+                let mode = document.getElementById('mode').getAttribute('value');
+
+                var i;
+                for (i=0; i < e.changedTouches.length; i++) {
+                    document.getElementById('log').innerHTML += ' x='+e.changedTouches[i].pageX;
+                    document.getElementById('log').innerHTML += ' y='+e.changedTouches[i].pageY;
+                }
+
+                
+
+                let pointX = e.offsetX || e.layerX;
+                let pointY = e.offsetY || e.layerY;
+                let point = {'x':pointX, 'y': pointY};
+
+                if(mode == 'pen') {
+                    let canvas = e.target;
+                    //input Pens에 있는 현재 값을 가져옴
+                    pens = canvas.parentElement.querySelector('input[name=Pens]');
+                    context = canvas.getContext('2d');
+
+                    context.strokeStyle = strokeStyle;
+                    context.lineCap = 'butt';
+
+                    context.beginPath();
+                    context.lineWidth = lineWidth;
+                    context.moveTo(point.x, point.y);
+                    penData.push(point.x+','+point.y+','+lineWidth);
+                }
+            });
+
+            view.addEventListener('touchmove', (e) => {
+                document.getElementById('log').innerHTML += 'touchmove<br />';
+                let mode = document.getElementById('mode').getAttribute('value');
+
+                var i;
+                for (i=0; i < e.changedTouches.length; i++) {
+                    document.getElementById('log').innerHTML += ' x='+e.changedTouches[i].pageX;
+                    document.getElementById('log').innerHTML += ' y='+e.changedTouches[i].pageY;
+                }
+
+                if(mode == 'pen') {
+                    let pointX = e.offsetX || e.layerX;
+                    let pointY = e.offsetY || e.layerY;
+                    let point = {'x':pointX, 'y': pointY};
+
+                    context.lineTo(point.x, point.y);
+                    context.stroke();
+                    penData.push(point.x+','+point.y+','+lineWidth);
+                }
+            });
+            view.addEventListener('touchend', (e) => {
+                document.getElementById('log').innerHTML += 'touchend<br />';
+            });
+            view.addEventListener('touchstart', (e) => {
+                document.getElementById('log').innerHTML += 'touchstart<br />';
+            });
+            view.addEventListener('touchcancel', (e) => {
+                document.getElementById('log').innerHTML += 'touchcancel<br />';
+            });
+            view.addEventListener('touchleave', (e) => {
+                document.getElementById('log').innerHTML += 'touchleave<br />';
+            });
+            */
         });
     }
 }
+
+let pensDataUpdate = (pens, penData) => {
+    let pensValue = pens.getAttribute('value');
+    let lineWidth = document.getElementById('lineWidth').getAttribute('value');
+    let strokeStyle = document.getElementById('strokeStyle').getAttribute('value');
+
+    if(pensValue != '') pensValue += '|^@@^|';
+    pensValue += strokeStyle+'|^@^|'+penData.join(':');
+
+    pens.setAttribute('value', pensValue);
+
+    console.log(lineWidth, strokeStyle, pensValue, penData);
+};
 
 let flagDataSaveCheck = [];
 let fnDataSaveCheck = () => {
@@ -124,7 +290,6 @@ let fnDataSaveCheck = () => {
 let scrollMenuAction = (type) => {
     switch(type) {
         case 'btnSave': //저장
-
             let strType = document.querySelector('#searchForm input[name=type]').value;
             let url = '';
             if(strType == 'new') url = 'https://on-doc.kr:47627/hospital/signpenChartEmrSave.php';
@@ -198,6 +363,7 @@ let scrollMenuAction = (type) => {
             });
             document.querySelector('#scrollMenu #btnEdit').classList.add('active');
             document.getElementById('mode').setAttribute('value', 'edit');
+            document.onselectstart = () => {return true};
             break;
         case 'btnPen':
             document.querySelectorAll('#scrollMenu .edit').forEach((elem) => {
@@ -205,6 +371,7 @@ let scrollMenuAction = (type) => {
             });
             document.querySelector('#scrollMenu #btnPen').classList.add('active');
             document.getElementById('mode').setAttribute('value', 'pen');
+            document.onselectstart = () => {return false};
             break;
         case 'btnEraser':
             document.querySelectorAll('#scrollMenu .edit').forEach((elem) => {

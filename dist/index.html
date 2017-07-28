@@ -7,15 +7,19 @@
     <title>EmrChart</title>
 </head>
 <body>
+    <!-- oncontextmenu='return false' ondragstart='return false' onselectstart='return false'-->
 <!--edit:편집, pen:펜, eraser:지우개-->
-<input type="hidden" id="mode" name="mode" value="edit" />
+<input type="hidden" id="client" name="client" value="pc" />
+<input type="hidden" id="mode" name="mode" value="pen" />
+<input type="hidden" id="lineWidth" name="lineWidth" value="1" />
+<input type="hidden" id="strokeStyle" name="strokeStyle" value="rgba(0,0,0,1)" />
 
 <form id="searchForm">
     <input type="hidden" id="hospital" name="hospital" value="https://210.220.255.17:8080/" />
     <input type="hidden" id="ptno" name="ptno" value="28600" />
 	<input type="hidden" id="id" name="id" value="1" />
     <input type="hidden" id="arr_id" name="arr_bes_id" value="85, 86" />
-    <input type="hidden" id="arr_seq" name="arr_seq" value="77" />
+    <input type="hidden" id="arr_seq" name="arr_seq" value="86, 98" />
     <input type="hidden" id="bes_id" name="bes_id" value="" />
     <input type="hidden" id="bef_no" name="bef_no" value="" />
     <input type="hidden" id="seq" name="seq" value="" />
@@ -52,8 +56,8 @@
 <div id="scrollMenu">
     <ul>
         <li><button id="btnFixed">고정</button></li>
-        <li><button id="btnEdit" class="edit active">편집</button></li>
-        <li><button id="btnPen" class="edit">펜</button></li>
+        <li><button id="btnEdit" class="edit">편집</button></li>
+        <li><button id="btnPen" class="edit active">펜</button></li>
         <!--li><button id="btnHighlighter" class="edit">형광펜</button></li-->
         <li><button id="btnEraser" class="edit">지우개</button></li>
         <li><button id="btnSave">저장</button></li>
