@@ -7,14 +7,18 @@
     <title>EmrChart</title>
 </head>
 <body>
+<!--edit:편집, pen:펜, eraser:지우개-->
+<input type="hidden" id="mode" name="mode" value="edit" />
 
 <form id="searchForm">
     <input type="hidden" id="hospital" name="hospital" value="https://210.220.255.17:8080/" />
     <input type="hidden" id="ptno" name="ptno" value="28600" />
 	<input type="hidden" id="id" name="id" value="1" />
-    <input type="hidden" id="arr_bes_id" name="arr_bes_id" value="65, 66" />
+    <input type="hidden" id="arr_id" name="arr_bes_id" value="85, 86" />
+    <input type="hidden" id="arr_seq" name="arr_seq" value="77" />
     <input type="hidden" id="bes_id" name="bes_id" value="" />
     <input type="hidden" id="bef_no" name="bef_no" value="" />
+    <input type="hidden" id="seq" name="seq" value="" />
 	<input type="hidden" id="name" name="name" value="김다솜" />
     <input type="hidden" id="inout" name="inout" value="1" />
     
@@ -22,10 +26,15 @@
     <input type="hidden" id="data_field" name="data_field" value="" />
     <input type="hidden" id="item_field" name="item_field" value="" />
 
+    <input type="hidden" id="key" name="key" value="" />
+    <input type="hidden" id="title" name="title" value="" />
     <input type="hidden" id="date" name="date" value="" />
     <input type="hidden" id="time" name="time" value="" />
+    <input type="hidden" id="state" name="state" value="S" />
     <input type="hidden" id="sheet" name="sheet" value="" />
     <input type="hidden" id="uuid" name="uuid" value="" />
+
+    <input type="hidden" id="type" name="type" value="old" />
 </form>
 
 <form id="authForm">
@@ -43,9 +52,10 @@
 <div id="scrollMenu">
     <ul>
         <li><button id="btnFixed">고정</button></li>
-        <li><button id="btnEdit">편집</button></li>
-        <li><button id="btnPen">펜</button></li>
-        <li><button id="btnHighlighter">형광펜</button></li>
+        <li><button id="btnEdit" class="edit active">편집</button></li>
+        <li><button id="btnPen" class="edit">펜</button></li>
+        <!--li><button id="btnHighlighter" class="edit">형광펜</button></li-->
+        <li><button id="btnEraser" class="edit">지우개</button></li>
         <li><button id="btnSave">저장</button></li>
     </ul>
 </div>

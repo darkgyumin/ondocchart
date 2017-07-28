@@ -59,7 +59,7 @@ export default class Dom {
                     //바로적용 불가능한 연관된 스타일을 적용한다.
                     if(key == 'Text') {Style.relatedFontStyle(element);}
                 }
-            }            
+            }  
         }
 
         return element;
@@ -83,17 +83,17 @@ export default class Dom {
         //PAGE_NAMEVALUE
         arrPara.push("PAGE_NAMEVALUE|^@3@^|"+Dom.createSheetAttr(view.querySelectorAll('.Page > input')));
 
-        let PanelContainer = view.querySelectorAll('.Page > .PanelContainer');
+        let Panel = view.querySelectorAll('.Page > .PanelContainer > .Panel');
 
-        PanelContainer.forEach(function(panelContainer) {
+        Panel.forEach(function(panel) {
             //PANEL_NAMEVALUE
-            arrPara.push("PANEL_NAMEVALUE|^@3@^|"+Dom.createSheetAttr(panelContainer.querySelectorAll('.Panel > input')));
+            arrPara.push("PANEL_NAMEVALUE|^@3@^|"+Dom.createSheetAttr(panel.querySelectorAll(':scope > input')));
 
-            let ItemContainer = panelContainer.querySelectorAll('.Panel > .ItemContainer');
+            let Item = panel.querySelectorAll('.Panel > .ItemContainer > .Item');
             
             //ITEM_NAMEVALUE
-            ItemContainer.forEach(function(itemContainer) {
-                arrPara.push("ITEM_NAMEVALUE|^@3@^|"+Dom.createSheetAttr(itemContainer.querySelectorAll('.Item > input')));
+            Item.forEach(function(item) {
+                arrPara.push("ITEM_NAMEVALUE|^@3@^|"+Dom.createSheetAttr(item.querySelectorAll(':scope > input')));
             });
         });
 

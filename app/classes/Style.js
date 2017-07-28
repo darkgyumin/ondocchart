@@ -97,7 +97,7 @@ export default class Style {
                     if(textLineSpacing == 0) {
                         if(text.indexOf('|^@^|') > -1) {//줄바꿈이 있는 경우
                             if(valign == 'middle') {
-                                element.style['line-height'] = height + 'px';
+                                //element.style['line-height'] = height + 'px';
                             }
                         } else {//줄바꿈이 없는 경우
                             if(valign == 'middle') {
@@ -116,7 +116,7 @@ export default class Style {
                     if(textLineSpacing == 0) {
                         if(text.indexOf('|^@^|') > -1) {//줄바꿈이 있는 경우
                             if(valign == 'middle') {
-                                element.style['line-height'] = height + 'px';
+                                //element.style['line-height'] = height + 'px';
                             }
                         } else {//줄바꿈이 없는 경우
                             if(valign == 'middle') {
@@ -138,18 +138,31 @@ export default class Style {
             
             textContent = document.createElement('div');
             textContent.classList.add('textContent');
+
+            if(edit == 'true') {
+                //textContent 편집 가능하도록
+                textContent.setAttribute('contenteditable', true);
+                ///////////////////////////////////////////////////
+                ////////////////////////////////////////////////////
+                //vertical정렬에 대한 고민중... TODO
+                //textContent.style['height'] = '100%';
+            }
             
             element.insertBefore(textContent, element.firstChild);
             
-            //linep-height값이 없고 vertical-align이 middle이면 line-height값을 적용.
+            //line-height값이 없고 vertical-align이 middle이면 line-height값을 적용.
             if(element.style['line-height'] == '') {
-                if(element.style['vertical-align'] == 'middle') element.style['line-height'] = element.style['height'];
+                if(element.style['vertical-align'] == 'middle') {
+                    if(parseInt(element.style['height'], 10) <= 30) {
+                        element.style['line-height'] = element.style['height'];
+                    }
+                }
             }
 
             //text 입력
             if(text) {    
                 //|^@^|을 <br />로 변경
-                while (text.indexOf("|^@^|") > -1) {text = text.replace("|^@^|", "<br />");}
+                while (text.indexOf("|^@^|") > -1) {text = text.replace("|^@^|", "<br>");}
                 //html <, > 출력시 출력이 안되서 태그처리 Edit 상태가 false일때만 Edit 가능할 경우는 태그 변경하면 안됨.
                 
                 textContent.innerHTML = text;
@@ -160,6 +173,8 @@ export default class Style {
         if(style == '2') {
             textContent = document.createElement('div');
             textContent.classList.add('textContent');
+
+            element.style['line-height'] = element.style['height'];
 
             if(checked == 'true') {
                 textContent.innerHTML = '<input type="checkbox" id="key_'+key+'" checked="checked"><label for="key_'+key+'">'+text+'</label>';

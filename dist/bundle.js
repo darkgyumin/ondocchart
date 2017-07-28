@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "231720b8d02590ebf519"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "f9638a5a697ebd93166c"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -706,7 +706,7 @@
 /******/ 	__webpack_require__.h = function() { return hotCurrentHash; };
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return hotCreateRequire(39)(__webpack_require__.s = 39);
+/******/ 	return hotCreateRequire(40)(__webpack_require__.s = 40);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -717,7 +717,7 @@
 
 
 var bind = __webpack_require__(8);
-var isBuffer = __webpack_require__(35);
+var isBuffer = __webpack_require__(36);
 
 /*global toString:true*/
 
@@ -1123,12 +1123,12 @@ module.exports = defaults;
 /* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
-exports = module.exports = __webpack_require__(34)(undefined);
+exports = module.exports = __webpack_require__(35)(undefined);
 // imports
 
 
 // module
-exports.push([module.i, "* {\r\n    font-family: Dotum;\r\n    margin: 0;\r\n    padding: 0;\r\n}\r\n\r\n#contentWrap {\r\n    width: 100%;\r\n    height: 100%;\r\n    margin: 0;\r\n}\r\n\r\n#contentWrap .Board {\r\n    width: 726px;\r\n    min-height: 500px;\r\n    margin: 0 auto;\r\n}\r\n\r\n#contentWrap .View {\r\n    background-color: #eee;\r\n    border: thin solid #004F8C;\r\n    padding: 1px;\r\n    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\r\n}\r\n\r\n.View .PageTitle {\r\n    font-size: 12px;    \r\n    padding: 2px; \r\n    line-height: 20px;\r\n}\r\n\r\n.View .Page {\r\n    background-color: #fff; \r\n    border: thin solid #004f8c;\r\n}\r\n\r\n.View .Page .PanelContainer .Panel {\r\n    position: relative;\r\n}\r\n\r\n.View .Page .PanelContainer .Panel .ItemContainer .Item {\r\n    position: absolute;\r\n    display: inline-block;\r\n    overflow: hidden;\r\n}\r\n\r\n.textContent {\r\n    letter-spacing: -0.2px;\r\n}\r\n\r\n#scrollMenu button {\r\n    cursor: pointer;\r\n}", ""]);
+exports.push([module.i, "* {\r\n    font-family: Dotum;\r\n    margin: 0;\r\n    padding: 0;\r\n}\r\n\r\n#contentWrap {\r\n    width: 100%;\r\n    height: 100%;\r\n    margin: 0;\r\n}\r\n\r\n#contentWrap .Board {\r\n    width: 726px;\r\n    min-height: 500px;\r\n    margin: 0 auto;\r\n}\r\n\r\n#contentWrap .View {\r\n    background-color: #eee;\r\n    border: thin solid #004F8C;\r\n    padding: 1px;\r\n    margin-bottom: 10px;\r\n    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);\r\n}\r\n\r\n.View .PageTitle {\r\n    font-size: 12px;    \r\n    padding: 2px; \r\n    line-height: 20px;\r\n}\r\n\r\n.View .Page {\r\n    background-color: #fff; \r\n    border: thin solid #004f8c;\r\n}\r\n\r\n.View .Page .PanelContainer .Panel {\r\n    position: relative;\r\n}\r\n\r\n.View .Page .PanelContainer .Panel .ItemContainer .Item {\r\n    position: absolute;\r\n    display: inline-block;\r\n    overflow: hidden;\r\n}\r\n\r\n.textContent {\r\n    letter-spacing: -0.4px;\r\n}\r\n\r\n#scrollMenu button {\r\n    cursor: pointer;\r\n}", ""]);
 
 // exports
 
@@ -1518,17 +1518,17 @@ var Dom = function () {
             //PAGE_NAMEVALUE
             arrPara.push("PAGE_NAMEVALUE|^@3@^|" + Dom.createSheetAttr(view.querySelectorAll('.Page > input')));
 
-            var PanelContainer = view.querySelectorAll('.Page > .PanelContainer');
+            var Panel = view.querySelectorAll('.Page > .PanelContainer > .Panel');
 
-            PanelContainer.forEach(function (panelContainer) {
+            Panel.forEach(function (panel) {
                 //PANEL_NAMEVALUE
-                arrPara.push("PANEL_NAMEVALUE|^@3@^|" + Dom.createSheetAttr(panelContainer.querySelectorAll('.Panel > input')));
+                arrPara.push("PANEL_NAMEVALUE|^@3@^|" + Dom.createSheetAttr(panel.querySelectorAll(':scope > input')));
 
-                var ItemContainer = panelContainer.querySelectorAll('.Panel > .ItemContainer');
+                var Item = panel.querySelectorAll('.Panel > .ItemContainer > .Item');
 
                 //ITEM_NAMEVALUE
-                ItemContainer.forEach(function (itemContainer) {
-                    arrPara.push("ITEM_NAMEVALUE|^@3@^|" + Dom.createSheetAttr(itemContainer.querySelectorAll('.Item > input')));
+                Item.forEach(function (item) {
+                    arrPara.push("ITEM_NAMEVALUE|^@3@^|" + Dom.createSheetAttr(item.querySelectorAll(':scope > input')));
                 });
             });
 
@@ -2020,8 +2020,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_form_serialize___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_form_serialize__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_axios__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__css_common_css__ = __webpack_require__(38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__css_common_css__ = __webpack_require__(39);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__css_common_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__css_common_css__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__sheet_sheet1__ = __webpack_require__(34);
 
 
 
@@ -2029,7 +2030,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-var REAL_SERVER = document.URL.indexOf('127.0.0.1') > -1 ? false : true;
+
 
 var flagLoadDataPage = [];
 var flagLoadDataPanel = [];
@@ -2039,7 +2040,7 @@ var loadingbar = document.getElementById('loadingbar');
 
 //fnDataLoad함수 실행에 의해 데이터 로딩이 완료될 때
 var fnPageLoadDataCheck = function fnPageLoadDataCheck() {
-    function exec() {
+    var exec = function exec() {
         var flagLoadCheck = true;
         flagChkLoadDataPagePanel.forEach(function (data) {
             if (data == false && flagLoadCheck) {
@@ -2059,7 +2060,7 @@ var fnPageLoadDataCheck = function fnPageLoadDataCheck() {
         } else {
             setTimeout(exec, 100);
         }
-    }
+    };
     exec();
 };
 
@@ -2076,16 +2077,26 @@ var fnPageDataLoad = function fnPageDataLoad() {
     //복수의 서식을 가져올때 처리 고민중
     arrBesIdSplit.forEach(function (id, idx) {
         document.querySelector('#searchForm input[name=bes_id]').value = id;
-        var url = '';
-        if (REAL_SERVER) url = 'https://on-doc.kr:47627/hospital/signpenChartEmr.php?';else url = '/sheet/sheet' + idx + '.html?';
+        var url = 'https://on-doc.kr:47627/hospital/signpenChartEmr.php?';
 
         var query = __WEBPACK_IMPORTED_MODULE_3_form_serialize___default()(document.getElementById('searchForm'));
 
         __WEBPACK_IMPORTED_MODULE_4_axios___default.a.get(url + query).then(function (response) {
-            //실서버
-            //flagLoadDataPage[idx] = Sheet.load(data.data[0].bef_form);
-            //테스트서버
-            flagLoadDataPage[idx] = __WEBPACK_IMPORTED_MODULE_0__classes_Sheet__["a" /* default */].load(response.data.data[0].bef_form);
+            var befNo = response.data.data[0].bef_no;
+            var besName = response.data.data[0].bes_name;
+            var key = response.data.data[0].key;
+            var date = response.data.data[0].date;
+            var time = response.data.data[0].time;
+            var befForm = __WEBPACK_IMPORTED_MODULE_0__classes_Sheet__["a" /* default */].load(response.data.data[0].bef_form);
+
+            //PAGE_NAMEVALUE key, date, time값을 갱신
+            befForm.PAGE_NAMEVALUE.SheetKey = befNo;
+            befForm.PAGE_NAMEVALUE.Title = besName;
+            befForm.PAGE_NAMEVALUE.Key = key;
+            befForm.PAGE_NAMEVALUE.Date = date;
+            befForm.PAGE_NAMEVALUE.Time = time;
+
+            flagLoadDataPage[idx] = befForm;
             flagChkLoadDataPagePanel[idx] = true;
         }).catch(function (error) {
             console.log(error);
@@ -2094,7 +2105,7 @@ var fnPageDataLoad = function fnPageDataLoad() {
 };
 
 var fnPanelLoadDataCheck = function fnPanelLoadDataCheck() {
-    function exec() {
+    var exec = function exec() {
         var flagLoadCheck = true;
         flagChkLoadDataPagePanel.forEach(function (data) {
             data.forEach(function (data) {
@@ -2126,14 +2137,82 @@ var fnPanelLoadDataCheck = function fnPanelLoadDataCheck() {
                 __WEBPACK_IMPORTED_MODULE_1__classes_Dom__["a" /* default */].sheetToDom(data);
             });
 
-            //Data 로딩 끝
+            //Data 로딩 및 Dom 생성 끝
             loadingbar.style.display = 'none';
+
+            //디비에서 치환할 값 가져와 변환하기
+            var arrPanel = document.querySelectorAll('.Panel');
+            arrPanel.forEach(function (panel) {
+                var dataName = null;
+                var dataField = null;
+                var itemField = null;
+
+                if (panel.querySelector('input[name=Datas]') != undefined) {
+                    //데이터 치환을 위한 필드 값 가져오기
+                    var Datas = panel.querySelector('input[name=Datas]').value;
+                    //Datas = 'L^BASIC^DATE:40,77';
+                    //L^PATIENT^bpt_ptno:9^bpt_name:15^bpt_resno:16^bpt_sex:91^bpt_yage:90^bpt_telno:92^bpt_hpno:93^bpt_addr:6^bpt_pname:94
+
+                    //요청 가능한 데이터로 가공
+                    var arrReplace = Datas.split('|^@@^|');
+
+                    arrReplace.forEach(function (data) {
+                        //빈값일 경우 패스
+                        if (data == '') return;
+
+                        //request 단위
+                        var arrVal = data.split('^');
+
+                        dataName = arrVal[1];
+
+                        //앞의 배열 2개는 삭제하여 값만 추출
+                        arrVal.splice(0, 2);
+
+                        var arrDataField = [];
+                        var arrItemField = [];
+
+                        arrVal.forEach(function (val) {
+                            var valSplit = val.split(':');
+                            arrDataField.push(valSplit[0]);
+                            arrItemField.push(valSplit[1]);
+                        });
+
+                        dataField = arrDataField.join('^');
+                        itemField = arrItemField.join('^');
+
+                        document.querySelector('#searchForm input[name=data_name]').value = dataName;
+                        document.querySelector('#searchForm input[name=data_field]').value = dataField;
+                        document.querySelector('#searchForm input[name=item_field]').value = itemField;
+
+                        var url = 'https://on-doc.kr:47627/hospital/signpenChartEmrReplace.php?';
+
+                        var query = __WEBPACK_IMPORTED_MODULE_3_form_serialize___default()(document.getElementById('searchForm'));
+                        __WEBPACK_IMPORTED_MODULE_4_axios___default.a.get(url + query).then(function (response) {
+                            response.data.data.forEach(function (data) {
+                                var key = String(Object.keys(data)).split(',');
+                                var value = data[Object.keys(data)];
+
+                                //데이터 치환
+                                key.forEach(function (data) {
+                                    var item = panel.querySelector('.item_' + data);
+                                    item.querySelector('.textContent').innerHTML = value;
+                                    item.querySelector('input[name=Text]').value = value;
+                                });
+                            });
+                        }).catch(function (error) {
+                            console.log(error);
+                        });
+                    });
+                }
+
+                //data_name=QUALIFY&data_field=rqu_hcode^rqu_hcode&item_field=38^32
+            });
 
             ///Dom.sheetToDom(Sheet.load(sheet4))
         } else {
             setTimeout(exec, 100);
         }
-    }
+    };
     exec();
 };
 
@@ -2144,8 +2223,7 @@ var fnPanelDataLoad = function fnPanelDataLoad() {
     flagChkLoadDataPagePanel.forEach(function (data, idx) {
         data.forEach(function (data, idx2) {
             document.querySelector('#searchForm input[name=bef_no]').value = data;
-            var url = '';
-            if (REAL_SERVER) url = 'https://on-doc.kr:47627/hospital/signpenChartEmr.php?';else url = '/sheet/sheet' + data + '.html?';
+            var url = 'https://on-doc.kr:47627/hospital/signpenChartEmr.php?';
 
             var query = __WEBPACK_IMPORTED_MODULE_3_form_serialize___default()(document.getElementById('searchForm'));
 
@@ -2164,24 +2242,76 @@ var fnPanelDataLoad = function fnPanelDataLoad() {
     fnPanelLoadDataCheck();
 };
 
-//Dom.sheetToDom(Sheet.load(sheet6));
-//Dom.sheetToDom(Sheet.load(sheet5));
-//Dom.sheetToDom(Sheet.load(sheet2));
-//Dom.sheetToDom(Sheet.load(sheet3));
-//Dom.sheetToDom(Sheet.load(sheet4));
+var flagChkLoadDataFile = [];
+var arrLoadDataFile = [];
+
+var fnFileLoadDataCheck = function fnFileLoadDataCheck() {
+    var exec = function exec() {
+        var flagLoadCheck = true;
+        flagChkLoadDataFile.forEach(function (data) {
+            if (data == false && flagLoadCheck) {
+                flagLoadCheck = false;
+            }
+        });
+        if (flagLoadCheck) {
+            arrLoadDataFile.forEach(function (data) {
+                //서식파일 to DOM
+                __WEBPACK_IMPORTED_MODULE_1__classes_Dom__["a" /* default */].sheetToDom(__WEBPACK_IMPORTED_MODULE_0__classes_Sheet__["a" /* default */].load(data.sheet));
+            });
+
+            //Data 로딩 및 Dom 생성 끝
+            loadingbar.style.display = 'none';
+
+            __WEBPACK_IMPORTED_MODULE_2__classes_Event__["a" /* default */].view(document.querySelectorAll('.View'));
+        } else {
+            setTimeout(exec, 100);
+        }
+    };
+    exec();
+};
+
+//파일로 저장된 동의서 불러오기
+var fnFileDataLoad = function fnFileDataLoad() {
+    var arrSeq = document.querySelector('#searchForm input[name=arr_seq]').value;
+    var arrSeqSplit = arrSeq.split(',');
+
+    //서식파일 로딩 완료여부를 체크하기 위해 flag 세팅
+    arrSeqSplit.forEach(function (id, idx) {
+        flagChkLoadDataFile[idx] = false;
+    });
+    fnFileLoadDataCheck();
+
+    arrSeqSplit.forEach(function (id, idx) {
+        document.querySelector('#searchForm input[name=seq]').value = id;
+        var url = 'https://on-doc.kr:47627/hospital/signpenChartOldEmr.php?';
+
+        var query = __WEBPACK_IMPORTED_MODULE_3_form_serialize___default()(document.getElementById('searchForm'));
+
+        __WEBPACK_IMPORTED_MODULE_4_axios___default.a.get(url + query).then(function (response) {
+            flagChkLoadDataFile[idx] = true;
+            arrLoadDataFile[idx] = response.data.data[0];
+        }).catch(function (error) {
+            console.log(error);
+        });
+    });
+};
 
 //===========================================================================================================
 //cookie에서 jwt값 파싱해서 name값을 가져온 이후에 실행되도록 체크
 (function () {
-    function exec() {
+    var exec = function exec() {
         if (document.querySelector('#searchForm input[name=name]').value == '') {
             setTimeout(exec, 100);
         } else {
-            fnPageDataLoad();
+            var type = document.querySelector('#searchForm input[name=type]').value;
+
+            if (type == 'new') fnPageDataLoad();else if (type == 'old') fnFileDataLoad();
         }
-    }
+    };
     exec();
 })();
+
+//Dom.sheetToDom(Sheet.load(sheet1));
 
 //Event를 등록한다.
 window.onload = function () {
@@ -3059,27 +3189,100 @@ var Event = function () {
                 scrollMenuAction(e.target.id);
             });
         }
+    }, {
+        key: 'view',
+        value: function view(elem) {
+            elem.forEach(function (view) {
+                //textContent에서 글씨 수정 후 input Text에 적용
+                view.addEventListener('focusout', function (e) {
+                    var textContent = e.target;
+                    var text = textContent.innerHTML;
+
+                    while (text.indexOf("nbsp;") > -1) {
+                        text = text.replace("nbsp;", "|^@^|");
+                    }
+                    while (text.indexOf("<br>") > -1) {
+                        text = text.replace("<br>", "|^@^|");
+                    }
+                    while (text.indexOf("</div><div>") > -1) {
+                        text = text.replace("</div><div>", "|^@^|");
+                    }
+                    while (text.indexOf("<div>") > -1) {
+                        text = text.replace("<div>", "|^@^|");
+                    }
+                    while (text.indexOf("</div>") > -1) {
+                        text = text.replace("</div>", "|^@^|");
+                    }
+
+                    console.log(textContent.parentElement.querySelector(':scope > input[name=Text]').value);
+
+                    textContent.parentElement.querySelector(':scope > input[name=Text]').value = text;
+                });
+            });
+        }
     }]);
 
     return Event;
 }();
 
-//scrollMenu 이벤트
-
-
 /* harmony default export */ __webpack_exports__["a"] = (Event);
-function scrollMenuAction(type) {
+
+
+var flagDataSaveCheck = [];
+var fnDataSaveCheck = function fnDataSaveCheck() {
+    loadingbar.style.display = 'block';
+    var exec = function exec() {
+        var flagLoadCheck = true;
+        flagDataSaveCheck.forEach(function (data) {
+            if (data == false && flagLoadCheck) {
+                flagLoadCheck = false;
+            }
+        });
+        if (flagLoadCheck) {
+            //파일 저장 완료
+
+            //Data 로딩 및 Dom 생성 끝
+            loadingbar.style.display = 'none';
+        } else {
+            setTimeout(exec, 100);
+        }
+    };
+    exec();
+};
+
+//scrollMenu 이벤트
+var scrollMenuAction = function scrollMenuAction(type) {
     switch (type) {
         case 'btnSave':
             //저장
+
+            var strType = document.querySelector('#searchForm input[name=type]').value;
+            var url = '';
+            if (strType == 'new') url = 'https://on-doc.kr:47627/hospital/signpenChartEmrSave.php';else if (strType == 'old') url = 'https://on-doc.kr:47627/hospital/signpenChartOldEmrSave.php';
+
             var arrView = document.querySelectorAll('.View');
-            arrView.forEach(function (view) {
-                document.querySelector('#postForm input[name=sheet]').value = __WEBPACK_IMPORTED_MODULE_0__Dom__["a" /* default */].domToSheet(view);
 
-                //Serialize(document.getElementById('postForm'));
+            arrView.forEach(function (view, idx) {
+                flagDataSaveCheck[idx] = false;
+            });
+            fnDataSaveCheck();
+            arrView.forEach(function (view, idx) {
+                //Dom을 서식데이터로 변환
+                document.querySelector('#searchForm input[name=sheet]').value = __WEBPACK_IMPORTED_MODULE_0__Dom__["a" /* default */].domToSheet(view);
+                document.querySelector('#searchForm input[name=key]').value = view.querySelector('input[name=Key]').value;
+                document.querySelector('#searchForm input[name=title]').value = view.querySelector('input[name=Title]').value;
+                document.querySelector('#searchForm input[name=date]').value = view.querySelector('input[name=Date]').value;
+                document.querySelector('#searchForm input[name=time]').value = view.querySelector('input[name=Time]').value;
 
-                __WEBPACK_IMPORTED_MODULE_1_axios___default.a.post('http://127.0.0.1:9000/json/device.html', {}).then(function (response) {
-                    console.log(response.data);
+                var query = __WEBPACK_IMPORTED_MODULE_2_form_serialize___default()(document.getElementById('searchForm'));
+
+                __WEBPACK_IMPORTED_MODULE_1_axios___default()({
+                    method: 'post',
+                    url: url,
+                    data: query
+                }).then(function (response) {
+                    //console.log(response.data);
+                    flagDataSaveCheck[idx] = true;
                 }).catch(function (error) {
                     console.log(error);
                 });
@@ -3096,6 +3299,7 @@ function scrollMenuAction(type) {
                 document.querySelector('#contentWrap').style['margin-top'] = 0;
                 document.querySelector('#contentWrap').style['margin-left'] = 0;
 
+                //잠시 여유를 줘야 고정이 정상 작동함
                 setTimeout(function () {}, 1000);
 
                 document.querySelector('html').classList.remove('notouch');
@@ -3103,6 +3307,8 @@ function scrollMenuAction(type) {
 
                 document.querySelector('body').scrollTop = marginTop;
                 document.querySelector('body').scrollLeft = marginLeft;
+
+                document.querySelector('#btnFixed').classList.remove('scrollMenuFixed');
             } else {
                 //고정 하기
 
@@ -3111,12 +3317,32 @@ function scrollMenuAction(type) {
 
                 document.querySelector('html').classList.add('notouch');
                 document.querySelector('body').classList.add('notouch');
+
+                document.querySelector('#btnFixed').classList.add('scrollMenuFixed');
             }
+            break;
+        case 'btnEdit':
+            document.querySelectorAll('#scrollMenu .edit').forEach(function (elem) {
+                elem.classList.remove('active');
+            });
+            document.querySelector('#scrollMenu #btnEdit').classList.add('active');
+            break;
+        case 'btnPen':
+            document.querySelectorAll('#scrollMenu .edit').forEach(function (elem) {
+                elem.classList.remove('active');
+            });
+            document.querySelector('#scrollMenu #btnPen').classList.add('active');
+            break;
+        case 'btnHighlighter':
+            document.querySelectorAll('#scrollMenu .edit').forEach(function (elem) {
+                elem.classList.remove('active');
+            });
+            document.querySelector('#scrollMenu #btnHighlighter').classList.add('active');
             break;
         default:
             break;
     }
-}
+};
 
 /***/ }),
 /* 31 */
@@ -3348,6 +3574,9 @@ var Style = function () {
 
             if (style == '1' && !backImageString) element.classList.add('text');else if (style == '2' && !backImageString) element.classList.add('checkbox');else if (backImageString) element.classList.add('image');
 
+            //Item에 key값을 줘서 값 대치시
+            element.classList.add('item_' + key);
+
             //item border 세팅        
             if (isBorderLeft == 'true') element.style['border-left'] = borderWidth + 'px';else if (isBorderLeft == 'false') element.style['border-left'] = '0px';
             if (isBorderRight == 'true') element.style['border-right'] = borderWidth + 'px';else if (isBorderRight == 'false') element.style['border-right'] = '0px';
@@ -3415,18 +3644,30 @@ var Style = function () {
                 //특수문자 출력
                 if (text && edit == 'false') text = Style.convertHtmlTag(text);
 
+                textContent = document.createElement('div');
+                textContent.classList.add('textContent');
+
+                if (edit == 'true') {
+                    //textContent 편집 가능하도록
+                    textContent.setAttribute('contenteditable', true);
+                    textContent.style['height'] = '100%';
+                }
+
+                element.insertBefore(textContent, element.firstChild);
+
+                //linep-height값이 없고 vertical-align이 middle이면 line-height값을 적용.
+                if (element.style['line-height'] == '') {
+                    if (element.style['vertical-align'] == 'middle') element.style['line-height'] = element.style['height'];
+                }
+
                 //text 입력
                 if (text) {
-                    textContent = document.createElement('div');
-                    textContent.classList.add('textContent');
-
-                    element.insertBefore(textContent, element.firstChild);
-
                     //|^@^|을 <br />로 변경
                     while (text.indexOf("|^@^|") > -1) {
-                        text = text.replace("|^@^|", "<br />");
+                        text = text.replace("|^@^|", "<br>");
                     }
                     //html <, > 출력시 출력이 안되서 태그처리 Edit 상태가 false일때만 Edit 가능할 경우는 태그 변경하면 안됨.
+
                     textContent.innerHTML = text;
                 }
             }
@@ -3496,6 +3737,13 @@ var Style = function () {
 
 /***/ }),
 /* 34 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony default export */ var _unused_webpack_default_export = ("PAGE_NAMEVALUE|^@3@^|Key|^@1@^|51|^@2@^|Title|^@1@^|수술동의서|^@2@^|Style|^@1@^|0|^@2@^|Date|^@1@^|2017-07-24|^@2@^|Time|^@1@^|14:20:22|^@2@^|IsPrintable|^@1@^|true|^@2@^|HeadPrint|^@1@^|A|^@2@^|FootPrint|^@1@^|A|^@2@^|SheetKey|^@1@^|51|^@2@^|Value|^@1@^||^@4@^|PANEL_NAMEVALUE|^@3@^|PageKey|^@1@^|51|^@2@^|Key|^@1@^|1|^@2@^|BackColor|^@1@^|rgba(255,255,255,1)|^@2@^|Width|^@1@^|720|^@2@^|Height|^@1@^|1000|^@2@^|IsPrintable|^@1@^|true|^@2@^|ExpandTitle|^@1@^||^@2@^|IsExpandable|^@1@^|false|^@2@^|IsExpanded|^@1@^|true|^@2@^|ExPageKey|^@1@^||^@2@^|IsPrintExpand|^@1@^|false|^@2@^|BackImageString|^@1@^||^@2@^|BackImageWidth|^@1@^|720|^@2@^|RunPageAdd|^@1@^|DATA|^@@^|1|^@@@^|DATA|^@@^|2|^@@@^|DATA|^@@^|3|^@2@^|RunPageLoad|^@1@^||^@2@^|RunPageSave|^@1@^||^@2@^|IsUserSizable|^@1@^|false|^@2@^|UserMinHeight|^@1@^|300|^@2@^|UserMaxHeight|^@1@^|1000|^@2@^|Value|^@1@^||^@2@^|BackImageAngle|^@1@^|0|^@2@^|Datas|^@1@^|L^PATIENT^bpt_name:49^bpt_addr:50^bpt_telno:51|^@@^|L^DOCTOR^bdt_docname:41|^@@^|L^BASIC^DATE:23|^@4@^|ITEM_NAMEVALUE|^@3@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|3|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|false|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|242|^@2@^|Y|^@1@^|12|^@2@^|Width|^@1@^|221|^@2@^|Height|^@1@^|32|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|bold 16px 돋움|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|4|^@2@^|TextLineSpacing|^@1@^|0|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^|수 술 동 의 서|^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|4|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|false|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|383|^@2@^|Y|^@1@^|67|^@2@^|Width|^@1@^|117|^@2@^|Height|^@1@^|24|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|14px 돋움체|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|4|^@2@^|TextLineSpacing|^@1@^|5|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^|병 명 :|^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|5|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|false|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|13|^@2@^|Y|^@1@^|214|^@2@^|Width|^@1@^|697|^@2@^|Height|^@1@^|30|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|14px 돋움체|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|1|^@2@^|TextLineSpacing|^@1@^|0|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^| 본인은 본인(또는 환자)에 대한 수술 및 마취(또는 검사)의 필요성, 내용, 예상되는 합병증과 후유증|^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|6|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|true|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|23|^@2@^|Y|^@1@^|246|^@2@^|Width|^@1@^|632|^@2@^|Height|^@1@^|30|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|1|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|14px 돋움체|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|1|^@2@^|TextLineSpacing|^@1@^|0|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|true|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|false|^@2@^|IsBorderRight|^@1@^|false|^@2@^|IsBorderTop|^@1@^|false|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^||^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|7|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|false|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|16|^@2@^|Y|^@1@^|240|^@2@^|Width|^@1@^|14|^@2@^|Height|^@1@^|39|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|12px 돋움체|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|1|^@2@^|TextLineSpacing|^@1@^|0|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^|(|^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|8|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|false|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|655|^@2@^|Y|^@1@^|237|^@2@^|Width|^@1@^|14|^@2@^|Height|^@1@^|39|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|12px 돋움체|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|1|^@2@^|TextLineSpacing|^@1@^|0|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^|)|^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|9|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|false|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|13|^@2@^|Y|^@1@^|273|^@2@^|Width|^@1@^|697|^@2@^|Height|^@1@^|30|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|14px 돋움|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|1|^@2@^|TextLineSpacing|^@1@^|5|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^|등에 대하여 설명을 의사로부터 들었으며, 본 수술 및 마취(또는 검사)로서 불가항력적으로 야기될 수 있는|^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|10|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|false|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|29|^@2@^|Y|^@1@^|393|^@2@^|Width|^@1@^|134|^@2@^|Height|^@1@^|29|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|12px 돋움체|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|1|^@2@^|TextLineSpacing|^@1@^|0|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^|○ 기 왕 력 : |^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|15|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|false|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|386|^@2@^|Y|^@1@^|393|^@2@^|Width|^@1@^|87|^@2@^|Height|^@1@^|29|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|12px 돋움체|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|1|^@2@^|TextLineSpacing|^@1@^|0|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^|○ 알레르기 : |^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|16|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|false|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|386|^@2@^|Y|^@1@^|422|^@2@^|Width|^@1@^|87|^@2@^|Height|^@1@^|29|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|12px 돋움체|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|1|^@2@^|TextLineSpacing|^@1@^|0|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^|○ 당 뇨 병 : |^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|17|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|false|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|386|^@2@^|Y|^@1@^|451|^@2@^|Width|^@1@^|87|^@2@^|Height|^@1@^|29|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|12px 돋움체|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|1|^@2@^|TextLineSpacing|^@1@^|0|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^|○ 출혈소인 : |^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|18|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|false|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|386|^@2@^|Y|^@1@^|480|^@2@^|Width|^@1@^|87|^@2@^|Height|^@1@^|29|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|12px 돋움체|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|1|^@2@^|TextLineSpacing|^@1@^|0|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^|○ 마약사고 : |^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|19|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|false|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|29|^@2@^|Y|^@1@^|422|^@2@^|Width|^@1@^|134|^@2@^|Height|^@1@^|29|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|12px 돋움체|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|1|^@2@^|TextLineSpacing|^@1@^|0|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^|○ 특이체질 : |^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|20|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|false|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|29|^@2@^|Y|^@1@^|451|^@2@^|Width|^@1@^|134|^@2@^|Height|^@1@^|29|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|12px 돋움체|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|1|^@2@^|TextLineSpacing|^@1@^|0|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^|○ 고저혈압 : |^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|21|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|false|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|29|^@2@^|Y|^@1@^|480|^@2@^|Width|^@1@^|134|^@2@^|Height|^@1@^|29|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|12px 돋움체|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|1|^@2@^|TextLineSpacing|^@1@^|0|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^|○ 심 장 병 : |^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|22|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|false|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|29|^@2@^|Y|^@1@^|509|^@2@^|Width|^@1@^|134|^@2@^|Height|^@1@^|29|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|12px 돋움체|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|1|^@2@^|TextLineSpacing|^@1@^|0|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^|○ 약으로 인한 사고 : |^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|23|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|true|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|374|^@2@^|Y|^@1@^|573|^@2@^|Width|^@1@^|144|^@2@^|Height|^@1@^|30|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|14px 돋움체|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|1|^@2@^|TextLineSpacing|^@1@^|0|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^|2017-07-24|^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|24|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|false|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|32|^@2@^|Y|^@1@^|634|^@2@^|Width|^@1@^|198|^@2@^|Height|^@1@^|30|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|14px 돋움체|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|1|^@2@^|TextLineSpacing|^@1@^|0|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^|환자 또는 대리인(환자의 ) : |^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|25|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|false|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|32|^@2@^|Y|^@1@^|667|^@2@^|Width|^@1@^|57|^@2@^|Height|^@1@^|30|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|14px 돋움체|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|1|^@2@^|TextLineSpacing|^@1@^|0|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^|주 소 : |^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|26|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|false|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|408|^@2@^|Y|^@1@^|668|^@2@^|Width|^@1@^|42|^@2@^|Height|^@1@^|30|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|12px 돋움체|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|1|^@2@^|TextLineSpacing|^@1@^|0|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^|전화 :|^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|27|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|false|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|32|^@2@^|Y|^@1@^|700|^@2@^|Width|^@1@^|78|^@2@^|Height|^@1@^|30|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|14px 돋움체|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|1|^@2@^|TextLineSpacing|^@1@^|0|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^|보 증 인 :|^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|28|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|false|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|31|^@2@^|Y|^@1@^|732|^@2@^|Width|^@1@^|101|^@2@^|Height|^@1@^|30|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|14px 돋움체|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|1|^@2@^|TextLineSpacing|^@1@^|0|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^|주민등록번호 : |^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|29|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|false|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|31|^@2@^|Y|^@1@^|764|^@2@^|Width|^@1@^|51|^@2@^|Height|^@1@^|30|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|14px 돋움체|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|1|^@2@^|TextLineSpacing|^@1@^|0|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^|주 소 : |^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|30|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|false|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|409|^@2@^|Y|^@1@^|764|^@2@^|Width|^@1@^|42|^@2@^|Height|^@1@^|30|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|12px 돋움체|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|1|^@2@^|TextLineSpacing|^@1@^|0|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^|전화 :|^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|31|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|false|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|17|^@2@^|Y|^@1@^|833|^@2@^|Width|^@1@^|681|^@2@^|Height|^@1@^|24|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|12px 돋움체|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|1|^@2@^|TextLineSpacing|^@1@^|5|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^|＊본 동의서는 본인의 서명이나 날인으로 유효하나 본인이 서명하기 어려운 신체적, 정신적 지장이 있거나 또는|^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|32|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|false|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|17|^@2@^|Y|^@1@^|805|^@2@^|Width|^@1@^|681|^@2@^|Height|^@1@^|24|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|12px 돋움체|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|1|^@2@^|TextLineSpacing|^@1@^|0|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^|＊상기 의사의 상세한 설명은 이면지 또는 별지를 사용하며, 환자가 본 동의서 사본을 원하면 교부할 수 있다.|^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|35|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|false|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|383|^@2@^|Y|^@1@^|93|^@2@^|Width|^@1@^|117|^@2@^|Height|^@1@^|24|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|14px 돋움체|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|4|^@2@^|TextLineSpacing|^@1@^|5|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^|수술 / 검사명:|^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|36|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|false|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|383|^@2@^|Y|^@1@^|119|^@2@^|Width|^@1@^|117|^@2@^|Height|^@1@^|24|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|14px 돋움체|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|4|^@2@^|TextLineSpacing|^@1@^|5|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^|주치의(설명의사) :|^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|37|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|false|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|383|^@2@^|Y|^@1@^|145|^@2@^|Width|^@1@^|117|^@2@^|Height|^@1@^|24|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|14px 돋움체|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|4|^@2@^|TextLineSpacing|^@1@^|5|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^|입회 간 호 사 :|^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|38|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|true|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|499|^@2@^|Y|^@1@^|67|^@2@^|Width|^@1@^|166|^@2@^|Height|^@1@^|25|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|14px 돋움체|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|4|^@2@^|TextLineSpacing|^@1@^|5|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^||^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|39|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|true|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|499|^@2@^|Y|^@1@^|93|^@2@^|Width|^@1@^|166|^@2@^|Height|^@1@^|26|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|14px 돋움체|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|4|^@2@^|TextLineSpacing|^@1@^|5|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^||^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|41|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|true|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|500|^@2@^|Y|^@1@^|120|^@2@^|Width|^@1@^|166|^@2@^|Height|^@1@^|24|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|14px 돋움체|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|4|^@2@^|TextLineSpacing|^@1@^|5|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^||^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|42|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|true|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|499|^@2@^|Y|^@1@^|145|^@2@^|Width|^@1@^|166|^@2@^|Height|^@1@^|24|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|14px 돋움체|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|4|^@2@^|TextLineSpacing|^@1@^|5|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^||^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|43|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|false|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|665|^@2@^|Y|^@1@^|119|^@2@^|Width|^@1@^|36|^@2@^|Height|^@1@^|24|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|14px 돋움체|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|4|^@2@^|TextLineSpacing|^@1@^|5|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^|(인)|^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|44|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|false|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|666|^@2@^|Y|^@1@^|145|^@2@^|Width|^@1@^|36|^@2@^|Height|^@1@^|24|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|14px 돋움체|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|4|^@2@^|TextLineSpacing|^@1@^|5|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^|(인)|^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|45|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|false|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|13|^@2@^|Y|^@1@^|306|^@2@^|Width|^@1@^|697|^@2@^|Height|^@1@^|30|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|14px 돋움|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|1|^@2@^|TextLineSpacing|^@1@^|5|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^|합병증 또는 환자의 특이체질로 우발적 사고가 일어날 수도 있다는 것을 사전 설명으로 충분히 이해하며, 수술|^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|46|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|false|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|13|^@2@^|Y|^@1@^|333|^@2@^|Width|^@1@^|697|^@2@^|Height|^@1@^|30|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|14px 돋움|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|1|^@2@^|TextLineSpacing|^@1@^|5|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^|마취(또는 검사)에 협력할 것을 서약하고 다음 사항을 성실히 고지하며 이에 따른 의학적 처리를 주치의 판단|^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|47|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|false|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|13|^@2@^|Y|^@1@^|360|^@2@^|Width|^@1@^|697|^@2@^|Height|^@1@^|30|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|14px 돋움|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|1|^@2@^|TextLineSpacing|^@1@^|5|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^|에 위임하여 수술 및 마취(또는 검사)를 하는데 동의합니다.|^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|48|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|false|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|17|^@2@^|Y|^@1@^|860|^@2@^|Width|^@1@^|681|^@2@^|Height|^@1@^|24|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|12px 돋움체|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|1|^@2@^|TextLineSpacing|^@1@^|5|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^| 미성년자일 경우에는 보호자 또는 대리인이 이를 대행한다.|^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|49|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|true|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|230|^@2@^|Y|^@1@^|634|^@2@^|Width|^@1@^|198|^@2@^|Height|^@1@^|30|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|14px 돋움체|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|1|^@2@^|TextLineSpacing|^@1@^|0|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^|다솜정형|^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|50|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|true|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|89|^@2@^|Y|^@1@^|667|^@2@^|Width|^@1@^|317|^@2@^|Height|^@1@^|30|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|14px 돋움체|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|1|^@2@^|TextLineSpacing|^@1@^|0|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^|서울 금천구 가산동 1234-56|^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|51|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|true|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|450|^@2@^|Y|^@1@^|668|^@2@^|Width|^@1@^|184|^@2@^|Height|^@1@^|30|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|12px 돋움체|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|1|^@2@^|TextLineSpacing|^@1@^|0|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^|02-1234-1234|^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|52|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|true|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|110|^@2@^|Y|^@1@^|700|^@2@^|Width|^@1@^|145|^@2@^|Height|^@1@^|30|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|14px 돋움체|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|1|^@2@^|TextLineSpacing|^@1@^|0|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^||^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|53|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|true|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|132|^@2@^|Y|^@1@^|732|^@2@^|Width|^@1@^|185|^@2@^|Height|^@1@^|30|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|14px 돋움체|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|1|^@2@^|TextLineSpacing|^@1@^|0|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^||^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|54|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|true|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|82|^@2@^|Y|^@1@^|764|^@2@^|Width|^@1@^|327|^@2@^|Height|^@1@^|30|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|14px 돋움체|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|1|^@2@^|TextLineSpacing|^@1@^|0|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^||^@2@^|PageKey|^@1@^|51|^@2@^|PanelKey|^@1@^|1|^@2@^|ParentItemKey|^@1@^|-1|^@2@^|Key|^@1@^|55|^@2@^|DataKey|^@1@^||^@2@^|Style|^@1@^|1|^@2@^|Edit|^@1@^|true|^@2@^|IsSelectable|^@1@^|false|^@2@^|IsPrintable|^@1@^|true|^@2@^|X|^@1@^|451|^@2@^|Y|^@1@^|764|^@2@^|Width|^@1@^|184|^@2@^|Height|^@1@^|30|^@2@^|Angle|^@1@^|0|^@2@^|BackColor|^@1@^|rgba(255,255,255,0)|^@2@^|BackImageString|^@1@^||^@2@^|BorderColor|^@1@^|rgba(0,0,0,1)|^@2@^|BorderWidth|^@1@^|0|^@2@^|BorderDash|^@1@^||^@2@^|InLineStyle|^@1@^|0|^@2@^|InLineColor|^@1@^|rgba(0,0,0,1)|^@2@^|InLineDash|^@1@^||^@2@^|InLineWidth|^@1@^|1|^@2@^|InLineCap|^@1@^|butt|^@2@^|Checked|^@1@^|false|^@2@^|CheckGroup|^@1@^||^@2@^|CheckBoxStyle|^@1@^|1|^@2@^|CheckBoxAlign|^@1@^|1|^@2@^|CheckBoxColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBoxWidth|^@1@^|12|^@2@^|CheckBoxHeight|^@1@^|12|^@2@^|CheckBoxLineWidth|^@1@^|1|^@2@^|CheckStyle|^@1@^|1|^@2@^|CheckValue|^@1@^||^@2@^|CheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|CheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|CheckLineWidth|^@1@^|2|^@2@^|UnCheckStyle|^@1@^|0|^@2@^|UnCheckValue|^@1@^||^@2@^|UnCheckForeColor|^@1@^|rgba(0,0,0,1)|^@2@^|UnCheckBackColor|^@1@^|rgba(255,255,255,0)|^@2@^|UnCheckLineWidth|^@1@^|1|^@2@^|TextFont|^@1@^|12px 돋움체|^@2@^|TextColor|^@1@^|rgba(0,0,0,1)|^@2@^|TextAlign|^@1@^|1|^@2@^|TextLineSpacing|^@1@^|0|^@2@^|TextBorder|^@1@^|0|^@2@^|TextMaxLine|^@1@^|0|^@2@^|IsViewOutBound|^@1@^|false|^@2@^|IsViewText|^@1@^|true|^@2@^|IsVisible|^@1@^|true|^@2@^|IsBorderLeft|^@1@^|true|^@2@^|IsBorderRight|^@1@^|true|^@2@^|IsBorderTop|^@1@^|true|^@2@^|IsBorderBottom|^@1@^|true|^@2@^|IsUserSizable|^@1@^|false|^@2@^|ChangeHeightItem|^@1@^||^@2@^|ChangeTopItem|^@1@^||^@2@^|TextFormat|^@1@^||^@2@^|EditOnly|^@1@^|false|^@2@^|ClickLeft|^@1@^||^@2@^|ClickRight|^@1@^||^@2@^|ChangedValue|^@1@^||^@2@^|TabFrom|^@1@^|0|^@2@^|TabTo|^@1@^|0|^@2@^|TabEnterFrom|^@1@^|0|^@2@^|TabEnterTo|^@1@^|0|^@2@^|IsIncomplete|^@1@^|false|^@2@^|IncompleteKey|^@1@^||^@2@^|IsWrap|^@1@^|false|^@2@^|CheckText|^@1@^||^@2@^|UnCheckText|^@1@^||^@2@^|Text|^@1@^|");
+
+/***/ }),
+/* 35 */
 /***/ (function(module, exports) {
 
 /*
@@ -3577,7 +3825,7 @@ function toComment(sourceMap) {
 
 
 /***/ }),
-/* 35 */
+/* 36 */
 /***/ (function(module, exports) {
 
 /*!
@@ -3604,7 +3852,7 @@ function isSlowBuffer (obj) {
 
 
 /***/ }),
-/* 36 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /*
@@ -3641,7 +3889,7 @@ var stylesInDom = {},
 	singletonElement = null,
 	singletonCounter = 0,
 	styleElementsInsertedAtTop = [],
-	fixUrls = __webpack_require__(37);
+	fixUrls = __webpack_require__(38);
 
 module.exports = function(list, options) {
 	if(typeof DEBUG !== "undefined" && DEBUG) {
@@ -3900,7 +4148,7 @@ function updateLink(linkElement, options, obj) {
 
 
 /***/ }),
-/* 37 */
+/* 38 */
 /***/ (function(module, exports) {
 
 
@@ -3995,7 +4243,7 @@ module.exports = function (css) {
 
 
 /***/ }),
-/* 38 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
@@ -4004,7 +4252,7 @@ module.exports = function (css) {
 var content = __webpack_require__(2);
 if(typeof content === 'string') content = [[module.i, content, '']];
 // add the styles to the DOM
-var update = __webpack_require__(36)(content, {});
+var update = __webpack_require__(37)(content, {});
 if(content.locals) module.exports = content.locals;
 // Hot Module Replacement
 if(true) {
@@ -4021,7 +4269,7 @@ if(true) {
 }
 
 /***/ }),
-/* 39 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(12);
