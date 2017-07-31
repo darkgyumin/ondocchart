@@ -108,4 +108,16 @@ export default class Dom {
 
         return arrAttr.join('|^@2@^|');
     }
+
+    static doModifySheet(view) {
+        let PageTitle = view.querySelector('.PageTitle');
+        let tagModify = PageTitle.querySelector('.tagModify');
+        if(tagModify == null) {
+            let span = document.createElement('span');
+            span.classList.add('tagModify');
+            span.innerHTML = ' *';
+
+            PageTitle.appendChild(span);
+        }
+    }
 }

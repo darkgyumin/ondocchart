@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
     <link rel="stylesheet" href="./css/common.css">
     <title>EmrChart</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <body>
-    <!-- oncontextmenu='return false' ondragstart='return false' onselectstart='return false'-->
+<!-- oncontextmenu='return false' ondragstart='return false' onselectstart='return false'-->
 <!--edit:편집, pen:펜, eraser:지우개-->
 <input type="hidden" id="client" name="client" value="pc" />
-<input type="hidden" id="mode" name="mode" value="pen" />
+<input type="hidden" id="mode" name="mode" value="edit" />
 <input type="hidden" id="lineWidth" name="lineWidth" value="1" />
 <input type="hidden" id="strokeStyle" name="strokeStyle" value="rgba(0,0,0,1)" />
 
@@ -19,7 +21,7 @@
     <input type="hidden" id="ptno" name="ptno" value="28600" />
 	<input type="hidden" id="id" name="id" value="1" />
     <input type="hidden" id="arr_id" name="arr_bes_id" value="85, 86" />
-    <input type="hidden" id="arr_seq" name="arr_seq" value="86, 98" />
+    <input type="hidden" id="arr_seq" name="arr_seq" value="247, 252" />
     <input type="hidden" id="bes_id" name="bes_id" value="" />
     <input type="hidden" id="bef_no" name="bef_no" value="" />
     <input type="hidden" id="seq" name="seq" value="" />
@@ -55,10 +57,9 @@
 
 <div id="scrollMenu">
     <ul>
-        <li><button id="btnFixed">고정</button></li>
         <li><button id="btnEdit" class="edit">편집</button></li>
         <li><button id="btnPen" class="edit active">펜</button></li>
-        <!--li><button id="btnHighlighter" class="edit">형광펜</button></li-->
+        <li><button id="btnHighlighter" class="edit">형광펜</button></li>
         <li><button id="btnEraser" class="edit">지우개</button></li>
         <li><button id="btnSave">저장</button></li>
     </ul>
@@ -66,7 +67,13 @@
 
 <div id="loadingbar" name="loadingbar">
 	<img src="http://on-doc.kr/mobile/image/loading.gif" />
-</div>	
+</div>
+
+<div id="saveComplete">
+    <div class="message">
+        저장이 완료되었습니다.
+    </div>
+</div>
 
 <div id="log">
 

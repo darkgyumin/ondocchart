@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "cafdacd158a0faed4d13"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "ac9d28bfc0b4995ef614"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -1027,7 +1027,7 @@ module.exports = {
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(0);
-var normalizeHeaderName = __webpack_require__(27);
+var normalizeHeaderName = __webpack_require__(28);
 
 var DEFAULT_CONTENT_TYPE = {
   'Content-Type': 'application/x-www-form-urlencoded'
@@ -1117,7 +1117,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = defaults;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }),
 /* 2 */
@@ -1137,7 +1137,7 @@ exports.push([module.i, "/* canvas {display: none;} */\r\n\r\n", ""]);
 /* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(13);
+module.exports = __webpack_require__(14);
 
 /***/ }),
 /* 4 */
@@ -1147,12 +1147,12 @@ module.exports = __webpack_require__(13);
 /* WEBPACK VAR INJECTION */(function(process) {
 
 var utils = __webpack_require__(0);
-var settle = __webpack_require__(19);
-var buildURL = __webpack_require__(22);
-var parseHeaders = __webpack_require__(28);
-var isURLSameOrigin = __webpack_require__(26);
+var settle = __webpack_require__(20);
+var buildURL = __webpack_require__(23);
+var parseHeaders = __webpack_require__(29);
+var isURLSameOrigin = __webpack_require__(27);
 var createError = __webpack_require__(7);
-var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(21);
+var btoa = (typeof window !== 'undefined' && window.btoa && window.btoa.bind(window)) || __webpack_require__(22);
 
 module.exports = function xhrAdapter(config) {
   return new Promise(function dispatchXhrRequest(resolve, reject) {
@@ -1249,7 +1249,7 @@ module.exports = function xhrAdapter(config) {
     // This is only done if running in a standard browser environment.
     // Specifically not if we're in a web worker, or react-native.
     if (utils.isStandardBrowserEnv()) {
-      var cookies = __webpack_require__(24);
+      var cookies = __webpack_require__(25);
 
       // Add xsrf header
       var xsrfValue = (config.withCredentials || isURLSameOrigin(config.url)) && config.xsrfCookieName ?
@@ -1325,7 +1325,7 @@ module.exports = function xhrAdapter(config) {
   });
 };
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(11)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(12)))
 
 /***/ }),
 /* 5 */
@@ -1372,7 +1372,7 @@ module.exports = function isCancel(value) {
 "use strict";
 
 
-var enhanceError = __webpack_require__(18);
+var enhanceError = __webpack_require__(19);
 
 /**
  * Create an Error with the specified message, config, error code, request and response.
@@ -1414,7 +1414,7 @@ module.exports = function bind(fn, thisArg) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Style__ = __webpack_require__(33);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Pen__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Pen__ = __webpack_require__(10);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1544,6 +1544,19 @@ var Dom = function () {
 
             return arrAttr.join('|^@2@^|');
         }
+    }, {
+        key: 'doModifySheet',
+        value: function doModifySheet(view) {
+            var PageTitle = view.querySelector('.PageTitle');
+            var tagModify = PageTitle.querySelector('.tagModify');
+            if (tagModify == null) {
+                var span = document.createElement('span');
+                span.classList.add('tagModify');
+                span.innerHTML = ' *';
+
+                PageTitle.appendChild(span);
+            }
+        }
     }]);
 
     return Dom;
@@ -1553,6 +1566,114 @@ var Dom = function () {
 
 /***/ }),
 /* 10 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var Pen = function () {
+    function Pen() {
+        _classCallCheck(this, Pen);
+    }
+
+    _createClass(Pen, null, [{
+        key: 'createPen',
+        value: function createPen(parentElem, penValue) {
+            var width = parentElem.querySelector('input[name=Width]').getAttribute('value');
+            var height = parentElem.querySelector('input[name=Height]').getAttribute('value');
+
+            var canvas = parentElem.querySelector('canvas');
+            if (canvas == null) canvas = document.createElement('canvas');
+            canvas.setAttribute('width', width + 'px');
+            canvas.setAttribute('height', height + 'px');
+
+            parentElem.appendChild(canvas);
+
+            var context = canvas.getContext('2d');
+
+            if (penValue == '') {
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                context.beginPath();
+                return;
+            }
+
+            var arrPen = penValue.split("|^@@^|");
+
+            arrPen.forEach(function (data) {
+                var pen = data.split("|^@^|");
+                var strokeStyle = pen[0];
+                var penData = pen[1];
+
+                context.beginPath();
+                try {
+                    Pen.drawLine(context, penData);
+                } catch (e) {}
+                context.strokeStyle = strokeStyle;
+                context.lineCap = 'butt';
+                context.stroke();
+                context.closePath();
+            });
+        }
+    }, {
+        key: 'drawLine',
+        value: function drawLine(context, penData) {
+            var penLineGroup = penData.split(':');
+            var nWidth = 1;
+
+            penLineGroup.forEach(function (pen, i) {
+                var penLine = pen.split(',');
+
+                if (i == 0) {
+                    context.moveTo(penLine[0], penLine[1]);
+                } else {
+                    context.lineTo(penLine[0], penLine[1]);
+                }
+
+                nWidth = penLine[2];
+            });
+
+            context.lineWidth = nWidth;
+        }
+    }, {
+        key: 'eraserPen',
+        value: function eraserPen(point, penValue) {
+            var tempArrPen = [];
+            var arrPen = penValue.split("|^@@^|");
+            arrPen = arrPen.reverse();
+
+            arrPen.forEach(function (data) {
+                var pen = data.split("|^@^|");
+                var strokeStyle = pen[0];
+                var penData = pen[1];
+                var penLineGroup = penData.split(':');
+                var flagMatching = true;
+
+                penLineGroup.forEach(function (pen, i) {
+                    var penLine = pen.split(',');
+                    var diffX = Math.abs(point.x - penLine[0]);
+                    var diffY = Math.abs(point.y - penLine[1]);
+                    if (diffX <= 10 && diffY <= 10) flagMatching = false;
+                });
+
+                if (flagMatching) tempArrPen.push(data);
+                flagMatching = true;
+            });
+
+            tempArrPen = tempArrPen.reverse();
+
+            return tempArrPen.join('|^@@^|');
+        }
+    }]);
+
+    return Pen;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = (Pen);
+
+/***/ }),
+/* 11 */
 /***/ (function(module, exports) {
 
 // get successful control from form and assemble into object
@@ -1818,7 +1939,7 @@ module.exports = serialize;
 
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -2008,15 +2129,15 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__classes_Sheet__ = __webpack_require__(32);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__classes_Dom__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__classes_Event__ = __webpack_require__(30);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_form_serialize__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__classes_Event__ = __webpack_require__(31);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_form_serialize__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_form_serialize___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_form_serialize__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_axios__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_axios__);
@@ -2321,7 +2442,7 @@ window.onload = function () {
 };
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2329,7 +2450,7 @@ window.onload = function () {
 
 var utils = __webpack_require__(0);
 var bind = __webpack_require__(8);
-var Axios = __webpack_require__(15);
+var Axios = __webpack_require__(16);
 var defaults = __webpack_require__(1);
 
 /**
@@ -2364,14 +2485,14 @@ axios.create = function create(instanceConfig) {
 
 // Expose Cancel & CancelToken
 axios.Cancel = __webpack_require__(5);
-axios.CancelToken = __webpack_require__(14);
+axios.CancelToken = __webpack_require__(15);
 axios.isCancel = __webpack_require__(6);
 
 // Expose all/spread
 axios.all = function all(promises) {
   return Promise.all(promises);
 };
-axios.spread = __webpack_require__(29);
+axios.spread = __webpack_require__(30);
 
 module.exports = axios;
 
@@ -2380,7 +2501,7 @@ module.exports.default = axios;
 
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2444,7 +2565,7 @@ module.exports = CancelToken;
 
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2452,10 +2573,10 @@ module.exports = CancelToken;
 
 var defaults = __webpack_require__(1);
 var utils = __webpack_require__(0);
-var InterceptorManager = __webpack_require__(16);
-var dispatchRequest = __webpack_require__(17);
-var isAbsoluteURL = __webpack_require__(25);
-var combineURLs = __webpack_require__(23);
+var InterceptorManager = __webpack_require__(17);
+var dispatchRequest = __webpack_require__(18);
+var isAbsoluteURL = __webpack_require__(26);
+var combineURLs = __webpack_require__(24);
 
 /**
  * Create a new instance of Axios
@@ -2537,7 +2658,7 @@ module.exports = Axios;
 
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2596,14 +2717,14 @@ module.exports = InterceptorManager;
 
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
 var utils = __webpack_require__(0);
-var transformData = __webpack_require__(20);
+var transformData = __webpack_require__(21);
 var isCancel = __webpack_require__(6);
 var defaults = __webpack_require__(1);
 
@@ -2682,7 +2803,7 @@ module.exports = function dispatchRequest(config) {
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2710,7 +2831,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2743,7 +2864,7 @@ module.exports = function settle(resolve, reject, response) {
 
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2770,7 +2891,7 @@ module.exports = function transformData(data, headers, fns) {
 
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2813,7 +2934,7 @@ module.exports = btoa;
 
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2888,7 +3009,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2909,7 +3030,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2969,7 +3090,7 @@ module.exports = (
 
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2990,7 +3111,7 @@ module.exports = function isAbsoluteURL(url) {
 
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3065,7 +3186,7 @@ module.exports = (
 
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3084,7 +3205,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3128,7 +3249,7 @@ module.exports = function parseHeaders(headers) {
 
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3162,18 +3283,20 @@ module.exports = function spread(callback) {
 
 
 /***/ }),
-/* 30 */
+/* 31 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Dom__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_form_serialize__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_form_serialize___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_form_serialize__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Pen__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_axios__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_form_serialize__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_form_serialize___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_form_serialize__);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 
 
 
@@ -3196,8 +3319,8 @@ var Event = function () {
         value: function view(elem) {
             var context = null;
             var penData = [];
-            var lineWidth = document.getElementById('lineWidth').getAttribute('value');
-            var strokeStyle = document.getElementById('strokeStyle').getAttribute('value');
+            var lineWidth = null;
+            var strokeStyle = null;
             var pens = null;
 
             //panel에 canvas 생성 및 이동
@@ -3249,13 +3372,16 @@ var Event = function () {
 
                     textContent.parentElement.querySelector(':scope > input[name=Text]').value = text;
                     textContent.parentElement.style['z-index'] = '0';
+
+                    //PageTitle에 * 표시
+                    __WEBPACK_IMPORTED_MODULE_0__Dom__["a" /* default */].doModifySheet(textContent.closest('.View'));
                 });
 
                 view.addEventListener('mousedown', function (e) {
                     var mode = document.getElementById('mode').getAttribute('value');
                     var client = document.getElementById('client').getAttribute('value');
 
-                    document.getElementById('log').innerHTML += 'mousedown<br />';
+                    //document.getElementById('log').innerHTML += 'mousedown<br />';
 
                     var selectedItem = null;
                     var pointX = e.offsetX || e.layerX;
@@ -3289,12 +3415,18 @@ var Event = function () {
                                 selectedItem.querySelector('.textContent input').checked = false;
                                 selectedItem.querySelector('input[name=Checked]').setAttribute('value', 'false');
                             }
+
+                            //PageTitle에 * 표시
+                            __WEBPACK_IMPORTED_MODULE_0__Dom__["a" /* default */].doModifySheet(textContent.closest('.View'));
                         }
                         //text 선택
                         if (edit == 'true' && style == '1') {
                             selectedItem.style['z-index'] = '1';
                         }
                     } else if (mode == 'pen' && client == 'pc') {
+                        lineWidth = document.getElementById('lineWidth').getAttribute('value');
+                        strokeStyle = document.getElementById('strokeStyle').getAttribute('value');
+
                         var canvas = e.target;
                         //input Pens에 있는 현재 값을 가져옴
                         pens = canvas.parentElement.querySelector('input[name=Pens]');
@@ -3305,16 +3437,33 @@ var Event = function () {
 
                         context.beginPath();
                         context.lineWidth = lineWidth;
+
                         context.moveTo(point.x, point.y);
                         penData.push(point.x + ',' + point.y + ',' + lineWidth);
+                    } else if (mode == 'eraser') {
+                        var _canvas2 = e.target;
+
+                        var Pens = _canvas2.parentElement.querySelector('input[name=Pens]');
+                        //input Pens에 있는 현재 값을 가져옴
+                        var penValue = Pens.getAttribute('value');
+
+                        penValue = __WEBPACK_IMPORTED_MODULE_1__Pen__["a" /* default */].eraserPen(point, penValue);
+                        Pens.setAttribute('value', penValue);
+
+                        //삭제 선택된 pen을 제외하고 다시 그리기
+                        __WEBPACK_IMPORTED_MODULE_1__Pen__["a" /* default */].createPen(_canvas2.parentElement, penValue);
+
+                        //PageTitle에 * 표시
+                        __WEBPACK_IMPORTED_MODULE_0__Dom__["a" /* default */].doModifySheet(textContent.closest('.View'));
                     }
                 });
 
                 view.addEventListener('mousemove', function (e) {
                     if (context == null) return;
                     var mode = document.getElementById('mode').getAttribute('value');
+                    var client = document.getElementById('client').getAttribute('value');
 
-                    document.getElementById('log').innerHTML += 'mousemove<br />';
+                    //document.getElementById('log').innerHTML += 'mousemove<br />';
 
                     var pointX = e.offsetX || e.layerX;
                     var pointY = e.offsetY || e.layerY;
@@ -3329,8 +3478,9 @@ var Event = function () {
 
                 view.addEventListener('mouseup', function (e) {
                     var mode = document.getElementById('mode').getAttribute('value');
+                    var client = document.getElementById('client').getAttribute('value');
 
-                    document.getElementById('log').innerHTML += 'mouseup<br />';
+                    //document.getElementById('log').innerHTML += 'mouseup<br />';
 
                     var pointX = e.offsetX || e.layerX;
                     var pointY = e.offsetY || e.layerY;
@@ -3352,82 +3502,117 @@ var Event = function () {
                         context = null;
                         pensDataUpdate(pens, penData);
                         penData = [];
+
+                        //투명도 표시를 위해 다시 그리기
+                        var canvas = e.target;
+                        var penValue = canvas.parentElement.querySelector('input[name=Pens]').getAttribute('value');
+                        __WEBPACK_IMPORTED_MODULE_1__Pen__["a" /* default */].createPen(canvas.parentElement, penValue);
                     }
                 });
 
                 view.addEventListener('mouseout', function (e) {
                     if (client == 'pc') {
-                        document.getElementById('log').innerHTML += 'mouseout<br />';
+                        //document.getElementById('log').innerHTML += 'mouseout<br />';
                         if (context == null) return;
+
                         context.closePath();
-                        pensDataUpdate(pens, penData);
                         context = null;
+                        pensDataUpdate(pens, penData);
+                        penData = [];
+
+                        //투명도 표시를 위해 다시 그리기
+                        var canvas = e.target;
+                        var penValue = canvas.parentElement.querySelector('input[name=Pens]').getAttribute('value');
+                        __WEBPACK_IMPORTED_MODULE_1__Pen__["a" /* default */].createPen(canvas.parentElement, penValue);
                     }
                 });
 
-                view.querySelectorAll('canvas').forEach(function (panel) {
-                    panel.addEventListener('touchstart', function (e) {
-                        document.getElementById('log').innerHTML += 'touchstart<br />';
-                        document.getElementById('log').innerHTML += e.touches[0].offsetX + ', ';
-                        document.getElementById('log').innerHTML += e.touches[0].offsetX + '///';
+                view.querySelectorAll('canvas').forEach(function (canvas) {
+                    canvas.addEventListener('touchstart', function (e) {
+                        var mode = document.getElementById('mode').getAttribute('value');
+
+                        if (mode == 'pen') {
+                            e.preventDefault();
+
+                            lineWidth = document.getElementById('lineWidth').getAttribute('value');
+                            strokeStyle = document.getElementById('strokeStyle').getAttribute('value');
+
+                            var touch = e.targetTouches[0];
+                            var _canvas3 = e.target;
+                            var canvasRect = _canvas3.getBoundingClientRect();
+
+                            var point = { 'x': Math.round(touch.clientX - canvasRect.left), 'y': Math.round(touch.clientY - canvasRect.top) };
+                            var _client = { 'width': _canvas3.clientWidth, 'height': _canvas3.clientHeight };
+
+                            //input Pens에 있는 현재 값을 가져옴
+                            pens = _canvas3.parentElement.querySelector('input[name=Pens]');
+                            context = _canvas3.getContext('2d');
+
+                            context.strokeStyle = strokeStyle;
+                            context.lineCap = 'butt';
+
+                            context.beginPath();
+                            context.lineWidth = lineWidth;
+                            context.moveTo(point.x, point.y);
+                            penData.push(point.x + ',' + point.y + ',' + lineWidth);
+                        }
+                    });
+
+                    canvas.addEventListener('touchmove', function (e) {
+                        var mode = document.getElementById('mode').getAttribute('value');
+
+                        if (mode == 'pen') {
+                            e.preventDefault();
+
+                            var touch = e.targetTouches[0];
+                            var _canvas4 = e.target;
+                            var canvasRect = _canvas4.getBoundingClientRect();
+
+                            var point = { 'x': Math.round(touch.clientX - canvasRect.left), 'y': Math.round(touch.clientY - canvasRect.top) };
+                            var _client2 = { 'width': _canvas4.clientWidth, 'height': _canvas4.clientHeight };
+
+                            if (point.x > _client2.width) {
+                                point.x = _client2.width;
+                            }
+                            if (point.x < 0) {
+                                point.x = 0;
+                            }
+
+                            if (point.y > _client2.height) {
+                                point.y = _client2.height;
+                            }
+                            if (point.y < 0) {
+                                point.y = 0;
+                            }
+
+                            context.lineTo(point.x, point.y);
+                            context.stroke();
+                            penData.push(point.x + ',' + point.y + ',' + lineWidth);
+                        }
+                    });
+
+                    canvas.addEventListener('touchend', function (e) {
+                        var mode = document.getElementById('mode').getAttribute('value');
+
+                        if (mode == 'pen') {
+                            e.preventDefault();
+
+                            if (context == null) return;
+                            context.closePath();
+                            context = null;
+                            pensDataUpdate(pens, penData);
+                            penData = [];
+
+                            //투명도 표시를 위해 다시 그리기
+                            var _canvas5 = e.target;
+                            var penValue = _canvas5.parentElement.querySelector('input[name=Pens]').getAttribute('value');
+                            __WEBPACK_IMPORTED_MODULE_1__Pen__["a" /* default */].createPen(_canvas5.parentElement, penValue);
+
+                            //PageTitle에 * 표시
+                            __WEBPACK_IMPORTED_MODULE_0__Dom__["a" /* default */].doModifySheet(textContent.closest('.View'));
+                        }
                     });
                 });
-                /*
-                view.addEventListener('touchstart', (e) => {
-                    document.getElementById('log').innerHTML += 'touchstart<br />'+e.changedTouches.length+'///';
-                    let mode = document.getElementById('mode').getAttribute('value');
-                      var i;
-                    for (i=0; i < e.changedTouches.length; i++) {
-                        document.getElementById('log').innerHTML += ' x='+e.changedTouches[i].pageX;
-                        document.getElementById('log').innerHTML += ' y='+e.changedTouches[i].pageY;
-                    }
-                      
-                      let pointX = e.offsetX || e.layerX;
-                    let pointY = e.offsetY || e.layerY;
-                    let point = {'x':pointX, 'y': pointY};
-                      if(mode == 'pen') {
-                        let canvas = e.target;
-                        //input Pens에 있는 현재 값을 가져옴
-                        pens = canvas.parentElement.querySelector('input[name=Pens]');
-                        context = canvas.getContext('2d');
-                          context.strokeStyle = strokeStyle;
-                        context.lineCap = 'butt';
-                          context.beginPath();
-                        context.lineWidth = lineWidth;
-                        context.moveTo(point.x, point.y);
-                        penData.push(point.x+','+point.y+','+lineWidth);
-                    }
-                });
-                  view.addEventListener('touchmove', (e) => {
-                    document.getElementById('log').innerHTML += 'touchmove<br />';
-                    let mode = document.getElementById('mode').getAttribute('value');
-                      var i;
-                    for (i=0; i < e.changedTouches.length; i++) {
-                        document.getElementById('log').innerHTML += ' x='+e.changedTouches[i].pageX;
-                        document.getElementById('log').innerHTML += ' y='+e.changedTouches[i].pageY;
-                    }
-                      if(mode == 'pen') {
-                        let pointX = e.offsetX || e.layerX;
-                        let pointY = e.offsetY || e.layerY;
-                        let point = {'x':pointX, 'y': pointY};
-                          context.lineTo(point.x, point.y);
-                        context.stroke();
-                        penData.push(point.x+','+point.y+','+lineWidth);
-                    }
-                });
-                view.addEventListener('touchend', (e) => {
-                    document.getElementById('log').innerHTML += 'touchend<br />';
-                });
-                view.addEventListener('touchstart', (e) => {
-                    document.getElementById('log').innerHTML += 'touchstart<br />';
-                });
-                view.addEventListener('touchcancel', (e) => {
-                    document.getElementById('log').innerHTML += 'touchcancel<br />';
-                });
-                view.addEventListener('touchleave', (e) => {
-                    document.getElementById('log').innerHTML += 'touchleave<br />';
-                });
-                */
             });
         }
     }]);
@@ -3447,8 +3632,6 @@ var pensDataUpdate = function pensDataUpdate(pens, penData) {
     pensValue += strokeStyle + '|^@^|' + penData.join(':');
 
     pens.setAttribute('value', pensValue);
-
-    console.log(lineWidth, strokeStyle, pensValue, penData);
 };
 
 var flagDataSaveCheck = [];
@@ -3496,9 +3679,9 @@ var scrollMenuAction = function scrollMenuAction(type) {
                 document.querySelector('#searchForm input[name=date]').value = view.querySelector('input[name=Date]').value;
                 document.querySelector('#searchForm input[name=time]').value = view.querySelector('input[name=Time]').value;
 
-                var query = __WEBPACK_IMPORTED_MODULE_2_form_serialize___default()(document.getElementById('searchForm'));
+                var query = __WEBPACK_IMPORTED_MODULE_3_form_serialize___default()(document.getElementById('searchForm'));
 
-                __WEBPACK_IMPORTED_MODULE_1_axios___default()({
+                __WEBPACK_IMPORTED_MODULE_2_axios___default()({
                     method: 'post',
                     url: url,
                     data: query
@@ -3559,6 +3742,8 @@ var scrollMenuAction = function scrollMenuAction(type) {
             });
             document.querySelector('#scrollMenu #btnPen').classList.add('active');
             document.getElementById('mode').setAttribute('value', 'pen');
+            document.getElementById('lineWidth').setAttribute('value', '1');
+            document.getElementById('strokeStyle').setAttribute('value', 'rgba(0,0,0,1)');
             document.onselectstart = function () {
                 return false;
             };
@@ -3575,83 +3760,17 @@ var scrollMenuAction = function scrollMenuAction(type) {
                 elem.classList.remove('active');
             });
             document.querySelector('#scrollMenu #btnHighlighter').classList.add('active');
+            document.getElementById('mode').setAttribute('value', 'pen');
+            document.getElementById('lineWidth').setAttribute('value', '10');
+            document.getElementById('strokeStyle').setAttribute('value', 'rgba(0,0,0,0.5)');
+            document.onselectstart = function () {
+                return false;
+            };
             break;
         default:
             break;
     }
 };
-
-/***/ }),
-/* 31 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Pen = function () {
-    function Pen() {
-        _classCallCheck(this, Pen);
-    }
-
-    _createClass(Pen, null, [{
-        key: 'createPen',
-        value: function createPen(parentElem, penValue) {
-            var width = parentElem.querySelector('input[name=Width]').getAttribute('value');
-            var height = parentElem.querySelector('input[name=Height]').getAttribute('value');
-
-            var canvas = document.createElement('canvas');
-            canvas.setAttribute('width', width + 'px');
-            canvas.setAttribute('height', height + 'px');
-
-            parentElem.appendChild(canvas);
-
-            var context = canvas.getContext('2d');
-
-            var arrPen = penValue.split("|^@@^|");
-
-            arrPen.forEach(function (data) {
-                var pen = data.split("|^@^|");
-                var strokeStyle = pen[0];
-                var penData = pen[1];
-
-                context.beginPath();
-                try {
-                    Pen.drawLine(context, penData);
-                } catch (e) {}
-                context.strokeStyle = strokeStyle;
-                context.lineCap = 'butt';
-                context.stroke();
-                context.closePath();
-            });
-        }
-    }, {
-        key: 'drawLine',
-        value: function drawLine(context, penData) {
-            var penLineGroup = penData.split(':');
-            var nWidth = 1;
-
-            penLineGroup.forEach(function (pen, i) {
-                var penLine = pen.split(',');
-
-                if (i == 0) {
-                    context.moveTo(penLine[0], penLine[1]);
-                } else {
-                    context.lineTo(penLine[0], penLine[1]);
-                }
-
-                nWidth = penLine[2];
-            });
-
-            context.lineWidth = nWidth;
-        }
-    }]);
-
-    return Pen;
-}();
-
-/* harmony default export */ __webpack_exports__["a"] = (Pen);
 
 /***/ }),
 /* 32 */
@@ -3892,7 +4011,7 @@ var Style = function () {
                     ///////////////////////////////////////////////////
                     ////////////////////////////////////////////////////
                     //vertical정렬에 대한 고민중... TODO
-                    //textContent.style['height'] = '100%';
+                    textContent.style['height'] = '100%';
                 }
 
                 element.insertBefore(textContent, element.firstChild);
@@ -4520,7 +4639,7 @@ if(true) {
 /* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(12);
+module.exports = __webpack_require__(13);
 
 
 /***/ })

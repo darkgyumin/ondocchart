@@ -145,7 +145,7 @@ export default class Style {
                 ///////////////////////////////////////////////////
                 ////////////////////////////////////////////////////
                 //vertical정렬에 대한 고민중... TODO
-                //textContent.style['height'] = '100%';
+                textContent.style['height'] = '100%';
             }
             
             element.insertBefore(textContent, element.firstChild);

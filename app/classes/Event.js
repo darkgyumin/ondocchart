@@ -1,4 +1,5 @@
 import Dom from './Dom';
+import Pen from './Pen';
 import axios from 'axios';
 import Serialize from 'form-serialize';
 
@@ -14,8 +15,8 @@ export default class Event {
     static view(elem) {
         let context = null;
         let penData = [];
-        let lineWidth = document.getElementById('lineWidth').getAttribute('value');
-        let strokeStyle = document.getElementById('strokeStyle').getAttribute('value');
+        let lineWidth = null;
+        let strokeStyle = null;
         let pens = null;
 
         //panel에 canvas 생성 및 이동
@@ -57,13 +58,16 @@ export default class Event {
 
                 textContent.parentElement.querySelector(':scope > input[name=Text]').value = text;
                 textContent.parentElement.style['z-index'] = '0';
+                
+                //PageTitle에 * 표시
+                Dom.doModifySheet(textContent.closest('.View'));
             });
 
             view.addEventListener('mousedown', (e) => {
                 let mode = document.getElementById('mode').getAttribute('value');
                 let client = document.getElementById('client').getAttribute('value');
 
-                document.getElementById('log').innerHTML += 'mousedown<br />';
+                //document.getElementById('log').innerHTML += 'mousedown<br />';
                 
                 let selectedItem = null;
                 let pointX = e.offsetX || e.layerX;
@@ -89,20 +93,26 @@ export default class Event {
                     let edit = selectedItem.querySelector('input[name=Edit]').value;
                     //체크박스 선택
                     if(edit == 'true' && style == '2') {
-                    if(!selectedItem.querySelector('.textContent input').checked) {
+                        if(!selectedItem.querySelector('.textContent input').checked) {
 
-                        selectedItem.querySelector('.textContent input').checked = true;
-                        selectedItem.querySelector('input[name=Checked]').setAttribute('value', 'true');    
-                    } else {
-                        selectedItem.querySelector('.textContent input').checked = false;
-                        selectedItem.querySelector('input[name=Checked]').setAttribute('value', 'false');
-                    }
+                            selectedItem.querySelector('.textContent input').checked = true;
+                            selectedItem.querySelector('input[name=Checked]').setAttribute('value', 'true');    
+                        } else {
+                            selectedItem.querySelector('.textContent input').checked = false;
+                            selectedItem.querySelector('input[name=Checked]').setAttribute('value', 'false');
+                        }
+
+                        //PageTitle에 * 표시
+                        Dom.doModifySheet(textContent.closest('.View'));
                     }
                     //text 선택
                     if(edit == 'true' && style == '1') {
                         selectedItem.style['z-index'] = '1';
                     }
                 } else if(mode =='pen' && client == 'pc') {
+                    lineWidth = document.getElementById('lineWidth').getAttribute('value');
+                    strokeStyle = document.getElementById('strokeStyle').getAttribute('value');
+
                     let canvas = e.target;
                     //input Pens에 있는 현재 값을 가져옴
                     pens = canvas.parentElement.querySelector('input[name=Pens]');
@@ -113,16 +123,33 @@ export default class Event {
 
                     context.beginPath();
                     context.lineWidth = lineWidth;
+
                     context.moveTo(point.x, point.y);
                     penData.push(point.x+','+point.y+','+lineWidth);
+                } else if(mode == 'eraser') {
+                    let canvas = e.target;
+
+                    let Pens = canvas.parentElement.querySelector('input[name=Pens]');
+                    //input Pens에 있는 현재 값을 가져옴
+                    let penValue = Pens.getAttribute('value');
+                    
+                    penValue = Pen.eraserPen(point, penValue);
+                    Pens.setAttribute('value', penValue);
+
+                    //삭제 선택된 pen을 제외하고 다시 그리기
+                    Pen.createPen(canvas.parentElement, penValue);
+
+                    //PageTitle에 * 표시
+                    Dom.doModifySheet(textContent.closest('.View'));
                 }
             });
 
             view.addEventListener('mousemove', (e) => {
                 if(context == null) return;
                 let mode = document.getElementById('mode').getAttribute('value');
+                let client = document.getElementById('client').getAttribute('value');
 
-                document.getElementById('log').innerHTML += 'mousemove<br />';
+                //document.getElementById('log').innerHTML += 'mousemove<br />';
 
                 let pointX = e.offsetX || e.layerX;
                 let pointY = e.offsetY || e.layerY;
@@ -138,8 +165,9 @@ export default class Event {
 
             view.addEventListener('mouseup', (e) => {
                 let mode = document.getElementById('mode').getAttribute('value');
+                let client = document.getElementById('client').getAttribute('value');
 
-                document.getElementById('log').innerHTML += 'mouseup<br />';
+                //document.getElementById('log').innerHTML += 'mouseup<br />';
 
                 let pointX = e.offsetX || e.layerX;
                 let pointY = e.offsetY || e.layerY;
@@ -161,92 +189,110 @@ export default class Event {
                     context = null;
                     pensDataUpdate(pens, penData);
                     penData = [];
+
+                    //투명도 표시를 위해 다시 그리기
+                    let canvas = e.target;
+                    let penValue = canvas.parentElement.querySelector('input[name=Pens]').getAttribute('value');
+                    Pen.createPen(canvas.parentElement, penValue);
                 }
             });
 
             view.addEventListener('mouseout', (e) => {
                 if(client == 'pc') {
-                    document.getElementById('log').innerHTML += 'mouseout<br />';
+                    //document.getElementById('log').innerHTML += 'mouseout<br />';
                     if(context == null) return;
+
                     context.closePath();
-                    pensDataUpdate(pens, penData);
                     context = null;
+                    pensDataUpdate(pens, penData);
+                    penData = [];
+
+                    //투명도 표시를 위해 다시 그리기
+                    let canvas = e.target;
+                    let penValue = canvas.parentElement.querySelector('input[name=Pens]').getAttribute('value');
+                    Pen.createPen(canvas.parentElement, penValue);
                 }
             });
             
-            view.querySelectorAll('canvas').forEach(function(panel) {
-                panel.addEventListener('touchstart', (e) => {
-                    document.getElementById('log').innerHTML += 'touchstart<br />';
-                    document.getElementById('log').innerHTML += e.touches[0].offsetX+', ';
-                    document.getElementById('log').innerHTML += e.touches[0].offsetX+'///';
+            view.querySelectorAll('canvas').forEach(function(canvas) {
+                canvas.addEventListener('touchstart', (e) => {
+                    let mode = document.getElementById('mode').getAttribute('value');
+
+                    if(mode == 'pen') {                    
+                        e.preventDefault();
+
+                        lineWidth = document.getElementById('lineWidth').getAttribute('value');
+                        strokeStyle = document.getElementById('strokeStyle').getAttribute('value');
+
+                        let touch = e.targetTouches[0];
+                        let canvas = e.target;
+                        let canvasRect = canvas.getBoundingClientRect();
+
+                        let point = {'x':Math.round(touch.clientX - canvasRect.left), 'y': Math.round(touch.clientY - canvasRect.top)};
+                        let client = {'width': canvas.clientWidth, 'height': canvas.clientHeight};
+                        
+                        //input Pens에 있는 현재 값을 가져옴
+                        pens = canvas.parentElement.querySelector('input[name=Pens]');
+                        context = canvas.getContext('2d');
+
+                        context.strokeStyle = strokeStyle;
+                        context.lineCap = 'butt';
+
+                        context.beginPath();
+                        context.lineWidth = lineWidth;
+                        context.moveTo(point.x, point.y);
+                        penData.push(point.x+','+point.y+','+lineWidth);
+                    }
+                });
+
+                canvas.addEventListener('touchmove', (e) => {
+                    let mode = document.getElementById('mode').getAttribute('value');
+
+                    if(mode == 'pen') {
+                        e.preventDefault();
+
+                        let touch = e.targetTouches[0];
+                        let canvas = e.target;
+                        let canvasRect = canvas.getBoundingClientRect();
+
+                        let point = {'x':Math.round(touch.clientX - canvasRect.left), 'y': Math.round(touch.clientY - canvasRect.top)};
+                        let client = {'width': canvas.clientWidth, 'height': canvas.clientHeight};
+                                    
+                        if(point.x > client.width) {point.x = client.width;}
+                        if(point.x < 0) {point.x = 0;}
+
+                        if(point.y > client.height) {point.y = client.height;}
+                        if(point.y < 0) {point.y = 0;}
+
+                        context.lineTo(point.x, point.y);
+                        context.stroke();
+                        penData.push(point.x+','+point.y+','+lineWidth);
+                    }
+                });
+
+                canvas.addEventListener('touchend', (e) => {
+                    let mode = document.getElementById('mode').getAttribute('value');
+
+                    if(mode == 'pen') {
+                        e.preventDefault();
+
+                        if(context == null) return;
+                        context.closePath();
+                        context = null;
+                        pensDataUpdate(pens, penData);
+                        penData = [];
+
+                        //투명도 표시를 위해 다시 그리기
+                        let canvas = e.target;
+                        let penValue = canvas.parentElement.querySelector('input[name=Pens]').getAttribute('value');
+                        Pen.createPen(canvas.parentElement, penValue);
+
+                        //PageTitle에 * 표시
+                        Dom.doModifySheet(textContent.closest('.View'));
+                    }
                 });
             });
-            /*
-            view.addEventListener('touchstart', (e) => {
-                document.getElementById('log').innerHTML += 'touchstart<br />'+e.changedTouches.length+'///';
-                let mode = document.getElementById('mode').getAttribute('value');
 
-                var i;
-                for (i=0; i < e.changedTouches.length; i++) {
-                    document.getElementById('log').innerHTML += ' x='+e.changedTouches[i].pageX;
-                    document.getElementById('log').innerHTML += ' y='+e.changedTouches[i].pageY;
-                }
-
-                
-
-                let pointX = e.offsetX || e.layerX;
-                let pointY = e.offsetY || e.layerY;
-                let point = {'x':pointX, 'y': pointY};
-
-                if(mode == 'pen') {
-                    let canvas = e.target;
-                    //input Pens에 있는 현재 값을 가져옴
-                    pens = canvas.parentElement.querySelector('input[name=Pens]');
-                    context = canvas.getContext('2d');
-
-                    context.strokeStyle = strokeStyle;
-                    context.lineCap = 'butt';
-
-                    context.beginPath();
-                    context.lineWidth = lineWidth;
-                    context.moveTo(point.x, point.y);
-                    penData.push(point.x+','+point.y+','+lineWidth);
-                }
-            });
-
-            view.addEventListener('touchmove', (e) => {
-                document.getElementById('log').innerHTML += 'touchmove<br />';
-                let mode = document.getElementById('mode').getAttribute('value');
-
-                var i;
-                for (i=0; i < e.changedTouches.length; i++) {
-                    document.getElementById('log').innerHTML += ' x='+e.changedTouches[i].pageX;
-                    document.getElementById('log').innerHTML += ' y='+e.changedTouches[i].pageY;
-                }
-
-                if(mode == 'pen') {
-                    let pointX = e.offsetX || e.layerX;
-                    let pointY = e.offsetY || e.layerY;
-                    let point = {'x':pointX, 'y': pointY};
-
-                    context.lineTo(point.x, point.y);
-                    context.stroke();
-                    penData.push(point.x+','+point.y+','+lineWidth);
-                }
-            });
-            view.addEventListener('touchend', (e) => {
-                document.getElementById('log').innerHTML += 'touchend<br />';
-            });
-            view.addEventListener('touchstart', (e) => {
-                document.getElementById('log').innerHTML += 'touchstart<br />';
-            });
-            view.addEventListener('touchcancel', (e) => {
-                document.getElementById('log').innerHTML += 'touchcancel<br />';
-            });
-            view.addEventListener('touchleave', (e) => {
-                document.getElementById('log').innerHTML += 'touchleave<br />';
-            });
-            */
         });
     }
 }
@@ -260,8 +306,6 @@ let pensDataUpdate = (pens, penData) => {
     pensValue += strokeStyle+'|^@^|'+penData.join(':');
 
     pens.setAttribute('value', pensValue);
-
-    console.log(lineWidth, strokeStyle, pensValue, penData);
 };
 
 let flagDataSaveCheck = [];
@@ -279,6 +323,7 @@ let fnDataSaveCheck = () => {
 
             //Data 로딩 및 Dom 생성 끝
             loadingbar.style.display = 'none';
+            document.getElementById('saveComplete').style['display'] = 'block';
         } else {
             setTimeout(exec, 100);
         }
@@ -371,6 +416,8 @@ let scrollMenuAction = (type) => {
             });
             document.querySelector('#scrollMenu #btnPen').classList.add('active');
             document.getElementById('mode').setAttribute('value', 'pen');
+            document.getElementById('lineWidth').setAttribute('value', '1');
+            document.getElementById('strokeStyle').setAttribute('value', 'rgba(0,0,0,1)');
             document.onselectstart = () => {return false};
             break;
         case 'btnEraser':
@@ -385,6 +432,10 @@ let scrollMenuAction = (type) => {
                 elem.classList.remove('active');
             });
             document.querySelector('#scrollMenu #btnHighlighter').classList.add('active');
+            document.getElementById('mode').setAttribute('value', 'pen');
+            document.getElementById('lineWidth').setAttribute('value', '10');
+            document.getElementById('strokeStyle').setAttribute('value', 'rgba(0,0,0,0.5)');
+            document.onselectstart = () => {return false};
             break;
         default: 
             break;
