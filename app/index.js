@@ -11,7 +11,27 @@ let flagLoadDataPage = [];
 let flagLoadDataPanel = [];
 let flagChkLoadDataPagePanel = [];
 
+let flagChkAuth = [];
+
 let loadingbar = document.getElementById('loadingbar');
+
+let fnAuthCheck = () => {
+    let exec = () => {
+        let flagLoadCheck = true; 
+        flagChkAuth.forEach((data) => {
+            if(data == false && flagLoadCheck) {
+                flagLoadCheck = false;
+            }
+        });
+        if(flagLoadCheck) {
+            //이벤트 등록
+            Event.view(document.querySelectorAll('.View'));
+        } else {
+            setTimeout(exec, 100);
+        }
+    }
+    exec();
+}
 
 //fnDataLoad함수 실행에 의해 데이터 로딩이 완료될 때
 let fnPageLoadDataCheck = () => {
@@ -117,8 +137,46 @@ let fnPanelLoadDataCheck = () => {
             //Data 로딩 및 Dom 생성 끝
             loadingbar.style.display = 'none';
 
-            Event.view(document.querySelectorAll('.View'));
+            let arrView = document.querySelectorAll('.View');
 
+            arrView.forEach((view, idx) => {
+                flagChkAuth[idx] = false;
+            });
+            fnAuthCheck();
+            
+            //편집권한 체크하기 Start
+            arrView.forEach((view, idx) => {
+                let hospital = document.querySelector('#searchForm input[name=hospital]').value;
+                let ptno = document.querySelector('#searchForm input[name=ptno]').value;
+                let key = view.querySelector('.Page input[name=Key]').value;
+
+                axios.get('https://on-doc.kr:47627/hospital/signpenChartAuth.php?hospital='+hospital+'&ptno='+ptno+'&seq='+key)
+                .then((response) => {
+                    let key = response.data.data[0].oec_seq;
+                    let permissionView = response.data.data[0].xer_view;
+                    let permissionEdit = response.data.data[0].xer_edit;
+                    
+                    //편집권한 없음
+                    if(permissionEdit == 0) {
+                        arrView.forEach((view, idx) => {
+                            if(key == view.querySelector('.Page input[name=Key]').value) {
+                                view.classList.add('viewProhibit');
+                                Dom.doShowNoPermission(view);
+                            }    
+                        });
+                    }
+
+                    flagChkAuth[idx] = true;
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+            });
+            //편집권한 체크하기 End
+
+            //Event.view(arrView);
+
+            ////////////////////////////////////////////////////////////////////////////////////
             //디비에서 치환할 값 가져와 변환하기
             let arrPanel = document.querySelectorAll('.Panel');
             arrPanel.forEach((panel) => {
@@ -238,15 +296,64 @@ let fnFileLoadDataCheck = () => {
             }
         });
         if(flagLoadCheck) {
-            arrLoadDataFile.forEach((data) => {
+            arrLoadDataFile.forEach((data, index) => {
                 //서식파일 to DOM
                 Dom.sheetToDom(Sheet.load(data.sheet));
+
+                let view = document.querySelectorAll('.View')[index];
+                
+                //다른 사용자 편집중인지 확인후 편집중이면 편집금지
+                let oec_lockyn = data.oec_lockyn;
+                let oec_lockdt = data.oec_lockdt;
+                let oec_loichost = data.oec_loichost;
+
+                if(oec_lockyn == '1') {
+                    view.classList.add('viewProhibit');
+                    Dom.doShowProhibit(view);
+                }
             });
 
             //Data 로딩 및 Dom 생성 끝
             loadingbar.style.display = 'none';
 
-            Event.view(document.querySelectorAll('.View'));
+            let arrView = document.querySelectorAll('.View');
+
+            arrView.forEach((view, idx) => {
+                flagChkAuth[idx] = false;
+            });
+            fnAuthCheck();
+            
+            //편집권한 체크하기 Start
+            arrView.forEach((view, idx) => {
+                let hospital = document.querySelector('#searchForm input[name=hospital]').value;
+                let ptno = document.querySelector('#searchForm input[name=ptno]').value;
+                let key = view.querySelector('.Page input[name=Key]').value;
+
+                axios.get('https://on-doc.kr:47627/hospital/signpenChartAuth.php?hospital='+hospital+'&ptno='+ptno+'&seq='+key)
+                .then((response) => {
+                    let key = response.data.data[0].oec_seq;
+                    let permissionView = response.data.data[0].xer_view;
+                    let permissionEdit = response.data.data[0].xer_edit;
+                    
+                    //편집권한 없음
+                    if(permissionEdit == 0) {
+                        arrView.forEach((view, idx) => {
+                            if(key == view.querySelector('.Page input[name=Key]').value) {
+                                view.classList.add('viewProhibit');
+                                Dom.doShowNoPermission(view);
+                            }    
+                        });
+                    }
+
+                    flagChkAuth[idx] = true;
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+            });
+            //편집권한 체크하기 End
+
+            //Event.view(arrView);
         } else {
             setTimeout(exec, 100);
         }
@@ -258,6 +365,10 @@ let fnFileLoadDataCheck = () => {
 let fnFileDataLoad = () => {
     let arrSeq = document.querySelector('#searchForm input[name=arr_seq]').value;
     let arrSeqSplit = arrSeq.split(',');
+
+    //파일 로딩시 lock걸기 위해 pc의ip를 대체하기 위해 uuid를 가져옴
+    let uuid = document.querySelector('#authForm #uuid').getAttribute('value');
+    document.querySelector('#searchForm #uuid').setAttribute('value', uuid);
 
     //서식파일 로딩 완료여부를 체크하기 위해 flag 세팅
     arrSeqSplit.forEach((id, idx) => {
@@ -273,6 +384,15 @@ let fnFileDataLoad = () => {
 
         axios.get(url + query)
         .then((response) => {
+            if(response.data.status == 500) {
+                document.querySelector('#saveComplete .message').innerHTML = '파일 로딩시 에러가 발생하였습니다.';
+                document.getElementById('saveComplete').style['display'] = 'block';
+                setTimeout(() => {
+                    document.getElementById('saveComplete').style['display'] = 'none';
+                    Dom.doHideModifyMark();
+                }, 2000);
+                return;
+            }
             flagChkLoadDataFile[idx] = true;
             arrLoadDataFile[idx] = response.data.data[0];
         })
@@ -302,5 +422,17 @@ let fnFileDataLoad = () => {
 
 //Event를 등록한다.
 window.onload = function() {
-    Event.scrollMenu(document.getElementById('scrollMenu'));   
+    Event.scrollMenu(document.getElementById('scrollMenu'));
+    Event.colorMenu(document.getElementById('colorMenu'));   
+
+    document.getElementById('scrollMenu').addEventListener('transitionend', function(e) {
+        let scrollMenu = e.target;
+        if(parseInt(scrollMenu.style['top'], 10) == -270) {
+            document.getElementById('btnMenuClose').style['display'] = 'none';
+            document.getElementById('btnMenuOpen').style['display'] = 'block';
+        } else if(parseInt(scrollMenu.style['top'], 10) == 10) {
+            document.getElementById('btnMenuClose').style['display'] = 'block';
+            document.getElementById('btnMenuOpen').style['display'] = 'none';
+        }
+    });
 }

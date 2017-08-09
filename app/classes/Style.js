@@ -145,7 +145,14 @@ export default class Style {
                 ///////////////////////////////////////////////////
                 ////////////////////////////////////////////////////
                 //vertical정렬에 대한 고민중... TODO
-                textContent.style['height'] = '100%';
+                //textContent.style['height'] = '100%';
+            }
+
+            if(element.style['vertical-align'] == 'middle') {
+                //수정 불가능한 라벨형의 vertical-align: middle인 경우 중간 정렬 되도록
+                textContent.style['position'] = 'relative';
+                textContent.style['top'] = '50%';
+                textContent.style['transform'] = 'translateY(-50%)';
             }
             
             element.insertBefore(textContent, element.firstChild);
@@ -154,7 +161,7 @@ export default class Style {
             if(element.style['line-height'] == '') {
                 if(element.style['vertical-align'] == 'middle') {
                     if(parseInt(element.style['height'], 10) <= 30) {
-                        element.style['line-height'] = element.style['height'];
+                        //element.style['line-height'] = element.style['height'];
                     }
                 }
             }

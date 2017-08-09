@@ -59,7 +59,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "ac9d28bfc0b4995ef614"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "7e6809aa71e3afa71494"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
@@ -1539,14 +1539,19 @@ var Dom = function () {
         value: function createSheetAttr(attr) {
             var arrAttr = [];
             attr.forEach(function (data) {
-                arrAttr.push(data.getAttribute('name') + '|^@1@^|' + data.getAttribute('value'));
+                //Pens 데이터 없으면 서식에 내용 생략함(데이터가 없는 경우 Pens 속성이 추가 되어 있으면 PC버전에서 로딩 에러발생)
+                if (data.getAttribute('name') == 'Pens') {
+                    if (data.getAttribute('value') != '') arrAttr.push(data.getAttribute('name') + '|^@1@^|' + data.getAttribute('value'));
+                } else {
+                    arrAttr.push(data.getAttribute('name') + '|^@1@^|' + data.getAttribute('value'));
+                }
             });
 
             return arrAttr.join('|^@2@^|');
         }
     }, {
-        key: 'doModifySheet',
-        value: function doModifySheet(view) {
+        key: 'doShowModifyMark',
+        value: function doShowModifyMark(view) {
             var PageTitle = view.querySelector('.PageTitle');
             var tagModify = PageTitle.querySelector('.tagModify');
             if (tagModify == null) {
@@ -1556,6 +1561,43 @@ var Dom = function () {
 
                 PageTitle.appendChild(span);
             }
+        }
+    }, {
+        key: 'doShowProhibit',
+        value: function doShowProhibit(view) {
+            var PageTitle = view.querySelector('.PageTitle');
+            var tagModify = PageTitle.querySelector('.tagModify');
+            if (tagModify == null) {
+                var span = document.createElement('span');
+                span.classList.add('tagModify');
+                span.innerHTML = ' [편집불가]-다른사용자 편집중';
+
+                PageTitle.appendChild(span);
+            }
+        }
+    }, {
+        key: 'doShowNoPermission',
+        value: function doShowNoPermission(view) {
+            var PageTitle = view.querySelector('.PageTitle');
+            var tagModify = PageTitle.querySelector('.tagModify');
+            if (tagModify == null) {
+                var span = document.createElement('span');
+                span.classList.add('tagModify');
+                span.innerHTML = ' [편집불가]-권한없음';
+
+                PageTitle.appendChild(span);
+            }
+        }
+    }, {
+        key: 'doHideModifyMark',
+        value: function doHideModifyMark() {
+            var arrView = document.querySelectorAll('.View');
+            arrView.forEach(function (view) {
+                var PageTitle = view.querySelector('.PageTitle');
+                var tagModify = view.querySelector('.PageTitle .tagModify');
+
+                if (tagModify != null) PageTitle.removeChild(tagModify);
+            });
         }
     }]);
 
@@ -2157,7 +2199,27 @@ var flagLoadDataPage = [];
 var flagLoadDataPanel = [];
 var flagChkLoadDataPagePanel = [];
 
+var flagChkAuth = [];
+
 var loadingbar = document.getElementById('loadingbar');
+
+var fnAuthCheck = function fnAuthCheck() {
+    var exec = function exec() {
+        var flagLoadCheck = true;
+        flagChkAuth.forEach(function (data) {
+            if (data == false && flagLoadCheck) {
+                flagLoadCheck = false;
+            }
+        });
+        if (flagLoadCheck) {
+            //이벤트 등록
+            __WEBPACK_IMPORTED_MODULE_2__classes_Event__["a" /* default */].view(document.querySelectorAll('.View'));
+        } else {
+            setTimeout(exec, 100);
+        }
+    };
+    exec();
+};
 
 //fnDataLoad함수 실행에 의해 데이터 로딩이 완료될 때
 var fnPageLoadDataCheck = function fnPageLoadDataCheck() {
@@ -2261,8 +2323,44 @@ var fnPanelLoadDataCheck = function fnPanelLoadDataCheck() {
             //Data 로딩 및 Dom 생성 끝
             loadingbar.style.display = 'none';
 
-            __WEBPACK_IMPORTED_MODULE_2__classes_Event__["a" /* default */].view(document.querySelectorAll('.View'));
+            var arrView = document.querySelectorAll('.View');
 
+            arrView.forEach(function (view, idx) {
+                flagChkAuth[idx] = false;
+            });
+            fnAuthCheck();
+
+            //편집권한 체크하기 Start
+            arrView.forEach(function (view, idx) {
+                var hospital = document.querySelector('#searchForm input[name=hospital]').value;
+                var ptno = document.querySelector('#searchForm input[name=ptno]').value;
+                var key = view.querySelector('.Page input[name=Key]').value;
+
+                __WEBPACK_IMPORTED_MODULE_4_axios___default.a.get('https://on-doc.kr:47627/hospital/signpenChartAuth.php?hospital=' + hospital + '&ptno=' + ptno + '&seq=' + key).then(function (response) {
+                    var key = response.data.data[0].oec_seq;
+                    var permissionView = response.data.data[0].xer_view;
+                    var permissionEdit = response.data.data[0].xer_edit;
+
+                    //편집권한 없음
+                    if (permissionEdit == 0) {
+                        arrView.forEach(function (view, idx) {
+                            if (key == view.querySelector('.Page input[name=Key]').value) {
+                                view.classList.add('viewProhibit');
+                                __WEBPACK_IMPORTED_MODULE_1__classes_Dom__["a" /* default */].doShowNoPermission(view);
+                            }
+                        });
+                    }
+
+                    flagChkAuth[idx] = true;
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            });
+            //편집권한 체크하기 End
+
+            //Event.view(arrView);
+
+            ////////////////////////////////////////////////////////////////////////////////////
             //디비에서 치환할 값 가져와 변환하기
             var arrPanel = document.querySelectorAll('.Panel');
             arrPanel.forEach(function (panel) {
@@ -2377,15 +2475,62 @@ var fnFileLoadDataCheck = function fnFileLoadDataCheck() {
             }
         });
         if (flagLoadCheck) {
-            arrLoadDataFile.forEach(function (data) {
+            arrLoadDataFile.forEach(function (data, index) {
                 //서식파일 to DOM
                 __WEBPACK_IMPORTED_MODULE_1__classes_Dom__["a" /* default */].sheetToDom(__WEBPACK_IMPORTED_MODULE_0__classes_Sheet__["a" /* default */].load(data.sheet));
+
+                var view = document.querySelectorAll('.View')[index];
+
+                //다른 사용자 편집중인지 확인후 편집중이면 편집금지
+                var oec_lockyn = data.oec_lockyn;
+                var oec_lockdt = data.oec_lockdt;
+                var oec_loichost = data.oec_loichost;
+
+                if (oec_lockyn == '1') {
+                    view.classList.add('viewProhibit');
+                    __WEBPACK_IMPORTED_MODULE_1__classes_Dom__["a" /* default */].doShowProhibit(view);
+                }
             });
 
             //Data 로딩 및 Dom 생성 끝
             loadingbar.style.display = 'none';
 
-            __WEBPACK_IMPORTED_MODULE_2__classes_Event__["a" /* default */].view(document.querySelectorAll('.View'));
+            var arrView = document.querySelectorAll('.View');
+
+            arrView.forEach(function (view, idx) {
+                flagChkAuth[idx] = false;
+            });
+            fnAuthCheck();
+
+            //편집권한 체크하기 Start
+            arrView.forEach(function (view, idx) {
+                var hospital = document.querySelector('#searchForm input[name=hospital]').value;
+                var ptno = document.querySelector('#searchForm input[name=ptno]').value;
+                var key = view.querySelector('.Page input[name=Key]').value;
+
+                __WEBPACK_IMPORTED_MODULE_4_axios___default.a.get('https://on-doc.kr:47627/hospital/signpenChartAuth.php?hospital=' + hospital + '&ptno=' + ptno + '&seq=' + key).then(function (response) {
+                    var key = response.data.data[0].oec_seq;
+                    var permissionView = response.data.data[0].xer_view;
+                    var permissionEdit = response.data.data[0].xer_edit;
+
+                    //편집권한 없음
+                    if (permissionEdit == 0) {
+                        arrView.forEach(function (view, idx) {
+                            if (key == view.querySelector('.Page input[name=Key]').value) {
+                                view.classList.add('viewProhibit');
+                                __WEBPACK_IMPORTED_MODULE_1__classes_Dom__["a" /* default */].doShowNoPermission(view);
+                            }
+                        });
+                    }
+
+                    flagChkAuth[idx] = true;
+                }).catch(function (error) {
+                    console.log(error);
+                });
+            });
+            //편집권한 체크하기 End
+
+            //Event.view(arrView);
         } else {
             setTimeout(exec, 100);
         }
@@ -2397,6 +2542,10 @@ var fnFileLoadDataCheck = function fnFileLoadDataCheck() {
 var fnFileDataLoad = function fnFileDataLoad() {
     var arrSeq = document.querySelector('#searchForm input[name=arr_seq]').value;
     var arrSeqSplit = arrSeq.split(',');
+
+    //파일 로딩시 lock걸기 위해 pc의ip를 대체하기 위해 uuid를 가져옴
+    var uuid = document.querySelector('#authForm #uuid').getAttribute('value');
+    document.querySelector('#searchForm #uuid').setAttribute('value', uuid);
 
     //서식파일 로딩 완료여부를 체크하기 위해 flag 세팅
     arrSeqSplit.forEach(function (id, idx) {
@@ -2411,6 +2560,15 @@ var fnFileDataLoad = function fnFileDataLoad() {
         var query = __WEBPACK_IMPORTED_MODULE_3_form_serialize___default()(document.getElementById('searchForm'));
 
         __WEBPACK_IMPORTED_MODULE_4_axios___default.a.get(url + query).then(function (response) {
+            if (response.data.status == 500) {
+                document.querySelector('#saveComplete .message').innerHTML = '파일 로딩시 에러가 발생하였습니다.';
+                document.getElementById('saveComplete').style['display'] = 'block';
+                setTimeout(function () {
+                    document.getElementById('saveComplete').style['display'] = 'none';
+                    __WEBPACK_IMPORTED_MODULE_1__classes_Dom__["a" /* default */].doHideModifyMark();
+                }, 2000);
+                return;
+            }
             flagChkLoadDataFile[idx] = true;
             arrLoadDataFile[idx] = response.data.data[0];
         }).catch(function (error) {
@@ -2439,6 +2597,18 @@ var fnFileDataLoad = function fnFileDataLoad() {
 //Event를 등록한다.
 window.onload = function () {
     __WEBPACK_IMPORTED_MODULE_2__classes_Event__["a" /* default */].scrollMenu(document.getElementById('scrollMenu'));
+    __WEBPACK_IMPORTED_MODULE_2__classes_Event__["a" /* default */].colorMenu(document.getElementById('colorMenu'));
+
+    document.getElementById('scrollMenu').addEventListener('transitionend', function (e) {
+        var scrollMenu = e.target;
+        if (parseInt(scrollMenu.style['top'], 10) == -270) {
+            document.getElementById('btnMenuClose').style['display'] = 'none';
+            document.getElementById('btnMenuOpen').style['display'] = 'block';
+        } else if (parseInt(scrollMenu.style['top'], 10) == 10) {
+            document.getElementById('btnMenuClose').style['display'] = 'block';
+            document.getElementById('btnMenuOpen').style['display'] = 'none';
+        }
+    });
 };
 
 /***/ }),
@@ -3315,6 +3485,13 @@ var Event = function () {
             });
         }
     }, {
+        key: 'colorMenu',
+        value: function colorMenu(elem) {
+            elem.addEventListener('click', function (e) {
+                colorMenuAction(e.target, e.target.id);
+            });
+        }
+    }, {
         key: 'view',
         value: function view(elem) {
             var context = null;
@@ -3349,6 +3526,9 @@ var Event = function () {
             //panel에 canvas 생성 및 이동
 
             elem.forEach(function (view) {
+                //락이 걸려 있는 View는 이벤트 등록 안함
+                if (view.classList.contains('viewProhibit')) return;
+
                 //textContent에서 글씨 수정 후 input Text에 적용
                 view.addEventListener('focusout', function (e) {
                     var textContent = e.target;
@@ -3374,7 +3554,7 @@ var Event = function () {
                     textContent.parentElement.style['z-index'] = '0';
 
                     //PageTitle에 * 표시
-                    __WEBPACK_IMPORTED_MODULE_0__Dom__["a" /* default */].doModifySheet(textContent.closest('.View'));
+                    __WEBPACK_IMPORTED_MODULE_0__Dom__["a" /* default */].doShowModifyMark(textContent.closest('.View'));
                 });
 
                 view.addEventListener('mousedown', function (e) {
@@ -3382,6 +3562,13 @@ var Event = function () {
                     var client = document.getElementById('client').getAttribute('value');
 
                     //document.getElementById('log').innerHTML += 'mousedown<br />';
+                    //선택된 서식 배경색 변경
+                    var viewActive = document.querySelector('.viewActive');
+                    if (viewActive) viewActive.classList.remove('viewActive');
+
+                    var view = e.target.closest('.View');
+                    view.classList.add('viewActive');
+                    //선택된 서식 배경색 변경
 
                     var selectedItem = null;
                     var pointX = e.offsetX || e.layerX;
@@ -3403,21 +3590,40 @@ var Event = function () {
                             }
                         });
 
+                        if (selectedItem == null) return;
+
                         var style = selectedItem.querySelector('input[name=Style]').value;
                         var edit = selectedItem.querySelector('input[name=Edit]').value;
                         //체크박스 선택
                         if (edit == 'true' && style == '2') {
                             if (!selectedItem.querySelector('.textContent input').checked) {
+                                //체크그룹 체크해제하기
+                                var CheckGroupVal = selectedItem.querySelector('input[name=CheckGroup]').getAttribute('value');
+                                if (CheckGroupVal != '') {
+                                    var Panel = selectedItem.closest('.Panel');
+                                    var arrCheckbox = Panel.querySelectorAll('.checkbox');
 
+                                    arrCheckbox.forEach(function (checkbox) {
+                                        var CheckGroup = checkbox.querySelector('input[name=CheckGroup]').getAttribute('value');
+                                        if (CheckGroup == CheckGroupVal) {
+                                            checkbox.querySelector('.textContent input').checked = false;
+                                            checkbox.querySelector('input[name=Checked]').setAttribute('value', 'false');
+                                        }
+                                    });
+                                }
+                                //체크그룹 체크해제하기
+
+                                //체크하기
                                 selectedItem.querySelector('.textContent input').checked = true;
                                 selectedItem.querySelector('input[name=Checked]').setAttribute('value', 'true');
                             } else {
+                                //체크취소
                                 selectedItem.querySelector('.textContent input').checked = false;
                                 selectedItem.querySelector('input[name=Checked]').setAttribute('value', 'false');
                             }
 
                             //PageTitle에 * 표시
-                            __WEBPACK_IMPORTED_MODULE_0__Dom__["a" /* default */].doModifySheet(textContent.closest('.View'));
+                            __WEBPACK_IMPORTED_MODULE_0__Dom__["a" /* default */].doShowModifyMark(e.target.closest('.View'));
                         }
                         //text 선택
                         if (edit == 'true' && style == '1') {
@@ -3425,7 +3631,9 @@ var Event = function () {
                         }
                     } else if (mode == 'pen' && client == 'pc') {
                         lineWidth = document.getElementById('lineWidth').getAttribute('value');
-                        strokeStyle = document.getElementById('strokeStyle').getAttribute('value');
+                        var strokeBorder = document.getElementById('strokeBorder').getAttribute('value');
+                        var strokeColor = document.getElementById('strokeColor').getAttribute('value');
+                        strokeStyle = 'rgba(' + strokeColor + ', ' + strokeBorder + ')';
 
                         var canvas = e.target;
                         //input Pens에 있는 현재 값을 가져옴
@@ -3440,6 +3648,9 @@ var Event = function () {
 
                         context.moveTo(point.x, point.y);
                         penData.push(point.x + ',' + point.y + ',' + lineWidth);
+
+                        //PageTitle에 * 표시
+                        __WEBPACK_IMPORTED_MODULE_0__Dom__["a" /* default */].doShowModifyMark(canvas.closest('.View'));
                     } else if (mode == 'eraser') {
                         var _canvas2 = e.target;
 
@@ -3454,7 +3665,7 @@ var Event = function () {
                         __WEBPACK_IMPORTED_MODULE_1__Pen__["a" /* default */].createPen(_canvas2.parentElement, penValue);
 
                         //PageTitle에 * 표시
-                        __WEBPACK_IMPORTED_MODULE_0__Dom__["a" /* default */].doModifySheet(textContent.closest('.View'));
+                        __WEBPACK_IMPORTED_MODULE_0__Dom__["a" /* default */].doShowModifyMark(_canvas2.closest('.View'));
                     }
                 });
 
@@ -3495,6 +3706,9 @@ var Event = function () {
                             selectedItem = selectedItem.querySelector('.textContent');
                         }
                         selectedItem.focus();
+
+                        //Set Cursor at the End of a ContentEditable
+                        setEndOfContenteditable(selectedItem);
                     } else if (mode == 'pen' && client == 'pc') {
                         if (context == null) return;
 
@@ -3531,11 +3745,21 @@ var Event = function () {
                     canvas.addEventListener('touchstart', function (e) {
                         var mode = document.getElementById('mode').getAttribute('value');
 
+                        //선택된 서식 배경색 변경
+                        var viewActive = document.querySelector('.viewActive');
+                        if (viewActive) viewActive.classList.remove('viewActive');
+
+                        var view = e.target.closest('.View');
+                        view.classList.add('viewActive');
+                        //선택된 서식 배경색 변경
+
                         if (mode == 'pen') {
                             e.preventDefault();
 
                             lineWidth = document.getElementById('lineWidth').getAttribute('value');
-                            strokeStyle = document.getElementById('strokeStyle').getAttribute('value');
+                            var strokeBorder = document.getElementById('strokeBorder').getAttribute('value');
+                            var strokeColor = document.getElementById('strokeColor').getAttribute('value');
+                            strokeStyle = 'rgba(' + strokeColor + ', ' + strokeBorder + ')';
 
                             var touch = e.targetTouches[0];
                             var _canvas3 = e.target;
@@ -3555,6 +3779,9 @@ var Event = function () {
                             context.lineWidth = lineWidth;
                             context.moveTo(point.x, point.y);
                             penData.push(point.x + ',' + point.y + ',' + lineWidth);
+
+                            //PageTitle에 * 표시
+                            __WEBPACK_IMPORTED_MODULE_0__Dom__["a" /* default */].doShowModifyMark(_canvas3.closest('.View'));
                         }
                     });
 
@@ -3609,7 +3836,7 @@ var Event = function () {
                             __WEBPACK_IMPORTED_MODULE_1__Pen__["a" /* default */].createPen(_canvas5.parentElement, penValue);
 
                             //PageTitle에 * 표시
-                            __WEBPACK_IMPORTED_MODULE_0__Dom__["a" /* default */].doModifySheet(textContent.closest('.View'));
+                            __WEBPACK_IMPORTED_MODULE_0__Dom__["a" /* default */].doShowModifyMark(textContent.closest('.View'));
                         }
                     });
                 });
@@ -3626,7 +3853,9 @@ var Event = function () {
 var pensDataUpdate = function pensDataUpdate(pens, penData) {
     var pensValue = pens.getAttribute('value');
     var lineWidth = document.getElementById('lineWidth').getAttribute('value');
-    var strokeStyle = document.getElementById('strokeStyle').getAttribute('value');
+    var strokeBorder = document.getElementById('strokeBorder').getAttribute('value');
+    var strokeColor = document.getElementById('strokeColor').getAttribute('value');
+    var strokeStyle = 'rgba(' + strokeColor + ', ' + strokeBorder + ')';
 
     if (pensValue != '') pensValue += '|^@@^|';
     pensValue += strokeStyle + '|^@^|' + penData.join(':');
@@ -3649,6 +3878,33 @@ var fnDataSaveCheck = function fnDataSaveCheck() {
 
             //Data 로딩 및 Dom 생성 끝
             loadingbar.style.display = 'none';
+
+            //완료 메시지 나타남
+            document.querySelector('#saveComplete .message').innerHTML = '저장이 완료되었습니다.';
+            document.getElementById('saveComplete').style['display'] = 'block';
+            setTimeout(function () {
+                //완료 메시지 사라짐
+                document.getElementById('saveComplete').style['display'] = 'none';
+
+                var client = document.getElementById('client').value;
+
+                if (client == 'mobile') {
+                    var type = document.querySelector('#searchForm input[name=type]').value;
+                    var ptno = document.querySelector('#searchForm input[name=ptno]').value;
+                    var inout = document.querySelector('#searchForm input[name=inout]').value;
+                    var date = document.getElementById('date').value;
+
+                    if (type == 'new') {
+                        //신규 동의서
+                        location.href = '/chart/signpenOldChart.php?ptno=' + ptno + '&inout=' + inout;
+                    } else if (type == 'old') {
+                        //기존 동의서
+                        location.href = '/chart/signpenOldChart.php?ptno=' + ptno + '&inout=' + inout + '&date=' + date;
+                    }
+                } else if (client == 'pc') {
+                    __WEBPACK_IMPORTED_MODULE_0__Dom__["a" /* default */].doHideModifyMark();
+                }
+            }, 1000);
         } else {
             setTimeout(exec, 100);
         }
@@ -3658,20 +3914,62 @@ var fnDataSaveCheck = function fnDataSaveCheck() {
 
 //scrollMenu 이벤트
 var scrollMenuAction = function scrollMenuAction(type) {
+    var colorMenu = document.getElementById('colorMenu');
+
+    if (type == 'btnPen' || type == 'btnHighlighter') {
+        colorMenu.style['opacity'] = 1;
+    } else if (type == 'btnSave' || type == 'btnEraser' || type == 'btnEdit') {
+
+        colorMenu.style['opacity'] = 0;
+    }
+
     switch (type) {
+        case 'btnUndo':
+            //이전화면으로
+            window.history.back();
+            break;
         case 'btnSave':
             //저장
+            //저장중이면 stop
+            if (loadingbar.style.display == 'block') return;
+
             var strType = document.querySelector('#searchForm input[name=type]').value;
             var url = '';
             if (strType == 'new') url = 'https://on-doc.kr:47627/hospital/signpenChartEmrSave.php';else if (strType == 'old') url = 'https://on-doc.kr:47627/hospital/signpenChartOldEmrSave.php';
 
             var arrView = document.querySelectorAll('.View');
+            var arrSaveView = [];
 
-            arrView.forEach(function (view, idx) {
+            /*
+            if(strType == 'new') {
+                arrSaveView = arrView;
+            } else if(strType == 'old') {
+                arrView.forEach((view) => {
+                    if(view.querySelector('.PageTitle .tagModify') != null) arrSaveView.push(view);
+                });
+            }
+            */
+
+            arrView.forEach(function (view) {
+                if (view.querySelector('.PageTitle .tagModify') != null) arrSaveView.push(view);
+            });
+
+            //if(strType == 'old' && arrSaveView.length == 0) {
+            if (arrSaveView.length == 0) {
+                //수정한 내역이 없으면 저장하지 않음
+                document.querySelector('#saveComplete .message').innerHTML = '수정한 내역이 없습니다.<br />수정후 저장하세요.';
+                document.getElementById('saveComplete').style['display'] = 'block';
+                setTimeout(function () {
+                    document.getElementById('saveComplete').style['display'] = 'none';
+                }, 2000);
+                return;
+            }
+
+            arrSaveView.forEach(function (view, idx) {
                 flagDataSaveCheck[idx] = false;
             });
             fnDataSaveCheck();
-            arrView.forEach(function (view, idx) {
+            arrSaveView.forEach(function (view, idx) {
                 //Dom을 서식데이터로 변환
                 document.querySelector('#searchForm input[name=sheet]').value = __WEBPACK_IMPORTED_MODULE_0__Dom__["a" /* default */].domToSheet(view);
                 document.querySelector('#searchForm input[name=key]').value = view.querySelector('input[name=Key]').value;
@@ -3686,7 +3984,6 @@ var scrollMenuAction = function scrollMenuAction(type) {
                     url: url,
                     data: query
                 }).then(function (response) {
-                    //console.log(response.data);
                     flagDataSaveCheck[idx] = true;
                 }).catch(function (error) {
                     console.log(error);
@@ -3694,38 +3991,32 @@ var scrollMenuAction = function scrollMenuAction(type) {
             });
 
             break;
-        case 'btnFixed':
-            //고정
-            if (document.querySelector('html').classList.contains('notouch')) {
+        /*
+        case 'btnFixed': //고정
+            if(document.querySelector('html').classList.contains('notouch')) {
                 //고정 취소
-                var marginTop = -1 * parseInt(document.querySelector('#contentWrap').style['margin-top']);
-                var marginLeft = -1 * parseInt(document.querySelector('#contentWrap').style['margin-left']);
-
-                document.querySelector('#contentWrap').style['margin-top'] = 0;
+                let marginTop = -1 * parseInt(document.querySelector('#contentWrap').style['margin-top']);
+                let marginLeft = -1 * parseInt(document.querySelector('#contentWrap').style['margin-left']);
+                  document.querySelector('#contentWrap').style['margin-top'] = 0
                 document.querySelector('#contentWrap').style['margin-left'] = 0;
-
-                //잠시 여유를 줘야 고정이 정상 작동함
-                setTimeout(function () {}, 1000);
-
-                document.querySelector('html').classList.remove('notouch');
+                  //잠시 여유를 줘야 고정이 정상 작동함
+                setTimeout(() => {}, 1000);
+                  document.querySelector('html').classList.remove('notouch');
                 document.querySelector('body').classList.remove('notouch');
-
-                document.querySelector('body').scrollTop = marginTop;
+                  document.querySelector('body').scrollTop = marginTop;
                 document.querySelector('body').scrollLeft = marginLeft;
-
-                document.querySelector('#btnFixed').classList.remove('scrollMenuFixed');
+                  document.querySelector('#btnFixed').classList.remove('scrollMenuFixed');
             } else {
                 //고정 하기
-
+                
                 document.querySelector('#contentWrap').style['margin-top'] = -1 * Number(document.querySelector('body').scrollTop) + 'px';
                 document.querySelector('#contentWrap').style['margin-left'] = -1 * Number(document.querySelector('body').scrollLeft) + 'px';
-
-                document.querySelector('html').classList.add('notouch');
+                  document.querySelector('html').classList.add('notouch');
                 document.querySelector('body').classList.add('notouch');
-
-                document.querySelector('#btnFixed').classList.add('scrollMenuFixed');
+                  document.querySelector('#btnFixed').classList.add('scrollMenuFixed');
             }
             break;
+        */
         case 'btnEdit':
             document.querySelectorAll('#scrollMenu .edit').forEach(function (elem) {
                 elem.classList.remove('active');
@@ -3743,7 +4034,19 @@ var scrollMenuAction = function scrollMenuAction(type) {
             document.querySelector('#scrollMenu #btnPen').classList.add('active');
             document.getElementById('mode').setAttribute('value', 'pen');
             document.getElementById('lineWidth').setAttribute('value', '1');
-            document.getElementById('strokeStyle').setAttribute('value', 'rgba(0,0,0,1)');
+            document.getElementById('strokeBorder').setAttribute('value', '1');
+            document.onselectstart = function () {
+                return false;
+            };
+            break;
+        case 'btnHighlighter':
+            document.querySelectorAll('#scrollMenu .edit').forEach(function (elem) {
+                elem.classList.remove('active');
+            });
+            document.querySelector('#scrollMenu #btnHighlighter').classList.add('active');
+            document.getElementById('mode').setAttribute('value', 'pen');
+            document.getElementById('lineWidth').setAttribute('value', '15');
+            document.getElementById('strokeBorder').setAttribute('value', '0.5');
             document.onselectstart = function () {
                 return false;
             };
@@ -3755,21 +4058,64 @@ var scrollMenuAction = function scrollMenuAction(type) {
             document.querySelector('#scrollMenu #btnEraser').classList.add('active');
             document.getElementById('mode').setAttribute('value', 'eraser');
             break;
-        case 'btnHighlighter':
-            document.querySelectorAll('#scrollMenu .edit').forEach(function (elem) {
-                elem.classList.remove('active');
-            });
-            document.querySelector('#scrollMenu #btnHighlighter').classList.add('active');
-            document.getElementById('mode').setAttribute('value', 'pen');
-            document.getElementById('lineWidth').setAttribute('value', '10');
-            document.getElementById('strokeStyle').setAttribute('value', 'rgba(0,0,0,0.5)');
-            document.onselectstart = function () {
-                return false;
-            };
+        case 'btnMenuClose':
+            document.getElementById('scrollMenu').style['top'] = '-270px';
+            break;
+        case 'btnMenuOpen':
+            document.getElementById('scrollMenu').style['top'] = '10px';
             break;
         default:
             break;
     }
+};
+
+//colorMenu 이벤트
+var colorMenuAction = function colorMenuAction(target, type) {
+    switch (type) {
+        case 'cmBlack':
+            document.getElementById('strokeColor').setAttribute('value', '0,0,0');
+            colorMenuUnSelected(target);
+            break;
+        case 'cmBlue':
+            document.getElementById('strokeColor').setAttribute('value', '2,136,209');
+            colorMenuUnSelected(target);
+            break;
+        case 'cmRed':
+            document.getElementById('strokeColor').setAttribute('value', '198,40,40');
+            colorMenuUnSelected(target);
+            break;
+        case 'cmGreen':
+            document.getElementById('strokeColor').setAttribute('value', '56,142,60');
+            colorMenuUnSelected(target);
+            break;
+        case 'cmOrange':
+            document.getElementById('strokeColor').setAttribute('value', '239,108,0');
+            colorMenuUnSelected(target);
+            break;
+        default:
+            break;
+    }
+};
+
+var colorMenuUnSelected = function colorMenuUnSelected(menu) {
+    document.querySelectorAll('#colorMenu div').forEach(function (elem) {
+
+        elem.style['opacity'] = '0.5';
+    });
+
+    menu.style['opacity'] = '1';
+};
+
+//contentEditable 커서 맨 뒤로 이동하도록
+var setEndOfContenteditable = function setEndOfContenteditable(contentEditableElement) {
+    var range, selection;
+
+    range = document.createRange(); //Create a range (a range is a like the selection but invisible)
+    range.selectNodeContents(contentEditableElement); //Select the entire contents of the element with the range
+    range.collapse(false); //collapse the range to the end point. false means collapse to end rather than the start
+    selection = window.getSelection(); //get the selection object (allows you to change selection)
+    selection.removeAllRanges(); //remove any selections already made
+    selection.addRange(range); //make the range you have just created the visible selection
 };
 
 /***/ }),
@@ -4011,7 +4357,14 @@ var Style = function () {
                     ///////////////////////////////////////////////////
                     ////////////////////////////////////////////////////
                     //vertical정렬에 대한 고민중... TODO
-                    textContent.style['height'] = '100%';
+                    //textContent.style['height'] = '100%';
+                }
+
+                if (element.style['vertical-align'] == 'middle') {
+                    //수정 불가능한 라벨형의 vertical-align: middle인 경우 중간 정렬 되도록
+                    textContent.style['position'] = 'relative';
+                    textContent.style['top'] = '50%';
+                    textContent.style['transform'] = 'translateY(-50%)';
                 }
 
                 element.insertBefore(textContent, element.firstChild);
@@ -4020,7 +4373,7 @@ var Style = function () {
                 if (element.style['line-height'] == '') {
                     if (element.style['vertical-align'] == 'middle') {
                         if (parseInt(element.style['height'], 10) <= 30) {
-                            element.style['line-height'] = element.style['height'];
+                            //element.style['line-height'] = element.style['height'];
                         }
                     }
                 }

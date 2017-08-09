@@ -57,6 +57,10 @@
     letter-spacing: -0.4px;
 }
 
+.textContent label, .textContent input {
+    vertical-align: middle;
+}
+
 #scrollMenu button {
     cursor: pointer;
 }
@@ -71,6 +75,11 @@ html.notouch, body.notouch {
     position: fixed;
     top: 10px;
     right: 10px;
+    transition: top 0.5s ease-out;
+}
+
+#scrollMenu #btnMenuOpen {
+    display: none;
 }
 
 #scrollMenu ul li {
@@ -84,7 +93,7 @@ html.notouch, body.notouch {
     height: 2.5rem;
     font-size: 0.7rem;
     border: 1px solid #000;
-    border-radius: 100%;
+    border-radius: 30%;
 }
 
 #loadingbar {
@@ -116,8 +125,18 @@ html.notouch, body.notouch {
 
 button:focus {outline: none;}
 
+#scrollMenu {z-index:999999;}
 #scrollMenu .scrollMenuFixed {background-color: #fb8c00 !important; color: #fff !important;}
-#scrollMenu .active {background-color: #039be5 !important; color: #fff !important;}
+#scrollMenu .active {
+    background-color: #039be5 !important; color: #fff !important;
+    transition: background-color 1s;
+}
+#scrollMenu #btnSave {
+    margin: 0.5rem 0;
+}
+#scrollMenu .material-icons {
+    padding: 0.3rem 0;
+}
 
 #saveComplete {
     display: none;
@@ -126,16 +145,69 @@ button:focus {outline: none;}
     top: 0rem;
     width: 100%;
     height: 100%;
-    transition: opacity .15s linear
 }
 
 #saveComplete .message {
     position: absolute;
-    padding: 3rem;
+    padding: 1rem;
     background-color: #fff;
-    border-radius: 1rem;
+    border-radius: 0.5rem;
     border: 1px solid #ccc;
+    width: 80%;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    text-align: center;
+    line-height: 1.2rem;
+}
+
+.text-center {text-align: center;}
+
+#colorMenu {
+    margin-top: 0.5em;
+    opacity: 0;
+    text-align: center;
+    transition: opacity 0.5s ease-out;
+}
+
+#colorMenu div {
+    margin: 0.2rem 0;
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 0;
+    border-radius: 50%;
+}
+
+#colorMenu #cmBlack {
+    background-color: #000000;
+}
+
+#colorMenu #cmBlue {
+    background-color: #0288d1;
+    opacity: 0.5;
+}
+
+#colorMenu #cmRed {
+    background-color: #c62828;
+    opacity: 0.5;
+}
+
+#colorMenu #cmGreen {
+    background-color: #388e3c;
+    opacity: 0.5;
+}
+
+#colorMenu #cmOrange {
+    background-color: #ef6c00;
+    opacity: 0.5;
+}
+
+.viewActive {
+    background-color: #039be5 !important;
+    color: #fff;
+}
+
+.viewProhibit {
+    background-color: #c62828 !important;
+    color: #fff;
 }

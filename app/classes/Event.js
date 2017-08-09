@@ -12,6 +12,12 @@ export default class Event {
         });
     }
 
+    static colorMenu(elem) {
+        elem.addEventListener('click', (e) => {
+            colorMenuAction(e.target, e.target.id);
+        });
+    }
+
     static view(elem) {
         let context = null;
         let penData = [];
@@ -45,6 +51,9 @@ export default class Event {
         //panel에 canvas 생성 및 이동
 
         elem.forEach(function(view) {
+            //락이 걸려 있는 View는 이벤트 등록 안함
+            if(view.classList.contains('viewProhibit')) return;
+
             //textContent에서 글씨 수정 후 input Text에 적용
             view.addEventListener('focusout', (e) => {
                 let textContent = e.target;
@@ -60,7 +69,7 @@ export default class Event {
                 textContent.parentElement.style['z-index'] = '0';
                 
                 //PageTitle에 * 표시
-                Dom.doModifySheet(textContent.closest('.View'));
+                Dom.doShowModifyMark(textContent.closest('.View'));
             });
 
             view.addEventListener('mousedown', (e) => {
@@ -68,6 +77,13 @@ export default class Event {
                 let client = document.getElementById('client').getAttribute('value');
 
                 //document.getElementById('log').innerHTML += 'mousedown<br />';
+                //선택된 서식 배경색 변경
+                let viewActive = document.querySelector('.viewActive');
+                if(viewActive) viewActive.classList.remove('viewActive');
+
+                let view = e.target.closest('.View');
+                view.classList.add('viewActive');
+                //선택된 서식 배경색 변경
                 
                 let selectedItem = null;
                 let pointX = e.offsetX || e.layerX;
@@ -89,21 +105,40 @@ export default class Event {
                         }
                     });
 
+                    if(selectedItem == null) return;
+
                     let style = selectedItem.querySelector('input[name=Style]').value;
                     let edit = selectedItem.querySelector('input[name=Edit]').value;
                     //체크박스 선택
                     if(edit == 'true' && style == '2') {
                         if(!selectedItem.querySelector('.textContent input').checked) {
+                            //체크그룹 체크해제하기
+                            let CheckGroupVal = selectedItem.querySelector('input[name=CheckGroup]').getAttribute('value');
+                            if(CheckGroupVal != '') {
+                                let Panel = selectedItem.closest('.Panel');
+                                let arrCheckbox = Panel.querySelectorAll('.checkbox');
 
+                                arrCheckbox.forEach((checkbox) => {
+                                let CheckGroup = checkbox.querySelector('input[name=CheckGroup]').getAttribute('value');
+                                if(CheckGroup == CheckGroupVal) {
+                                    checkbox.querySelector('.textContent input').checked = false;
+                                    checkbox.querySelector('input[name=Checked]').setAttribute('value', 'false'); 
+                                }
+                                });
+                            }
+                            //체크그룹 체크해제하기
+
+                            //체크하기
                             selectedItem.querySelector('.textContent input').checked = true;
                             selectedItem.querySelector('input[name=Checked]').setAttribute('value', 'true');    
                         } else {
+                            //체크취소
                             selectedItem.querySelector('.textContent input').checked = false;
                             selectedItem.querySelector('input[name=Checked]').setAttribute('value', 'false');
                         }
 
                         //PageTitle에 * 표시
-                        Dom.doModifySheet(textContent.closest('.View'));
+                        Dom.doShowModifyMark(e.target.closest('.View'));
                     }
                     //text 선택
                     if(edit == 'true' && style == '1') {
@@ -111,7 +146,9 @@ export default class Event {
                     }
                 } else if(mode =='pen' && client == 'pc') {
                     lineWidth = document.getElementById('lineWidth').getAttribute('value');
-                    strokeStyle = document.getElementById('strokeStyle').getAttribute('value');
+                    let strokeBorder = document.getElementById('strokeBorder').getAttribute('value');
+                    let strokeColor = document.getElementById('strokeColor').getAttribute('value');
+                    strokeStyle = 'rgba('+strokeColor+', '+strokeBorder+')';
 
                     let canvas = e.target;
                     //input Pens에 있는 현재 값을 가져옴
@@ -126,6 +163,9 @@ export default class Event {
 
                     context.moveTo(point.x, point.y);
                     penData.push(point.x+','+point.y+','+lineWidth);
+
+                    //PageTitle에 * 표시
+                    Dom.doShowModifyMark(canvas.closest('.View'));
                 } else if(mode == 'eraser') {
                     let canvas = e.target;
 
@@ -140,7 +180,7 @@ export default class Event {
                     Pen.createPen(canvas.parentElement, penValue);
 
                     //PageTitle에 * 표시
-                    Dom.doModifySheet(textContent.closest('.View'));
+                    Dom.doShowModifyMark(canvas.closest('.View'));
                 }
             });
 
@@ -182,6 +222,9 @@ export default class Event {
                         selectedItem = selectedItem.querySelector('.textContent');
                     }
                     selectedItem.focus();
+                    
+                    //Set Cursor at the End of a ContentEditable
+                    setEndOfContenteditable(selectedItem);
                 } else if(mode =='pen' && client == 'pc') {
                     if(context == null) return;
 
@@ -218,11 +261,21 @@ export default class Event {
                 canvas.addEventListener('touchstart', (e) => {
                     let mode = document.getElementById('mode').getAttribute('value');
 
+                    //선택된 서식 배경색 변경
+                    let viewActive = document.querySelector('.viewActive');
+                    if(viewActive) viewActive.classList.remove('viewActive');
+
+                    let view = e.target.closest('.View');
+                    view.classList.add('viewActive');
+                    //선택된 서식 배경색 변경
+
                     if(mode == 'pen') {                    
                         e.preventDefault();
 
                         lineWidth = document.getElementById('lineWidth').getAttribute('value');
-                        strokeStyle = document.getElementById('strokeStyle').getAttribute('value');
+                        let strokeBorder = document.getElementById('strokeBorder').getAttribute('value');
+                        let strokeColor = document.getElementById('strokeColor').getAttribute('value');
+                        strokeStyle = 'rgba('+strokeColor+', '+strokeBorder+')';
 
                         let touch = e.targetTouches[0];
                         let canvas = e.target;
@@ -242,6 +295,9 @@ export default class Event {
                         context.lineWidth = lineWidth;
                         context.moveTo(point.x, point.y);
                         penData.push(point.x+','+point.y+','+lineWidth);
+
+                        //PageTitle에 * 표시
+                        Dom.doShowModifyMark(canvas.closest('.View'));
                     }
                 });
 
@@ -288,7 +344,7 @@ export default class Event {
                         Pen.createPen(canvas.parentElement, penValue);
 
                         //PageTitle에 * 표시
-                        Dom.doModifySheet(textContent.closest('.View'));
+                        Dom.doShowModifyMark(textContent.closest('.View'));
                     }
                 });
             });
@@ -300,7 +356,9 @@ export default class Event {
 let pensDataUpdate = (pens, penData) => {
     let pensValue = pens.getAttribute('value');
     let lineWidth = document.getElementById('lineWidth').getAttribute('value');
-    let strokeStyle = document.getElementById('strokeStyle').getAttribute('value');
+    let strokeBorder = document.getElementById('strokeBorder').getAttribute('value');
+    let strokeColor = document.getElementById('strokeColor').getAttribute('value');
+    let strokeStyle = 'rgba('+strokeColor+', '+strokeBorder+')';
 
     if(pensValue != '') pensValue += '|^@@^|';
     pensValue += strokeStyle+'|^@^|'+penData.join(':');
@@ -323,7 +381,31 @@ let fnDataSaveCheck = () => {
 
             //Data 로딩 및 Dom 생성 끝
             loadingbar.style.display = 'none';
+
+            //완료 메시지 나타남
+            document.querySelector('#saveComplete .message').innerHTML = '저장이 완료되었습니다.';
             document.getElementById('saveComplete').style['display'] = 'block';
+            setTimeout(() => {
+                //완료 메시지 사라짐
+                document.getElementById('saveComplete').style['display'] = 'none';
+
+                let client = document.getElementById('client').value;
+
+                if(client == 'mobile') {
+                    let type = document.querySelector('#searchForm input[name=type]').value;
+                    let ptno = document.querySelector('#searchForm input[name=ptno]').value;
+                    let inout = document.querySelector('#searchForm input[name=inout]').value;
+                    let date = document.getElementById('date').value;
+
+                    if(type == 'new') {//신규 동의서
+                        location.href = '/chart/signpenOldChart.php?ptno='+ptno+'&inout='+inout;
+                    } else if(type == 'old') {//기존 동의서
+                        location.href = '/chart/signpenOldChart.php?ptno='+ptno+'&inout='+inout+'&date='+date;
+                    }
+                } else if (client == 'pc') {
+                    Dom.doHideModifyMark();
+                }
+            }, 1000);
         } else {
             setTimeout(exec, 100);
         }
@@ -333,20 +415,61 @@ let fnDataSaveCheck = () => {
 
 //scrollMenu 이벤트
 let scrollMenuAction = (type) => {
+    let colorMenu = document.getElementById('colorMenu');
+
+    if(type == 'btnPen' || type == 'btnHighlighter') {
+        colorMenu.style['opacity'] = 1;
+    } else if(type == 'btnSave' || type == 'btnEraser' || type == 'btnEdit') {
+        
+        colorMenu.style['opacity'] = 0;
+    }
+
     switch(type) {
+        case 'btnUndo': //이전화면으로
+            window.history.back();
+            break;
         case 'btnSave': //저장
+            //저장중이면 stop
+            if(loadingbar.style.display == 'block') return;
+
             let strType = document.querySelector('#searchForm input[name=type]').value;
             let url = '';
             if(strType == 'new') url = 'https://on-doc.kr:47627/hospital/signpenChartEmrSave.php';
             else if(strType == 'old') url = 'https://on-doc.kr:47627/hospital/signpenChartOldEmrSave.php';
 
             let arrView = document.querySelectorAll('.View');
+            let arrSaveView = [];
 
-            arrView.forEach((view, idx) => {
+            /*
+            if(strType == 'new') {
+                arrSaveView = arrView;
+            } else if(strType == 'old') {
+                arrView.forEach((view) => {
+                    if(view.querySelector('.PageTitle .tagModify') != null) arrSaveView.push(view);
+                });
+            }
+            */
+
+            arrView.forEach((view) => {
+                if(view.querySelector('.PageTitle .tagModify') != null) arrSaveView.push(view);
+            });
+
+            //if(strType == 'old' && arrSaveView.length == 0) {
+            if(arrSaveView.length == 0) {
+                //수정한 내역이 없으면 저장하지 않음
+                document.querySelector('#saveComplete .message').innerHTML = '수정한 내역이 없습니다.<br />수정후 저장하세요.';
+                document.getElementById('saveComplete').style['display'] = 'block';
+                setTimeout(() => {
+                    document.getElementById('saveComplete').style['display'] = 'none';
+                }, 2000);
+                return;
+            }
+
+            arrSaveView.forEach((view, idx) => {
                 flagDataSaveCheck[idx] = false;
             });
             fnDataSaveCheck();
-            arrView.forEach((view, idx) => {
+            arrSaveView.forEach((view, idx) => {
                 //Dom을 서식데이터로 변환
                 document.querySelector('#searchForm input[name=sheet]').value = Dom.domToSheet(view);
                 document.querySelector('#searchForm input[name=key]').value = view.querySelector('input[name=Key]').value;
@@ -362,7 +485,6 @@ let scrollMenuAction = (type) => {
                     data: query
                 })
                 .then((response) => {
-                    //console.log(response.data);
                     flagDataSaveCheck[idx] = true;
                 })
                 .catch((error) => {
@@ -371,6 +493,7 @@ let scrollMenuAction = (type) => {
             });
 
             break;
+        /*
         case 'btnFixed': //고정
             if(document.querySelector('html').classList.contains('notouch')) {
                 //고정 취소
@@ -402,6 +525,7 @@ let scrollMenuAction = (type) => {
                 document.querySelector('#btnFixed').classList.add('scrollMenuFixed');
             }
             break;
+        */
         case 'btnEdit':
             document.querySelectorAll('#scrollMenu .edit').forEach((elem) => {
                 elem.classList.remove('active');
@@ -417,7 +541,17 @@ let scrollMenuAction = (type) => {
             document.querySelector('#scrollMenu #btnPen').classList.add('active');
             document.getElementById('mode').setAttribute('value', 'pen');
             document.getElementById('lineWidth').setAttribute('value', '1');
-            document.getElementById('strokeStyle').setAttribute('value', 'rgba(0,0,0,1)');
+            document.getElementById('strokeBorder').setAttribute('value', '1');
+            document.onselectstart = () => {return false};
+            break;
+        case 'btnHighlighter': 
+            document.querySelectorAll('#scrollMenu .edit').forEach((elem) => {
+                elem.classList.remove('active');
+            });
+            document.querySelector('#scrollMenu #btnHighlighter').classList.add('active');
+            document.getElementById('mode').setAttribute('value', 'pen');
+            document.getElementById('lineWidth').setAttribute('value', '15');
+            document.getElementById('strokeBorder').setAttribute('value', '0.5');
             document.onselectstart = () => {return false};
             break;
         case 'btnEraser':
@@ -427,17 +561,62 @@ let scrollMenuAction = (type) => {
             document.querySelector('#scrollMenu #btnEraser').classList.add('active');
             document.getElementById('mode').setAttribute('value', 'eraser');
             break;
-        case 'btnHighlighter': 
-            document.querySelectorAll('#scrollMenu .edit').forEach((elem) => {
-                elem.classList.remove('active');
-            });
-            document.querySelector('#scrollMenu #btnHighlighter').classList.add('active');
-            document.getElementById('mode').setAttribute('value', 'pen');
-            document.getElementById('lineWidth').setAttribute('value', '10');
-            document.getElementById('strokeStyle').setAttribute('value', 'rgba(0,0,0,0.5)');
-            document.onselectstart = () => {return false};
+        case 'btnMenuClose':
+            document.getElementById('scrollMenu').style['top'] = '-270px';
+            break;
+        case 'btnMenuOpen':
+            document.getElementById('scrollMenu').style['top'] = '10px';
             break;
         default: 
             break;
     }
+}
+
+//colorMenu 이벤트
+let colorMenuAction = (target, type) => {
+    switch(type) {
+        case 'cmBlack':
+            document.getElementById('strokeColor').setAttribute('value', '0,0,0');
+            colorMenuUnSelected(target);
+            break;
+        case 'cmBlue':
+            document.getElementById('strokeColor').setAttribute('value', '2,136,209');
+            colorMenuUnSelected(target);
+            break;
+        case 'cmRed':
+            document.getElementById('strokeColor').setAttribute('value', '198,40,40');
+            colorMenuUnSelected(target);
+            break;
+        case 'cmGreen':
+            document.getElementById('strokeColor').setAttribute('value', '56,142,60');
+            colorMenuUnSelected(target);
+            break;
+        case 'cmOrange':
+            document.getElementById('strokeColor').setAttribute('value', '239,108,0');
+            colorMenuUnSelected(target);
+            break;
+        default:
+            break;
+    }
+}
+
+let colorMenuUnSelected = (menu) => {
+    document.querySelectorAll('#colorMenu div').forEach(function(elem) {
+    
+        elem.style['opacity'] = '0.5';
+    });
+
+    menu.style['opacity'] = '1';
+}
+
+//contentEditable 커서 맨 뒤로 이동하도록
+let setEndOfContenteditable = (contentEditableElement) => {
+    var range, selection;
+
+    range = document.createRange();//Create a range (a range is a like the selection but invisible)
+    range.selectNodeContents(contentEditableElement);//Select the entire contents of the element with the range
+    range.collapse(false);//collapse the range to the end point. false means collapse to end rather than the start
+    selection = window.getSelection();//get the selection object (allows you to change selection)
+    selection.removeAllRanges();//remove any selections already made
+    selection.addRange(range);//make the range you have just created the visible selection
 }

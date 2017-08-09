@@ -103,13 +103,19 @@ export default class Dom {
     static createSheetAttr(attr) {
         let arrAttr = [];
         attr.forEach(function(data) {
-            arrAttr.push(data.getAttribute('name')+'|^@1@^|'+data.getAttribute('value'));
+            //Pens 데이터 없으면 서식에 내용 생략함(데이터가 없는 경우 Pens 속성이 추가 되어 있으면 PC버전에서 로딩 에러발생)
+            if(data.getAttribute('name') == 'Pens') {
+                if(data.getAttribute('value') != '') 
+                    arrAttr.push(data.getAttribute('name')+'|^@1@^|'+data.getAttribute('value'));
+            } else {
+                arrAttr.push(data.getAttribute('name')+'|^@1@^|'+data.getAttribute('value'));
+            }
         });
 
         return arrAttr.join('|^@2@^|');
     }
 
-    static doModifySheet(view) {
+    static doShowModifyMark(view) {
         let PageTitle = view.querySelector('.PageTitle');
         let tagModify = PageTitle.querySelector('.tagModify');
         if(tagModify == null) {
@@ -119,5 +125,39 @@ export default class Dom {
 
             PageTitle.appendChild(span);
         }
+    }
+
+    static doShowProhibit(view) {
+        let PageTitle = view.querySelector('.PageTitle');
+        let tagModify = PageTitle.querySelector('.tagModify');
+        if(tagModify == null) {
+            let span = document.createElement('span');
+            span.classList.add('tagModify');
+            span.innerHTML = ' [편집불가]-다른사용자 편집중';
+
+            PageTitle.appendChild(span);
+        }
+    }
+
+    static doShowNoPermission(view) {
+        let PageTitle = view.querySelector('.PageTitle');
+        let tagModify = PageTitle.querySelector('.tagModify');
+        if(tagModify == null) {
+            let span = document.createElement('span');
+            span.classList.add('tagModify');
+            span.innerHTML = ' [편집불가]-권한없음';
+
+            PageTitle.appendChild(span);
+        }
+    }
+
+    static doHideModifyMark() {
+        let arrView = document.querySelectorAll('.View');
+        arrView.forEach(function(view) {
+            let PageTitle = view.querySelector('.PageTitle');
+            let tagModify = view.querySelector('.PageTitle .tagModify');
+
+            if(tagModify != null) PageTitle.removeChild(tagModify);
+        });
     }
 }
