@@ -423,10 +423,11 @@ let scrollMenuAction = (type) => {
         
         colorMenu.style['opacity'] = 0;
     }
-
+    
     switch(type) {
         case 'btnUndo': //이전화면으로
-            window.history.back();
+            //window.history.back();
+            fnGoBack();
             break;
         case 'btnSave': //저장
             //저장중이면 stop
@@ -601,7 +602,7 @@ let colorMenuAction = (target, type) => {
 }
 
 let colorMenuUnSelected = (menu) => {
-    document.querySelectorAll('#colorMenu div').forEach(function(elem) {
+    document.querySelectorAll('#colorMenu button').forEach(function(elem) {
     
         elem.style['opacity'] = '0.5';
     });

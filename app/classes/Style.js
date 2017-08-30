@@ -207,9 +207,13 @@ export default class Style {
 
         if(style == '1' && edit == 'true') {
             if(borderWidth == '0') {
-                element.style['border'] = '1px';
+                //element.style['border'] = '1px';
+                element.style['border'] = '0';
                 element.style['border-style'] = 'dotted';
                 element.style['border-color'] = 'rgba(0, 0, 0, 0.3)';
+                element.style['background-color'] = 'rgba(253, 255, 109, 0.1)';
+            } else {
+                element.style['background-color'] = 'rgba(253, 255, 109, 0.1)';
             }
         }
 

@@ -137,6 +137,22 @@ let fnPanelLoadDataCheck = () => {
             //Data 로딩 및 Dom 생성 끝
             loadingbar.style.display = 'none';
 
+            //Sheet 하나만 열 경우 중간으로 가도록 위치 조정
+            if(document.querySelectorAll('.View').length == 1) {
+                let sheetHeight = 20;
+                document.querySelectorAll('.View .Panel').forEach((panel) => {
+                    sheetHeight += parseInt(panel.style.height, 10);
+                });
+
+                if(window.innerHeight > sheetHeight) {
+                    let marginHeight = Math.floor((window.innerHeight - sheetHeight) / 3);
+
+                    let view = document.querySelector('.View');
+                    view.style['margin-top'] = marginHeight + 'px';
+                }
+            }
+            //Sheet 하나만 열 경우 중간으로 가도록 위치 조정
+
             let arrView = document.querySelectorAll('.View');
 
             arrView.forEach((view, idx) => {
@@ -159,6 +175,7 @@ let fnPanelLoadDataCheck = () => {
                     //편집권한 없음
                     if(permissionEdit == 0) {
                         arrView.forEach((view, idx) => {
+                            console.log(key, view.querySelector('.Page input[name=Key]').value);
                             if(key == view.querySelector('.Page input[name=Key]').value) {
                                 view.classList.add('viewProhibit');
                                 Dom.doShowNoPermission(view);
@@ -315,6 +332,22 @@ let fnFileLoadDataCheck = () => {
 
             //Data 로딩 및 Dom 생성 끝
             loadingbar.style.display = 'none';
+
+            //Sheet 하나만 열 경우 중간으로 가도록 위치 조정
+            if(document.querySelectorAll('.View').length == 1) {
+                let sheetHeight = 20;
+                document.querySelectorAll('.View .Panel').forEach((panel) => {
+                    sheetHeight += parseInt(panel.style.height, 10);
+                });
+
+                if(window.innerHeight > sheetHeight) {
+                    let marginHeight = Math.floor((window.innerHeight - sheetHeight) / 3);
+
+                    let view = document.querySelector('.View');
+                    view.style['margin-top'] = marginHeight + 'px';
+                }
+            }
+            //Sheet 하나만 열 경우 중간으로 가도록 위치 조정
 
             let arrView = document.querySelectorAll('.View');
 

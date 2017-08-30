@@ -92,7 +92,7 @@ html.notouch, body.notouch {
     width: 2.5rem;
     height: 2.5rem;
     font-size: 0.7rem;
-    border: 1px solid #000;
+    /*border: 1px solid #000;*/
     border-radius: 30%;
 }
 
@@ -125,12 +125,18 @@ html.notouch, body.notouch {
 
 button:focus {outline: none;}
 
+
+#scrollMenu #back {
+    background-color: #fff;
+}
+
 #scrollMenu {z-index:999999;}
 #scrollMenu .scrollMenuFixed {background-color: #fb8c00 !important; color: #fff !important;}
 #scrollMenu .active {
     background-color: #039be5 !important; color: #fff !important;
     transition: background-color 1s;
 }
+
 #scrollMenu #btnSave {
     margin: 0.5rem 0;
 }
@@ -165,7 +171,7 @@ button:focus {outline: none;}
 
 #colorMenu {
     margin-top: 0.5em;
-    opacity: 0;
+    opacity: 1;
     text-align: center;
     transition: opacity 0.5s ease-out;
 }
@@ -175,6 +181,9 @@ button:focus {outline: none;}
     width: 2.5rem;
     height: 2.5rem;
     border: 0;
+}
+
+#colorMenu div button {
     border-radius: 50%;
 }
 
