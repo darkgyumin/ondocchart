@@ -206,6 +206,7 @@ let fnPanelLoadDataCheck = () => {
                     let Datas = panel.querySelector('input[name=Datas]').value;
                     //Datas = 'L^BASIC^DATE:40,77';
                     //L^PATIENT^bpt_ptno:9^bpt_name:15^bpt_resno:16^bpt_sex:91^bpt_yage:90^bpt_telno:92^bpt_hpno:93^bpt_addr:6^bpt_pname:94
+                    //L^PATIENT^bpt_name:13,33,41|^@@^|L^BASIC^DATE:39|^@@^|L^SIGN^sign.png:50^rec.png:51,52
                     
                     //요청 가능한 데이터로 가공
                     let arrReplace = Datas.split('|^@@^|');
@@ -233,31 +234,64 @@ let fnPanelLoadDataCheck = () => {
 
                         dataField = arrDataField.join('^');
                         itemField = arrItemField.join('^');
-
+                        
                         document.querySelector('#searchForm input[name=data_name]').value = dataName;
                         document.querySelector('#searchForm input[name=data_field]').value = dataField;
                         document.querySelector('#searchForm input[name=item_field]').value = itemField;
+                        console.log(!(dataName == 'SIGN' || dataName == 'CHECK')); 
+                        if(!(dataName == 'SIGN' || dataName == 'CHECK')) {
+                            let url = 'https://on-doc.kr:47627/hospital/signpenChartEmrReplace.php?';
+                            
+                            let query = Serialize(document.getElementById('searchForm'));
+                            axios.get(url + query)
+                            .then((response) => {
+                                response.data.data.forEach((data) => {
+                                    let key = String(Object.keys(data)).split(',');
+                                    let value = data[Object.keys(data)];
 
-                        let url = 'https://on-doc.kr:47627/hospital/signpenChartEmrReplace.php?';
-                        
-                        let query = Serialize(document.getElementById('searchForm'));
-                        axios.get(url + query)
-                        .then((response) => {
-                            response.data.data.forEach((data) => {
-                                let key = String(Object.keys(data)).split(',');
-                                let value = data[Object.keys(data)];
+                                    //데이터 치환
+                                    key.forEach((data) => {
+                                        let item = panel.querySelector('.item_'+data);
+                                        item.querySelector('.textContent').innerHTML = value;
+                                        item.querySelector('input[name=Text]').value = value;
+                                    });
+                                });
+                            })
+                            .catch((error) => {
+                                console.log(error);
+                            });
+                        } else if(dataName == 'SIGN') {
+                            let url = 'https://on-doc.kr:47627/hospital/signimagedownload.php?';
 
-                                //데이터 치환
-                                key.forEach((data) => {
-                                    let item = panel.querySelector('.item_'+data);
-                                    item.querySelector('.textContent').innerHTML = value;
-                                    item.querySelector('input[name=Text]').value = value;
+                            arrDataField.forEach((arrData, index) => {
+                                document.querySelector('#searchForm input[name=data_field]').value = arrData;
+                                document.querySelector('#searchForm input[name=item_field]').value = arrItemField[index];
+
+                                let query = Serialize(document.getElementById('searchForm'));
+                                axios.get(url + query)
+                                .then((response) => {
+                                    response.data.data.forEach((data) => {
+                                        let key = String(Object.keys(data)).split(',');
+                                        let value = data[Object.keys(data)];
+
+                                        key.forEach((data) => {
+                                            let item = panel.querySelector('.item_'+data);
+                                            item.querySelector('input[name=BackImageString]').value = value;
+
+                                            let image = Dom.createElement(item, 'img', '', {'position':'absolute', 'top':'0px', 'left':'0px'}, null, null);
+                                            image.setAttribute('width', '100%');
+                                            image.setAttribute('height', '100%');
+                                            image.setAttribute('src', value);
+                                        });
+                                    });
+                                })
+                                .catch((error) => {
+                                    console.log(error);
                                 });
                             });
-                        })
-                        .catch((error) => {
-                            console.log(error);
-                        });
+                        } else if(dataName == 'CHECK') {
+                            
+                        }
                     });
                 }
 
