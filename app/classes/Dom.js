@@ -20,6 +20,12 @@ export default class Dom {
         let element = document.createElement(elementType);  //element 생성
         if(cla) element.classList.add(cla); //class 삽입
         if(content) element.innerHTML = content; //content 삽입
+        let arrStyle = Object.keys(style);
+        if(arrStyle.length) {
+            arrStyle.forEach((key) => {
+                element.style[key] = style[key];
+            });
+        }
         
         parentElem.appendChild(element);
 
