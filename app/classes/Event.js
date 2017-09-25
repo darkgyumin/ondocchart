@@ -348,7 +348,6 @@ export default class Event {
                     }
                 });
             });
-
         });
     }
 }
@@ -391,6 +390,23 @@ let fnDataSaveCheck = () => {
 
                 let client = document.getElementById('client').value;
 
+                saveCheck(() => {
+                    if(client == 'mobile') {
+                        let type = document.querySelector('#searchForm input[name=type]').value;
+                        let ptno = document.querySelector('#searchForm input[name=ptno]').value;
+                        let inout = document.querySelector('#searchForm input[name=inout]').value;
+                        let date = document.getElementById('date').value;
+    
+                        if(type == 'new') {//신규 동의서
+                            location.href = '/chart/signpenOldChart.php?ptno='+ptno+'&inout='+inout;
+                        } else if(type == 'old') {//기존 동의서
+                            location.href = '/chart/signpenOldChart.php?ptno='+ptno+'&inout='+inout+'&date='+date;
+                        }
+                    } else if (client == 'pc') {
+                        Dom.doHideModifyMark();
+                    }
+                });
+                /*
                 if(client == 'mobile') {
                     let type = document.querySelector('#searchForm input[name=type]').value;
                     let ptno = document.querySelector('#searchForm input[name=ptno]').value;
@@ -405,6 +421,7 @@ let fnDataSaveCheck = () => {
                 } else if (client == 'pc') {
                     Dom.doHideModifyMark();
                 }
+                */
             }, 1000);
         } else {
             setTimeout(exec, 100);
@@ -441,7 +458,7 @@ let scrollMenuAction = (type) => {
             let arrView = document.querySelectorAll('.View');
             let arrSaveView = [];
 
-            /*
+            /*고친내용이 없어도 새로운 파일은 저장
             if(strType == 'new') {
                 arrSaveView = arrView;
             } else if(strType == 'old') {
@@ -450,7 +467,8 @@ let scrollMenuAction = (type) => {
                 });
             }
             */
-
+            
+            //고친내용이 있을때만 저장
             arrView.forEach((view) => {
                 if(view.querySelector('.PageTitle .tagModify') != null) arrSaveView.push(view);
             });
@@ -495,7 +513,7 @@ let scrollMenuAction = (type) => {
 
             break;
         /*
-        case 'btnFixed': //고정
+        case 'btnFixed': //고정   
             if(document.querySelector('html').classList.contains('notouch')) {
                 //고정 취소
                 let marginTop = -1 * parseInt(document.querySelector('#contentWrap').style['margin-top']);
@@ -621,3 +639,89 @@ let setEndOfContenteditable = (contentEditableElement) => {
     selection.removeAllRanges();//remove any selections already made
     selection.addRange(range);//make the range you have just created the visible selection
 }
+
+let saveCheck = (callback) => {
+    //입력 데이터 값 추출하기(테스트중....common.css canvas {display: none 삭제해야함})
+    //Panel별로 값을 추출(dataName == 'CHECK')
+    let obj = {};
+    let checkData = [];
+
+    let arrPanel = document.querySelectorAll('.Panel');
+    arrPanel.forEach((panel) => {
+        let dataName = null;
+        let dataField = null;
+        let itemField = null;
+        
+        if(panel.querySelector('input[name=Datas]') != undefined) {
+            //데이터 치환을 위한 필드 값 가져오기
+            let Datas = panel.querySelector('input[name=Datas]').value;
+            let PageKey = panel.querySelector('input[name=PageKey]').value;
+
+            //Datas = 'L^BASIC^DATE:40,77';
+            //L^PATIENT^bpt_ptno:9^bpt_name:15^bpt_resno:16^bpt_sex:91^bpt_yage:90^bpt_telno:92^bpt_hpno:93^bpt_addr:6^bpt_pname:94
+            //L^PATIENT^bpt_name:13,33,41|^@@^|L^BASIC^DATE:39|^@@^|L^SIGN^sign.png:50^rec.png:51,52
+            
+            //요청 가능한 데이터로 가공
+            let arrReplace = Datas.split('|^@@^|');
+            
+            arrReplace.forEach((data) => {
+                //빈값일 경우 패스
+                if(data == '') return; 
+
+                //request 단위
+                let arrVal = data.split('^');
+                
+                dataName = arrVal[1];
+
+                if(dataName != 'CHECK') return;
+
+                //앞의 배열 2개는 삭제하여 값만 추출
+                arrVal.splice(0, 2);
+
+                arrVal.forEach((val) => {
+                    let obj = {};
+                    obj.pageKey = PageKey;
+                    let valSplit = val.split(':');
+                    obj.questionKey = valSplit[0];
+                    obj.questionValue = panel.querySelector('.item_'+obj.questionKey+' input[name=Text]').value;
+
+                    obj.answerKey = valSplit[1];
+                    let arrAnswerKey = obj.answerKey.split(',');
+                    let arrAnswerValue = [];
+                    arrAnswerKey.forEach((key) => {
+                        let answer = panel.querySelector('.item_'+key+' input[name=Text]').value; 
+                        if(panel.querySelector('.item_'+key+' input[name=Style]').value == '2') 
+                            answer += '/' + panel.querySelector('.item_'+key+' input[name=Checked]').value;
+                        arrAnswerValue.push(answer);
+                    });
+                    obj.answerValue = arrAnswerValue.join(',');
+
+                    checkData.push(obj);
+                });
+            });
+        }
+    });
+    //입력 데이터 값 추출하기
+    obj.data = checkData;
+
+    document.querySelector('#searchForm input[name=sheet]').value = '';
+    document.querySelector('#searchForm input[name=check]').value = JSON.stringify(obj);
+
+    let query = Serialize(document.getElementById('searchForm'));
+    let url = 'https://on-doc.kr:47627/hospital/signpenCheckSave.php';
+
+    axios({
+        method: 'post',
+        url: url,
+        data: query
+    })
+    .then((response) => {
+        //console.log(response);
+        callback();
+    })
+    .catch((error) => {
+        //에러가 나도 무시하고 넘기기
+        callback();
+        console.log(error);
+    });
+};

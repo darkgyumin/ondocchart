@@ -238,7 +238,7 @@ let fnPanelLoadDataCheck = () => {
                         document.querySelector('#searchForm input[name=data_name]').value = dataName;
                         document.querySelector('#searchForm input[name=data_field]').value = dataField;
                         document.querySelector('#searchForm input[name=item_field]').value = itemField;
-                        console.log(!(dataName == 'SIGN' || dataName == 'CHECK')); 
+                     
                         if(!(dataName == 'SIGN' || dataName == 'CHECK')) {
                             let url = 'https://on-doc.kr:47627/hospital/signpenChartEmrReplace.php?';
                             
@@ -289,8 +289,9 @@ let fnPanelLoadDataCheck = () => {
                                     console.log(error);
                                 });
                             });
-                        } else if(dataName == 'CHECK') {
-                            
+                        } else if(dataName == 'CHECK') {//CHECK는 저장시 사용자가 선택한 값을 저장하는 명령어
+                            //console.log(document.querySelector('#searchForm input[name=data_field]').value);
+                            //console.log(document.querySelector('#searchForm input[name=item_field]').value);
                         }
                     });
                 }
