@@ -358,11 +358,13 @@ let fnFileLoadDataCheck = () => {
                 let oec_lockyn = data.oec_lockyn;
                 let oec_lockdt = data.oec_lockdt;
                 let oec_loichost = data.oec_loichost;
-
+                
+                //다른 사용자 편집중일 때 수정 맡는건 추후 적용할지 말지 판단 일단 보류
+                /*
                 if(oec_lockyn == '1') {
                     view.classList.add('viewProhibit');
                     Dom.doShowProhibit(view);
-                }
+                }*/
             });
 
             //Data 로딩 및 Dom 생성 끝

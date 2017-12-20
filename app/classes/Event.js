@@ -451,6 +451,8 @@ let scrollMenuAction = (type) => {
             if(loadingbar.style.display == 'block') return;
 
             let strType = document.querySelector('#searchForm input[name=type]').value;
+            let client = document.getElementById('client').value;
+            
             let url = '';
             if(strType == 'new') url = 'https://on-doc.kr:47627/hospital/signpenChartEmrSave.php';
             else if(strType == 'old') url = 'https://on-doc.kr:47627/hospital/signpenChartOldEmrSave.php';
@@ -470,18 +472,29 @@ let scrollMenuAction = (type) => {
             
             //고친내용이 있을때만 저장
             arrView.forEach((view) => {
-                if(view.querySelector('.PageTitle .tagModify') != null) arrSaveView.push(view);
+                if(client == 'pc') {
+                    arrSaveView.push(view);
+                } else if(client == 'mobile') {
+                    if(view.querySelector('.PageTitle .tagModify') != null) {
+                        if(view.querySelector('.PageTitle .tagModify').textContent.trim() == '*') {
+                            arrSaveView.push(view);
+                        }
+                    }
+                }
             });
 
             //if(strType == 'old' && arrSaveView.length == 0) {
             if(arrSaveView.length == 0) {
                 //수정한 내역이 없으면 저장하지 않음
-                document.querySelector('#saveComplete .message').innerHTML = '수정한 내역이 없습니다.<br />수정후 저장하세요.';
-                document.getElementById('saveComplete').style['display'] = 'block';
-                setTimeout(() => {
-                    document.getElementById('saveComplete').style['display'] = 'none';
-                }, 2000);
-                return;
+                if(client == 'pc') {
+                } else if(client == 'mobile') {
+                    document.querySelector('#saveComplete .message').innerHTML = '수정한 내역이 없습니다.<br />수정후 저장하세요.';
+                    document.getElementById('saveComplete').style['display'] = 'block';
+                    setTimeout(() => {
+                        document.getElementById('saveComplete').style['display'] = 'none';
+                    }, 2000);
+                    return;
+                }
             }
 
             arrSaveView.forEach((view, idx) => {
