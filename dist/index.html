@@ -22,18 +22,21 @@
 <input type="hidden" id="lineWidth" name="lineWidth" value="1" />
 <input type="hidden" id="strokeBorder" name="strokeBorder" value="1" />
 <input type="hidden" id="strokeColor" name="strokeColor" value="0,0,0" />
+<input type="hidden" id="cameraKey" name="cameraKey" value="" />
 
 <form id="searchForm">
     <input type="hidden" id="hospital" name="hospital" value="https://210.220.255.17:8080/" />
     <input type="hidden" id="ptno" name="ptno" value="212" />
+    <input type="hidden" id="regno" name="regno" value="249009">
 	<input type="hidden" id="id" name="id" value="1" />
     <input type="hidden" id="arr_bes_id" name="arr_bes_id" value="" />
-    <input type="hidden" id="arr_seq" name="arr_seq" value="7,8,9,10,5,3" />
+    <input type="hidden" id="arr_seq" name="arr_seq" value="132" />
     <input type="hidden" id="bes_id" name="bes_id" value="" />
     <input type="hidden" id="bef_no" name="bef_no" value="" />
-    <input type="hidden" id="seq" name="seq" value="" />
+    <input type="hidden" id="seq" name="seq" value="132" />
 	<input type="hidden" id="name" name="name" value="제1진료실" />
     <input type="hidden" id="inout" name="inout" value="1" />
+    <input type="hidden" id="kind" name="kind" value="99" />
     
     <input type="hidden" id="data_name" name="data_name" value="" />
     <input type="hidden" id="data_field" name="data_field" value="" />
@@ -95,13 +98,38 @@
     </div>
 </div>
 
-
-
 <div id="log">
 
 </div>
 
 <script src="bundle.js"></script>
+<script>
+function fnDrawImage(val) {
+	val = 'data:image/png;base64,'+val;
+	
+	let item = document.querySelector('.item_'+document.getElementById('cameraKey').getAttribute('value'));
+    try {
+        item.querySelector('.textContent').innerHTML = '';    
+        item.querySelector('input[name=Text]').value = '';
+    } catch (error) {}
+    
+    item.querySelector('input[name=BackImageString]').value = val;
 
+    if(item.querySelectorAll('img').length == 0) {
+        let image = document.createElement("img");
+        image.style['position'] = 'absolute';
+        image.style['width'] = '100%';
+        image.style['height'] = '100%';
+        image.style['top'] = '0px';
+        image.style['left'] = '0px';
+        image.setAttribute('src', val);
+
+        item.appendChild(image);
+    } else {
+        let image = item.querySelector('img') ;
+        image.setAttribute('src', val);
+    }
+}
+</script>
 </body>
 </html>

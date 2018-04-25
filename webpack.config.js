@@ -37,13 +37,11 @@ module.exports = {
             port: '9000',
             url: 'http://127.0.0.1'
         })
-        /*
         ,
         new webpack.optimize.UglifyJsPlugin({
             compress: {
                 warnings: false
             }
         })
-        */
     ]
 };

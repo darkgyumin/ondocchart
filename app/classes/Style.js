@@ -132,7 +132,7 @@ export default class Style {
         
         //text 입력
         let textContent = null;
-        if(style == '1') {
+        if(style == '1' || style == '12'|| style == '13') {
             //특수문자 출력
             if(text && edit == 'false') text = Style.convertHtmlTag(text);
             
